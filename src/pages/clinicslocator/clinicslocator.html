@@ -36,7 +36,7 @@
 
 		<div class="list-container">
 			<ul class="clinics-list">
-				<li class="clinic-item row middle-xs" (click)="gotoDetails(i)" *ngFor="let clinic of allClinics; let i = index | orderBy: clinic.Name">
+				<li class="clinic-item row middle-xs" (click)="gotoDetails(i)" *ngFor="let clinic of allClinics; let i = index">
 					<div class="logo">
 						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
 					</div>
