@@ -27,6 +27,9 @@ page-ecard {
 			}
 
 			.flipper {
+				width: 100%;
+				max-width: 260px;
+				margin: 0 auto;
 				transition: 0.6s;
 				-webkit-transition: 0.6s;
 				-moz-transition: 0.6s;
@@ -72,6 +75,9 @@ page-ecard {
 				}
 
 				.card {
+					width: 100%;
+					max-width: 260px;
+
 					img {
 						position: absolute;
 						z-index: 1;
@@ -84,13 +90,14 @@ page-ecard {
 					.card-details {
 						position: relative;
 						z-index: 2;
-						top: 55px;
-    					padding: 0px 20px;
+    					padding: 40px 20px 0;
+    					height: 170px;
 					}
 
 					.label {
 						font-size:  8px;
 						font-weight: bold;
+						margin: 0 2px 0 0;
 					}
 					.content {
 						font-size: 8px;
@@ -100,13 +107,17 @@ page-ecard {
 			}
 		}
 
-		h3 {
-			font: 16px/1.45 $light;
-			margin: 0 0 30px;
-		}
+		.card-bottom-text {
+			margin-top: 180px;
 
-		.validation {
-			font: 18px/1.45 $bold;
+			h3 {
+				font: 16px/1.45 $light;
+				margin: 0 0 30px;
+			}
+
+			.validation {
+				font: 18px/1.45 $bold;
+			}
 		}
 	}
 }
