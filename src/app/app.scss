@@ -1,0 +1,476 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+@import '../assets/css/grid.css';
+
+@font-face {
+	font-family: 'Helvetica-Light';
+	src:	url( '../assets/fonts/HelveticaNeueLTPro-Lt.eot?#iefix' ) format('embedded-opentype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Lt.otf' ) format('opentype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Lt.woff' ) format('woff'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Lt.ttf' ) format('truetype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Lt.svg#HelveticaNeueLTPro-Lt' ) format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Helvetica-Bold';
+	src: 	url('../assets/fonts/HelveticaNeueLTPro-Bd.eot?#iefix') format('embedded-opentype'),
+			url('../assets/fonts/HelveticaNeueLTPro-Bd.otf') format('opentype'),
+			url('../assets/fonts/HelveticaNeueLTPro-Bd.woff') format('woff'),
+			url('../assets/fonts/HelveticaNeueLTPro-Bd.ttf')  format('truetype'),
+			url('../assets/fonts/HelveticaNeueLTPro-Bd.svg#HelveticaNeueLTPro-Bd') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Helvetica-Medium';
+	src: 	url( '../assets/fonts/HelveticaNeueLTPro-Md.eot?#iefix' ) format('embedded-opentype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Md.otf' ) format('opentype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Md.woff' ) format('woff'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Md.ttf' ) format('truetype'),
+			url( '../assets/fonts/HelveticaNeueLTPro-Md.svg#HelveticaNeueLTPro-Md' ) format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body, ion-app.ios, p, li, div {
+	font: 14px/1.45 $light;
+	letter-spacing: normal;
+	color: #5c5c5c;
+}
+
+h1 {
+	font: 24px/1.45 $bold;
+	margin: 0;
+}
+
+h2 {
+	font: 20px/1.45 $bold;
+	margin: 0;
+}
+
+h3 {
+	font: 18px/1.45 $bold;
+	margin: 0;
+}
+
+.full-height {
+	min-height: 100vh;
+	padding: 20px 15px 0;
+}
+
+.content-ios {
+	.full-height {
+		min-height: calc( 100vh - 20px );
+	}
+}
+
+.header {
+	&:after {
+		content: none;
+	}
+
+	.toolbar {
+		.toolbar-background {
+			background: #fff;
+			border: 0;
+		}
+
+		.bar-title {
+			font: 14px/1.45 $bold;
+			text-transform: uppercase;
+			color: #5c5c5c;
+		}
+	}
+}
+
+.btn-panel {
+	margin: 30px 0 0;
+}
+
+.btn {
+	display: block;
+	font: 16px/1.45 $light;
+	padding: 8px 5px;
+	text-align: center;
+	width: 100%;
+	text-decoration: none;
+	border: 0;
+	cursor: pointer;
+	border-radius: 5px;
+	margin: 0 0 10px;
+}
+
+.btn-white {
+	background: #fff;
+	color: $yellow;
+}
+
+.btn-yellow {
+	background: $yellow;
+	color: #fff;
+}
+
+.btn-gray {
+	background: #bfbfbf;
+	color: #fff;
+}
+
+.btn-back {
+	margin: 0 0 15px;
+
+	img {
+		cursor: pointer;
+		width: 25px;
+	}
+}
+
+.bar-buttons {
+	.btn-back {
+		margin: 0;
+	}
+}
+
+.form-container {
+	ion-item {
+		padding: 0;
+
+		ion-label {
+			font: 14px/1.45 $bold;
+		}
+	}
+}
+
+ion-alert {
+	.alert-wrapper {
+		.alert-head {
+			.alert-title {
+				font: 18px/1.45 $bold;
+			}
+		}
+	}
+}
+
+.copyright {
+	font: 12px/1.45 $light;
+	position: fixed;
+	background: #fff;
+	padding: 5px 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	box-shadow: 0px 0px 10px -3px #000;
+	z-index: 999;
+}
+
+.sidebar-copyright {
+	margin: 30px 0 10px;
+	padding: 0 15px;
+	color: #fff;
+	font: 12px/1.45 $light;
+}
+
+.item-block.item-checkbox {
+	.checkbox {
+		margin-right: 10px;
+	}
+
+	.item-inner {
+		border: 0;
+
+		.input-wrapper {
+			.label {
+				font: 14px/1.45 $light;
+			}
+		}
+	}
+}
+
+.pb-40 {
+	padding-bottom: 40px;
+}
+
+.content-ios {
+	.has-header {
+		min-height: calc( 100vh - 64px );
+
+		&.has-copyright {
+			padding: 0 0 50px;
+		}
+	}
+}
+
+.has-header {
+	min-height: calc( 100vh - 56px );
+	background: #fafafa;
+}
+
+.has-copyright {
+	padding: 0 0 50px;
+}
+
+.home-content.has-header {
+	background: $blue;
+}
+
+.sidebar-menu {
+
+	.sidebar-menu-item {
+		cursor: pointer;
+		padding: 10px 15px;
+		border-bottom: 1px solid #324587;
+
+		.icon {
+			width: 40px;
+			text-align: center;
+
+			img {
+				height: 25px;
+				margin: 0 auto;
+			}
+		}
+
+		.text {
+			width: calc( 100% - 40px );
+			padding: 0 0 0 10px;
+			font: 16px/1.45 $light;
+			color: #fff;
+		}
+	}
+}
+
+.list-container {
+	padding: 0 15px;
+}
+
+.menu-inner {
+	.content-md, .content-ios {
+		background: $blue;
+	}
+}
+
+.bg-white {
+	width: calc( 100% - 30px );
+	margin: 0 auto 10px;
+	padding: 15px;
+	background: #fff;
+
+	h3 {
+		font: 16px/1.45 $bold;
+		margin: 0 0 10px;
+	}
+
+	.gray-title {
+		background: #e9e9e9;
+		padding: 7px 10px;
+		margin: 0 -15px 10px;
+		font: 14px/1.45 $medium;
+	}
+}
+
+.form-group {
+	margin: 0 0 10px;
+
+	.label {
+		font: 12px/1.45 $medium;
+		margin: 0 0 3px;
+	}
+
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		width: 100%;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		padding: 7px 10px;
+		background: url( '../assets/img/icons/dropdown.png' ) no-repeat right 10px center transparent;
+		background-size: 15px;
+	}
+
+	input[type=text], textarea, input[type=email],
+	input[type=number] {
+		width: 100%;
+		padding: 7px 10px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		background-color: transparent;
+
+		&:focus {
+			border: 1px solid $yellow;
+		}
+	}
+
+	input[type=number] {
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+		        appearance: none;
+	}
+
+	textarea {
+		resize: none;
+		height: 90px;
+	}
+
+	.has-calendar {
+		background-image: url( '../assets/img/icons/calendar.png' );
+		background-repeat: no-repeat;
+		background-position: right 10px center;
+		background-size: 15px;
+	}
+
+	.checkbox-field {
+		position: relative;
+
+		input[type=checkbox] {
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			&:checked {
+				+ span {
+					&:before {
+						content: '\f046';
+					}
+				}
+			}
+		}
+
+		span {
+			position: relative;
+			padding: 0 0 0 20px;
+			display: block;
+
+			&:before {
+				color: $yellow;
+				content: '\f096';
+				font: 14px/1.45 'FontAwesome';
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
+	}
+}
+
+.upload-container {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+
+	.actions {
+		padding: 10px;
+
+		.label {
+			width: 70px;
+		}
+
+		.btn-actions {
+			width: calc( 100% - 70px );
+
+			.btn {
+				margin: 0;
+				font: 14px/1.45 $light;
+			}
+
+			.browse-container {
+				position: relative;
+
+				input[type=file] {
+					position: absolute;
+					width: 100%;
+					height: 32px;
+					top: 0;
+					left: 0;
+					z-index: 2;
+					opacity: 0;
+				}
+			}
+		}
+	}
+
+	.img-container {
+		border-top: 1px solid #eee;
+		padding: 10px;
+
+		.img {
+			width: calc( 100% - 15px );
+
+			img {
+				height: auto;
+				width: auto;
+				max-height: 50px;
+				max-width: 100px;
+			}
+
+			.file-name {
+				margin: 0 0 0 10px;
+				text-decoration: underline;
+				width: 100px;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+		}
+
+		.delete {
+			width: 15px;
+		}
+	}
+}
+
+.has-padR {
+	padding-right: 5px;
+}
+
+.has-padL {
+	padding-left: 5px;
+}
+
+table {
+	thead {
+		tr {
+			th {
+				font: 9px/1.45 $bold;
+				text-align: center;
+				text-transform: uppercase;
+				padding: 5px;
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			td {
+				font: 9px/1.45 $light;
+				text-align: center;
+				text-transform: uppercase;
+				padding: 5px;
+			}
+		}
+	}
+}
+
+.page-banner {
+	width: 100%;
+	height: 250px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}

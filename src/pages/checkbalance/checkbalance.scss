@@ -1,0 +1,31 @@
+page-checkbalance {
+	.checkBalance {
+		&-content {
+			padding: 15px 15px 50px !important;
+		}
+
+		&-details {
+			background: #fff;
+
+			.section-details {
+				margin: 0;
+				padding: 20px 10px;
+
+				.title {
+					font: 14px/1.45 $bold;
+					text-transform: uppercase;
+					text-decoration: underline;
+					margin: 0 0 20px;
+				}
+
+				.info {
+					margin: 0 0 5px;
+
+					.details {
+						font: 14px/1.45 $bold;
+					}
+				}
+			}
+		}
+	}
+}

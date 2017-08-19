@@ -1,0 +1,99 @@
+<ion-header>
+    
+    <ion-navbar hide-back-button="true">
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Home</div>
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only>
+                <img src="./assets/img/icons/phone.png" width="25" />
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <div class="home-content has-header" padding>
+        <ul class="home-menu row">
+                    <li class="col-xs-6">
+                        <a (click)="gotoClinicsLocator()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/clinics-locator.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Clinics Locator</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6">
+                        <a (click)="gotoEcard()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/e-card.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">E-Card</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6">
+                        <a (click)="gotoCheckBalance()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/check-balance.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Check Balance</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6"  *ngIf="isAccountHasClaims == true">
+                        <a (click)="gotoClaims()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/claims.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Claims</span>
+                        </a>
+                    </li>
+
+                    <li class="col-xs-6"  *ngIf="isAccountHasClaims == false">
+                        <a (click)="gotoClaims()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/claims-black1.png" />
+                            </span>
+                            <span class="text row center-xs top-xs" style="color: #808080 !important">Claims</span>
+                        </a>
+                    </li>
+
+                    <li class="col-xs-6">
+                        <a href="#" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/appointment.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Appointment</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6">
+                        <a (click)="gotoAboutUs()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/about-us.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">About Us</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6">
+                        <a (click)="gotoContactUs()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/contact-us.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Contact Us</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6">
+                        <a (click)="gotoLogin()" class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/login.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Logout</span>
+                        </a>
+                    </li>
+                </ul>
+    </div> <!-- end of .home-content -->
+</ion-content>
+<ion-footer>
+    <div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

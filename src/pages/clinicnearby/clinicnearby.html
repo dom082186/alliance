@@ -1,0 +1,129 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Clinic Nearby</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="clinicsLocator-content has-header has-copyright">
+		
+		
+
+
+		<div class="tabs-menu">
+			<ul class="row between-xs middle-xs">
+				<li class="text-xs-uppercase text-xs-center" (click)="gotoAll()">All List</li>
+				<li class="text-xs-uppercase text-xs-center active">Nearby</li>
+				<li class="text-xs-uppercase text-xs-center">GP Clinics</li>
+				<li class="text-xs-uppercase text-xs-center">SP Clinics</li>
+			</ul>
+		</div>
+		<div id="google-map">
+			<div class="search-clinic row middle-xs">
+				<input type="text" placeholder="Search Clinics" />
+				<div class="btn-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+			</div>
+		</div> <!-- end of .google-map -->
+		<div class="list-container">
+			<ul class="clinics-list">
+				<li class="clinic-item row middle-xs" (click)="gotoDetails()">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>Prohealth Medical Clinic</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">259 Bukit Panjang Ring Road, Block 259, Singapore 671259</div>
+						<div class="row bottom-xs">
+							<div class="distance">20.0 km</div>
+							<div class="rating">
+								<img src="./assets/img/stars.png" width="75" />
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">GP</div>
+				</li>
+				<li class="clinic-item row middle-xs">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>Prohealth Medical Clinic</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">259 Bukit Panjang Ring Road, Block 259, Singapore 671259</div>
+						<div class="row bottom-xs">
+							<div class="distance">20.0 km</div>
+							<div class="rating">
+								<img src="./assets/img/stars.png" width="75" />
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">GP</div>
+				</li>
+				<li class="clinic-item row middle-xs">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>Prohealth Medical Clinic</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">259 Bukit Panjang Ring Road, Block 259, Singapore 671259</div>
+						<div class="row bottom-xs">
+							<div class="distance">20.0 km</div>
+							<div class="rating">
+								<img src="./assets/img/stars.png" width="75" />
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">GP</div>
+				</li>
+				<li class="clinic-item row middle-xs">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>Prohealth Medical Clinic</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">259 Bukit Panjang Ring Road, Block 259, Singapore 671259</div>
+						<div class="row bottom-xs">
+							<div class="distance">20.0 km</div>
+							<div class="rating">
+								<img src="./assets/img/stars.png" width="75" />
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">GP</div>
+				</li>
+				<li class="clinic-item row middle-xs">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>Prohealth Medical Clinic</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">259 Bukit Panjang Ring Road, Block 259, Singapore 671259</div>
+						<div class="row bottom-xs">
+							<div class="distance">20.0 km</div>
+							<div class="rating">
+								<img src="./assets/img/stars.png" width="75" />
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">GP</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

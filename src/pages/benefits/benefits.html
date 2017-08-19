@@ -1,0 +1,146 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Claims &amp; Benefits</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="benefits-content has-header has-copyright">
+		<div class="tabs-menu">
+			<ul class="row middle-xs">
+				<li (click)="gotoClaimsHistory()">Claim History</li>
+				<li class="active">Benefits</li>
+			</ul>
+		</div>
+		<div class="bg-white">
+			<h3 class="text-xs-uppercase">Benefit Plan Details</h3>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Employer NRIC</div>
+						<div class="input-field">
+							<input type="text" name="employer_nric" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Benefit Period</div>
+						<div class="input-field">
+							<select name="select_benefitPeriod">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Plan Name</div>
+						<div class="input-field">
+							<input type="text" name="plan_name" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Employee Name</div>
+						<div class="input-field">
+							<select name="select_employeeName">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Benefit Plan Start Date</div>
+						<div class="input-field">
+							<input type="text" name="benefitPlan_startDate" class="has-calendar" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Benefit Plan End Date</div>
+						<div class="input-field">
+							<input type="text" name="benefitPlan_endDate" class="has-calendar" />
+						</div>
+					</div>
+				</div>
+			</div><br/>
+			<h3 class="text-xs-uppercase">Diagnosis Benefit</h3>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Acute Diagnosis</div>
+						<div class="input-field">
+							<input type="text" name="acute_diagnosis" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Chronic Diagnosis</div>
+						<div class="input-field">
+							<input type="text" name="chronic_diagnosis" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<h3 class="text-xs-uppercase">Out Panel Details</h3>
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Co-Pay</th>
+						<th>Co-Pay Type</th>
+						<th>Limit / Visit</th>
+						<th>Limit / Year</th>
+						<th>Visit / Year</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>GP</td>
+						<td>0.00</td>
+						<td>%</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+					<tr>
+						<td>SP</td>
+						<td>0.00</td>
+						<td>%</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn-panel">
+				<div class="row center-xs">
+					<div class="col-xs-7">
+						<button type="submit" class="btn btn-yellow">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

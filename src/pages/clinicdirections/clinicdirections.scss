@@ -1,0 +1,70 @@
+page-clinicdirections {
+	.header {
+		.toolbar {
+			.toolbar-background {
+				border: 0;
+			}
+		}
+	}
+
+	.clinicDirections-content.has-header.has-copyright {
+		padding: 0;
+	}
+
+	.clinicDirections-content {
+
+		.clinicDirections-header {
+			padding: 10px 15px;
+			background: #fff;
+
+			.place {
+				margin: 0 0 10px;
+
+				.icon {
+					color: $gold;
+					width: 20px;
+				}
+
+				.text {
+					width: calc( 100% - 20px );
+					border-bottom: 1px solid #f0f0f0;
+					padding: 0 0 3px;
+				}
+			}
+
+			.to {
+				.text {
+					height: $toTxtSize * $toLineHeight * $lineToShow;
+					font-size: $toTxtSize;
+					line-height: $toLineHeight;
+					-webkit-line-clamp: $lineToShow;
+					  -webkit-box-orient: vertical;
+					  overflow: hidden;
+					  text-overflow: ellipsis;
+				}
+			}
+		}
+
+		#googlemap {
+			background: #000;
+			//height: calc( 100vh - 188px );
+			height: calc( 100vh - 400px );
+			width: 100%;
+		}
+
+		#directionlist {
+			position: relative;
+		    overflow: hidden;
+		    width: 100%;
+		    height: auto;
+		}
+	}
+
+	.content-ios {
+		.clinicDirections-content {
+			#google-map {
+				height: calc( 100vh - 195px );
+			}
+		}
+	}
+}

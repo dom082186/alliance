@@ -1,0 +1,71 @@
+page-login-nonmedinet {
+
+	.login-content {
+		.logo-container {
+			margin: 0 0 15px;
+		}
+
+		h3 {
+			font: 18px/1.45 $bold;
+			color: $blue;
+			margin: 0;
+		}
+
+		.switch-login {
+			max-width: 280px;
+			width: 100%;
+			margin: 0 0 20px;
+
+			.non-medinet {
+				width: 50%;
+				background: $gold;
+				color: #fff;
+				padding: 5px 0;
+				border: 1px solid $gold;
+				border-top-left-radius: 5px;
+				border-bottom-left-radius: 5px;
+			}
+
+			.medinet {
+				width: 50%;
+				padding: 5px 0;
+				border: 1px solid $yellow;
+				color: $yellow;
+				border-top-right-radius: 5px;
+				border-bottom-right-radius: 5px;
+			}
+		}
+
+		.loginForm-group {
+			margin: 0 0 15px;
+
+			label {
+				display: block;
+				color: $blue;
+				font: 14px/1.45 $bold;
+			}
+
+			input[type=text] {
+				padding: 0 0 5px;
+				display: block;
+				width: 100%;
+				border: 0;
+				border-bottom: 1px solid #a2a2a2;
+			}
+
+			select {
+				padding: 0 0 5px;
+				display: block;
+				width: 100%;
+				border: 0;
+				border-bottom: 1px solid #a2a2a2;
+				appearance: none;
+				background: url( '../assets/img/icons/dropdown-blue.png' ) no-repeat right 10px center transparent;
+				background-size: 15px;
+			}
+		}
+
+	}
+	
+}
+

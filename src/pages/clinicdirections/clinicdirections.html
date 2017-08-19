@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Directions</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="clinicDirections-content has-header has-copyright">
+		<div class="row">
+			<div class="clinicDirections-header" style="width: 100%">
+				<div class="from place row middle-xs">
+					<div class="icon"><i class="fa fa-circle-o" aria-hidden="true"></i></div>
+					<div class="text">{{currentAddress}}</div>
+				</div>
+				<div class="to place row middle-xs">
+					<div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+					<div class="text">{{clinicAddress}}</div>
+				</div>
+			</div>
+			<div #googlemap id="googlemap"></div>
+			<div #directionlist id="directionlist"></div>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

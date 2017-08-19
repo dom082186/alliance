@@ -1,0 +1,53 @@
+<ion-content>
+	<div class="login-content full-height row direction-column-xs between-xs pb-40">
+		<div>
+			<div class="btn-back row middle-xs end-xs">
+				<img src="./assets/img/icons/back.png" (click)="goSlider()" />
+			</div>
+			<div class="logo-container row middle-xs center-xs" >
+				<img src="./assets/img/logo.png" #logo id="logo" alt="Alliance Healthcare" width="180" />
+			</div>
+			<!-- <div class="row middle-xs center-xs">
+				<div class="switch-login row middle-xs">
+					<div class="non-medinet text-xs-center">Non-MediNet User</div>
+					<div class="medinet text-xs-center" (click)="gotoLogin()">MediNet User</div>
+				</div>
+			</div> -->
+
+			<h3>Welcome,</h3>
+			<p>Enter the following details required or simply place your finger on the Home button to access the system</p>
+			<form (ngSubmit)="doLogin()">
+			<div class="form-container">
+				<div class="loginForm-group">
+					<label for="nric">NRIC/FIN</label>
+					<input type="text" [(ngModel)]="login.nric" name="nric" [attr.maxlength]="10"/>
+				</div>
+				<div class="loginForm-group">
+					<label for="membertype">Member Type</label>
+					<select [(ngModel)]="login.membertype" name="membertype">
+						<option value="member">Member</option>
+						<option value="dependent">Dependent</option>
+					</select>
+				</div>
+				<div class="loginForm-group">
+					<label for="network">Select Program</label>
+					<select [(ngModel)]="login.network" name="network" (change)="onChange(login.network)">
+						<option *ngFor="let network of networks;" [value]="network.ID">{{network.Program}}</option>
+					</select>
+				</div>
+				<!-- <ion-item>
+				  <ion-label>Terms and Conditions</ion-label>
+				  <ion-checkbox color="blue" [(ngModel)]="isCheckTM" (click)="addValue($event)" name="isCheckTM"></ion-checkbox>
+				</ion-item> -->
+				<div class="btn-panel">
+					<button class="btn btn-yellow" type="submit"  >Login</button>
+					<!-- type="submit" -->
+					<!-- (click)="gotoHome()" -->
+					<!-- (click)="goRegister()" -->
+				</div>
+			</div>
+			</form>
+		</div>
+		<div class="copyright text-xs-center">&copy; Alliance Healthcare, All Rights Reserved.</div>
+	</div> <!-- end of .login-content -->
+</ion-content>

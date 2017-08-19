@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Clinic Details</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="clinicDetails-content has-header has-copyright">
+		<div #map id="map">
+			<div class="bg-black"></div>
+			<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d255276.547377676!2d103.818!3d1.359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssg!4v1498205924017" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+			<!-- <agm-map [latitude]="{{clinicDetails.Latitude}}" [longitude]="{{clinicDetails.Longitude}}">
+			  <agm-marker [latitude]="{{clinicDetails.Latitude}}" [longitude]="{{clinicDetails.Longitude}}"></agm-marker>
+			</agm-map> -->
+
+		</div>
+		<div class="row details">
+			<div class="left-details">
+				<div class="img-container" style="background-image: url( './assets/img/clinic.png' );"></div>
+				<div class="rating-container">
+					<!-- <img src="./assets/img/stars.png" /> -->
+				</div>
+				<!-- <div class="distance text-xs-center">{{clinicDetails.Distance}} km</div> -->
+				<div class="distance text-xs-center">{{clinicDetails.Distance}} km</div>
+			</div>
+			<div class="right-details">
+				<h3>{{clinicDetails.Name}}</h3>
+				<div class="clinic-type">Medical Clinic</div>
+				<div class="address row middle-xs">
+					<div class="icon self-top-xs"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+					<div class="text">{{clinicDetails.UnitNumber}} {{clinicDetails.BuildingName}} {{clinicDetails.RoadName}} {{clinicDetails.BlockNumber}} {{clinicDetails.PostalCode}}</div>
+				</div>
+				<!-- <div class="website row middle-xs">
+					<div class="icon"><i class="fa fa-globe" aria-hidden="true"></i></div>
+					<div class="text"><a href="#">centralclinic.com.sg</a></div>
+				</div> -->
+				<div class="phone row middle-xs">
+					<div class="icon"><i class="fa fa-phone" aria-hidden="true"></i></div>
+					<div class="text">+65 {{clinicDetails.Phone1}}</div>
+				</div>
+				<div class="clinic-hours row middle-xs">
+					<div class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+					<div class="text">{{clinicDetails.OperatingHours1}}<br>{{clinicDetails.OperatingHours2}}<br>{{clinicDetails.OperatingHours3}}<br>{{clinicDetails.OperatingHours4}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="details row middle-xs center-xs">
+			<div class="btn-panel row middle-xs">
+				<a href="tel:+65{{clinicDetails.Phone1}}" class="btn-call">Call Clinic</a>
+				<div class="btn-directions" (click)="gotoDirections()">Get Directions</div>
+			</div>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

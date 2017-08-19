@@ -1,0 +1,111 @@
+page-ecard {
+	.ecard-content {
+		.ecard-title {
+			background: $yellow;
+			color: #fff;
+			padding: 10px 15px;
+			font: 16px/1.45 $light;
+
+			strong {
+				font: 16px/1.45 $medium;
+			}
+		}
+
+		.flip-container {
+			margin: 0 0 15px;
+			-webkit-perspective: 1000;
+			        perspective: 1000;
+
+			&.flip {
+				.flipper {
+					-webkit-transform: rotateY(-180deg);
+					-moz-transform: rotateY(-180deg);
+					-o-transform: rotateY(-180deg);
+					-ms-transform: rotateY(-180deg);
+					transform: rotateY(-180deg)
+				}
+			}
+
+			.flipper {
+				transition: 0.6s;
+				-webkit-transition: 0.6s;
+				-moz-transition: 0.6s;
+				-o-transition: 0.6s;
+				-ms-transition: 0.6s;
+				transform-style: preserve-3d;
+				-webkit-transform-style: preserve-3d;
+				-moz-transform-style: preserve-3d;
+				-o-transform-style: preserve-3d;
+				-ms-transform-style: preserve-3d;
+				position: relative;
+
+				.front {
+					width: 100%;
+					-webkit-backface-visibility: hidden;
+					-moz-backface-visibility: hidden;
+					-o-backface-visibility: hidden;
+					backface-visibility: hidden;
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 2;
+					-webkit-transform: rotateY(0deg);
+					-moz-transform: rotateY(0deg);
+					-o-transform: rotateY(0deg);
+					-ms-transform: rotateY(0deg);
+					transform: rotateY(0deg);
+				}
+
+				.back {
+					width: 100%;
+					// -webkit-backface-visibility: hidden;
+					// -moz-backface-visibility: hidden;
+					// -o-backface-visibility: hidden;
+					// backface-visibility: hidden;
+					position: absolute;
+					top: 0;
+					left: 0;
+					// -webkit-transform: rotateY(180deg);
+					// -moz-transform: rotateY(180deg);
+					// -o-transform: rotateY(180deg);
+					// transform: rotateY(180deg);
+				}
+
+				.card {
+					img {
+						position: absolute;
+						z-index: 1;
+						top: 0;
+						left: 0;
+						width: 100%;
+					}
+
+					.card-details {
+						position: relative;
+						z-index: 2;
+						top: 55px;
+    					padding: 0px 20px;
+					}
+
+					.label {
+						font-size:  8px;
+						font-weight: bold;
+					}
+					.content {
+						font-size: 8px;
+						font-weight: bold;
+					}
+				}
+			}
+		}
+
+		h3 {
+			font: 16px/1.45 $light;
+			margin: 0 0 30px;
+		}
+
+		.validation {
+			font: 18px/1.45 $bold;
+		}
+	}
+}

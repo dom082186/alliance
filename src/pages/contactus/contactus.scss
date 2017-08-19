@@ -1,0 +1,158 @@
+page-contactus {
+	.contactUs-content {
+		.page-banner {
+			background: #f3a121;
+			padding: 20px 15px 50px;
+			color: #fff;
+			height: auto;
+			position: relative;
+			z-index: 2;
+
+			.office-location {
+				margin: 10px 0 20px;
+
+				p {
+					color: #fff;
+					font: 14px/1.2 $light;
+					margin: 0;
+				}
+
+				.address {
+					font: 14px/1.2 $medium;
+					color: #fff;
+				}
+			}
+
+			.icon {
+				img {
+					width: 15px;
+					margin-right: 5px;
+				}
+			}
+
+			.text {
+				color: #fff;
+				font: 14px/1.45 $light;
+
+				a {
+					color: #fff;
+					font: 14px/1.45 $light;
+				}
+			}
+
+			.contacts {
+				margin: 0 0 5px;
+			}
+		}
+
+		.bg-white {
+			position: relative;
+			z-index: 3;
+			top: -35px;
+		}
+
+		.form-container {
+			.form-title {
+				font: 18px/1.45 $medium;
+				margin: 0 0 15px;
+			}
+
+			.form-group {
+				.label {
+					width: 70px;
+				}
+
+				.input-field {
+					width: calc( 100% - 70px );
+				}
+			}
+		}
+	}
+	.aboutUs-content {
+		.page-banner {
+			position: relative;
+			z-index: 2;
+
+			.banner-text {
+				background: $yellow;
+				position: absolute;
+				padding: 10px 20px;
+				text-align: right;
+				right: 15px;
+				bottom: 50px;
+
+				p {
+					color: #fff;
+					margin: 0;
+					font: 16px/1.45 $light;
+				}
+			}
+		}
+
+		.bg-white {
+			position: relative;
+			z-index: 3;
+			// top: -35px;
+			top:-100px;
+		}
+	}
+
+	.details {
+		padding: 0 15px;
+
+
+		.right-details {
+			width: calc( 100% - 100px );
+			padding: 10px 0 0 10px;
+
+			h3 {
+				font: 16px/1.2 $bold;
+				margin: 0 0 3px;
+			}
+
+			.clinic-type {
+				font: 16px/1.2 $light;
+				margin: 0 0 10px;
+			}
+
+			.icon {
+				width: 20px;
+			}
+
+			.text {
+				width: calc( 100% - 20px );
+
+				a {
+					color: #5c5c5c;
+				}
+			}
+
+			.address {
+				margin: 0 0 10px;
+
+				.icon {
+					margin: 1px 0 0;
+				}
+			}
+
+			.website, .phone, .clinic-hours {
+				margin: 0 0 10px;
+			}
+		}
+
+		.btn-panel {
+			border: 1px solid $gold;
+			border-radius: 5px;
+			width: 100%;
+			max-width: 280px;
+
+			.btn-call {
+				text-align: center;
+				color: $gold;
+				padding: 5px 0;
+				width: 100%;
+			}
+
+		}
+	}
+}

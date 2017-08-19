@@ -1,0 +1,125 @@
+page-clinicdetails {
+	.header {
+		.toolbar {
+			.toolbar-background {
+				border: 0;
+			}
+		}
+	}
+
+	
+	#map {
+		width: 100%;
+		height: 250px;
+		position: relative;
+
+		.bg-black {
+			position: absolute;
+			z-index: 10;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba( 0, 0, 0, .75 );
+		}
+
+	}
+
+	.details {
+		padding: 0 15px;
+
+		.left-details {
+			position: relative;
+			width: 100px;
+
+			.img-container {
+				width: 100px;
+				height: 70px;
+				border: 5px solid #fff;
+				position: absolute;
+				left: 0;
+				top: -20px;
+				z-index: 15;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+
+			.rating-container {
+				padding: 60px 0 0;
+				margin: 0 0 10px;
+
+				img {
+					width: 80px;
+					display: block;
+					margin: 0 auto;
+				}
+			}
+
+			.distance {
+				font: 14px/1.45 $bold;
+			}
+		}
+
+		.right-details {
+			width: calc( 100% - 100px );
+			padding: 10px 0 0 10px;
+
+			h3 {
+				font: 16px/1.2 $bold;
+				margin: 0 0 3px;
+			}
+
+			.clinic-type {
+				font: 16px/1.2 $light;
+				margin: 0 0 10px;
+			}
+
+			.icon {
+				width: 20px;
+			}
+
+			.text {
+				width: calc( 100% - 20px );
+
+				a {
+					color: #5c5c5c;
+				}
+			}
+
+			.address {
+				margin: 0 0 10px;
+
+				.icon {
+					margin: 1px 0 0;
+				}
+			}
+
+			.website, .phone, .clinic-hours {
+				margin: 0 0 10px;
+			}
+		}
+
+		.btn-panel {
+			border: 1px solid $gold;
+			border-radius: 5px;
+			width: 100%;
+			max-width: 280px;
+
+			.btn-call {
+				text-align: center;
+				color: $gold;
+				padding: 5px 0;
+				width: 50%;
+			}
+
+			.btn-directions {
+				text-align: center;
+				color: #fff;
+				background: $gold;
+				padding: 5px 0;
+				width: 50%;
+			}
+		}
+	}
+}

@@ -1,0 +1,100 @@
+page-clinicnearby {
+	.header {
+		.toolbar {
+			.toolbar-background {
+				border: 0;
+			}
+		}
+	}
+
+	.tabs-menu {
+		background: #fff;
+
+		ul {
+			li {
+				color: #ababab;
+				padding: 7px 5px 5px;
+				font: 12px/1.45 $medium;
+				border-bottom: 2px solid transparent;
+
+				&.active {
+					border-bottom: 2px solid $gold;
+				}
+			}
+		}
+	}
+
+	#google-map {
+		width: 100%;
+		height: 250px;
+		background: #000;
+		position: relative;
+		margin: 0 0 15px;
+
+		.search-clinic {
+			position: absolute;
+			top: 20px;
+			width: calc( 100% - 30px );
+			left: 15px;
+			background: #fff;
+			border-radius: 3px;
+			padding: 10px 15px;
+
+			input[type=text] {
+				width: calc( 100% - 20px );
+			}
+
+			.btn-search {
+				width: 20px;
+				text-align: center;
+			}
+		}
+	}
+
+	.clinics-list {
+		.clinic-item {
+			background: #fff;
+			padding: 5px 10px;
+			margin: 0 0 10px;
+
+			.logo {
+				width: 40px;
+			}
+
+			.details {
+				width: calc( 100% - 80px );
+				padding: 0 10px;
+
+				h3 {
+					font: 16px/1.2 $bold;
+					margin: 0;
+				}
+
+				.clinic-type {
+					font: 16px/1.2 $light;
+				}
+
+				.address {
+					font: 12px/1.45 $light;
+				}
+
+				.distance {
+					font: 12px/1.45 $bold;
+					margin: 0 15px 0 0;
+				}
+			}
+
+			.type {
+				background: $gold;
+				color: #fff;
+				text-transform: uppercase;
+				width: 40px;
+				padding: 5px 0;
+				text-align: center;
+				font: 14px/1.45 $bold;
+				border-radius: 3px;
+			}
+		}
+	}
+
+}

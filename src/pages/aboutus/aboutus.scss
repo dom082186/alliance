@@ -1,0 +1,30 @@
+page-aboutus {
+	.aboutUs-content {
+		.page-banner {
+			position: relative;
+			z-index: 2;
+
+			.banner-text {
+				background: $yellow;
+				position: absolute;
+				padding: 10px 20px;
+				text-align: right;
+				right: 15px;
+				bottom: 50px;
+				opacity: 0.9;
+
+				p {
+					color: #fff;
+					margin: 0;
+					font: 16px/1.45 $light;
+				}
+			}
+		}
+
+		.bg-white {
+			position: relative;
+			z-index: 3;
+			top: -35px;
+		}
+	}
+}

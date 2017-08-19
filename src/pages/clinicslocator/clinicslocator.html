@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Clinic List</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="clinicsLocator-content has-header has-copyright">
+		
+		<div class="tabs-menu">
+			<ul class="row between-xs middle-xs">
+				<li class="text-xs-uppercase text-xs-center" #all id="all" (click)="filterAllData()">All List</li>
+				<li class="text-xs-uppercase text-xs-center" #nearby id="nearby" (click)="filterNearData()">Nearby</li>
+				<li class="text-xs-uppercase text-xs-center" #gp id="gp" (click)="filterGPData()">GP Clinics</li>
+				<li class="text-xs-uppercase text-xs-center" #sp id="sp" (click)="filterSPData()">SP Clinics</li>
+			</ul>
+		</div>
+		<div id="maps">
+		<div #map id="map"></div>
+			<div class="search-clinic row middle-xs" style="z-index: 1" >
+				<input type="text" [(ngModel)]="ngClinic.searchList" name="searchList" placeholder="Search Clinics" />
+				<div class="btn-search"><i class="fa fa-search" aria-hidden="true" (click)="searchClinic(ngClinic.searchList)"></i></div>
+			</div>
+		</div> <!-- end of .google-map -->
+
+		<div class="list-container">
+			<ul class="clinics-list">
+				<li class="clinic-item row middle-xs" (click)="gotoDetails(i)" *ngFor="let clinic of allClinics; let i = index">
+					<div class="logo">
+						<img src="./assets/img/default-clinic-logo.png" alt="Alliance Healthcare" />
+					</div>
+					<div class="details">
+						<h3>{{clinic.Name}}</h3>
+						<div class="clinic-type">Medical Clinic</div>
+						<div class="address">{{clinic.UnitNumber}} {{clinic.BuildingName}} {{clinic.RoadName}} {{clinic.BlockNumber}} {{clinic.PostalCode}}</div>
+						<div class="row bottom-xs">
+							<!-- <div class="distance">{{clinic.Distance}} km</div> -->
+							<div class="distance">{{clinic.Distance}} km</div>
+							<div class="rating">
+								<!-- <img src="./assets/img/stars.png" width="75" /> -->
+							</div>
+						</div>
+					</div> <!-- end of .details -->
+					<div class="type self-top-xs">{{clinic.ClinicType}}</div>
+				</li>
+				<li class="clinic-item row middle-xs" *ngIf="noClinics" style="text-align: center">No Clinics Found</li>
+			</ul>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

@@ -1,0 +1,194 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Submit Claims</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="submitClaims-content has-header has-copyright" style="padding-top: 15px;">
+		<div class="bg-white">
+			<h3 class="text-xs-uppercase">Make TPA Claim</h3>
+			<div class="form-group">
+				<div class="label">Employee Name/NRIC</div>
+				<div class="input-field">
+					<select name="select_employee">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Visit Date</div>
+				<div class="input-field">
+					<input type="text" class="has-calendar" name="visit_date" placeholder="DD/MM/YY" />
+				</div>
+			</div><br/>
+			<h3 class="text-xs-uppercase">Provider/Clinic Information</h3>
+			<div class="form-group">
+				<div class="label">Provider Name</div>
+				<div class="input-field">
+					<select name="select_providerName">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Claim Type</div>
+						<div class="input-field">
+							<select name="select_claimType">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Referral Letter</div>
+						<div class="input-field">
+							<label class="checkbox-field">
+								<input type="checkbox" />
+								<span>(Check to indicate 'Yes')</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div><br/>
+			<h3 class="text-xs-uppercase">Diagnosis</h3>
+			<div class="gray-title">Acute Diagnosis</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 1</div>
+				<div class="input-field">
+					<select name="select_acuteDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 2</div>
+				<div class="input-field">
+					<select name="select_acuteDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 3</div>
+				<div class="input-field">
+					<select name="select_acuteDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 4</div>
+				<div class="input-field">
+					<select name="select_acuteDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div><br/>
+			<div class="gray-title">Chronic Diagnosis</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 1</div>
+				<div class="input-field">
+					<select name="select_chronicDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 2</div>
+				<div class="input-field">
+					<select name="select_chronicDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 3</div>
+				<div class="input-field">
+					<select name="select_chronicDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="label">Diagnosis 4</div>
+				<div class="input-field">
+					<select name="select_chronicDiagnosis">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div><br/>
+			<div class="form-group">
+				<div class="label">Claim Remarks</div>
+				<div class="input-field">
+					<textarea></textarea>
+				</div>
+			</div><br/>
+			<h3 class="text-xs-uppercase">Upload Attachment</h3>
+			<div class="upload-container">
+				<div class="actions row middle-xs">
+					<div class="label">Select File</div>
+					<div class="btn-actions">
+						<div class="row middle-xs">
+							<div class="col-xs-6 has-padR browse-container">
+								<input type="file" />
+								<div class="btn-browse btn btn-gray" style="padding: 5px;">Browse</div>
+							</div>
+							<div class="col-xs-6 has-padL">
+								<div class="add-upload btn btn-gray" style="padding: 5px;">Add</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- end of .actions -->
+				<div class="img-container row middle-xs between-xs">
+					<div class="img row middle-xs">
+						<img src="./assets/img/clinic.png" />
+						<div class="file-name">Image-01.jpg</div>
+					</div>
+					<div class="delete"><i class="fa fa-times" aria-hidden="true"></i></div>
+				</div>
+			</div><br/>
+			<h3 class="text-xs-uppercase">Payment Details</h3>
+			<div class="row">
+				<div class="col-xs-6 has-padR">
+					<div class="form-group">
+						<div class="label">Total Amount</div>
+						<div class="input-field">
+							<input type="text" name="total_amount" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 has-padL">
+					<div class="form-group">
+						<div class="label">Total GST Amount</div>
+						<div class="input-field">
+							<input type="text" name="total_amount_gst" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn-panel">
+				<div class="row center-xs">
+					<div class="col-xs-7">
+						<button type="submit" class="btn btn-yellow">Calculate Claim</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>
