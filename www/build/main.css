@@ -33122,6 +33122,14 @@ page-clinicslocator .header .toolbar .toolbar-background {
   border: 0;
 }
 
+page-clinicslocator .content-ios .clinic-header {
+  top: 64px;
+}
+
+page-clinicslocator .content-ios .list-container {
+  padding-top: 266px;
+}
+
 page-clinicslocator .clinic-header {
   position: fixed;
   top: 44px;
@@ -33162,9 +33170,9 @@ page-clinicslocator .clinic-header .map-container #map {
 
 page-clinicslocator .clinic-header .map-container .search-clinic {
   position: absolute;
-  top: 20px;
-  width: calc( 100% - 30px);
-  left: 15px;
+  top: 10px;
+  width: calc( 100% - 20px);
+  left: 10px;
   background: #fff;
   border-radius: 3px;
   padding: 10px 15px;
