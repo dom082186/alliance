@@ -7,126 +7,113 @@ page-clinicslocator {
 		}
 	}
 
-	.tabs-menu {
-		background: #fff;
-
-
-		ul {
-			li {
-				color: #ababab;
-				padding: 7px 5px 5px;
-				font: 12px/1.45 $medium;
-				border-bottom: 2px solid transparent;
-
-				&.active {
-					border-bottom: 2px solid $gold;
-				}
-				&.inactive {
-					border-bottom: none;
-				}
-
-			}
-		}
-	}
-
-	#map {
-		width: 100%;
-		height: 200px;
-		background: #000;
-		position: relative;
-		margin: 0 0 15px;
-
-
-		.search-clinic {
-			position: absolute;
-			top: 20px;
-			width: calc( 100% - 30px );
-			left: 15px;
-			background: #fff;
-			border-radius: 3px;
-			padding: 10px 15px;
-
-			input[type=text] {
-				width: calc( 100% - 20px );
-			}
-
-			.btn-search {
-				width: 20px;
-				text-align: center;
-			}
-		}
-	}
-
-	#maps {
-		width: 100%;
-		height: 200px;
-		background: #000;
+	.clinic-header {
 		position: fixed;
-		margin: 0 0 15px;
+		top: 44px;
+		left: 0;
+		width: 100%;
 
-
-		.search-clinic {
-			position: absolute;
-			top: 20px;
-			width: calc( 100% - 30px );
-			left: 15px;
+		.tabs-menu {
 			background: #fff;
-			border-radius: 3px;
-			padding: 10px 15px;
 
-			input[type=text] {
-				width: calc( 100% - 20px );
+
+			ul {
+				li {
+					color: #ababab;
+					padding: 7px 5px 5px;
+					font: 12px/1.45 $medium;
+					border-bottom: 2px solid transparent;
+
+					&.active {
+						border-bottom: 2px solid $gold;
+					}
+					&.inactive {
+						border-bottom: none;
+					}
+
+				}
+			}
+		}
+
+		.map-container {
+			position: relative;
+
+			#map {
+				width: 100%;
+				height: 200px;
+				background: #000;
+				position: relative;
+				margin: 0 0 15px;
 			}
 
-			.btn-search {
-				width: 20px;
-				text-align: center;
+			.search-clinic {
+				position: absolute;
+				top: 20px;
+				width: calc( 100% - 30px );
+				left: 15px;
+				background: #fff;
+				border-radius: 3px;
+				padding: 10px 15px;
+
+				input[type=text] {
+					width: calc( 100% - 20px );
+				}
+
+				.btn-search {
+					width: 20px;
+					text-align: center;
+				}
 			}
 		}
 	}
 
-	.clinics-list {
-		.clinic-item {
-			background: #fff;
-			padding: 5px 10px;
-			margin: 0 0 10px;
+	.list-container {
+		padding-top: 246px;
 
-			.logo {
-				width: 40px;
-			}
+		.clinics-list {
+			
+			.clinic-item {
+				background: #fff;
+				padding: 5px 10px;
+				margin: 0 0 10px;
 
-			.details {
-				width: calc( 100% - 80px );
-				padding: 0 10px;
-
-				h3 {
-					font: 16px/1.2 $bold;
-					margin: 0;
+				.logo {
+					width: 40px;
 				}
 
-				.clinic-type {
-					font: 16px/1.2 $light;
+				.details {
+					width: calc( 100% - 80px );
+					padding: 0 10px;
+
+					h3 {
+						font: 16px/1.2 $bold;
+						margin: 0;
+					}
+
+					.clinic-type {
+						font: 16px/1.2 $light;
+					}
+
+					.address {
+						font: 12px/1.45 $light;
+					}
+
+					.distance {
+						font: 12px/1.45 $bold;
+						margin: 0 15px 0 0;
+					}
 				}
 
-				.address {
-					font: 12px/1.45 $light;
+				.type {
+					background: $gold;
+					color: #fff;
+					text-transform: uppercase;
+					width: 40px;
+					padding: 5px 0;
+					text-align: center;
+					font: 14px/1.45 $bold;
+					border-radius: 3px;
 				}
-
-				.distance {
-					font: 12px/1.45 $bold;
-					margin: 0 15px 0 0;
-				}
-			}
-
-			.type {
-				background: $gold;
-				color: #fff;
-				text-transform: uppercase;
-				width: 40px;
-				padding: 5px 0;
-				text-align: center;
-				font: 14px/1.45 $bold;
-				border-radius: 3px;
 			}
 		}
 	}
