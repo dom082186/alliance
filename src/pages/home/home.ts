@@ -13,7 +13,7 @@ import { ContactusPage } from '../contactus/contactus';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
 
-
+declare var window;
 
 @Component({
 	selector: 'page-home',
@@ -78,7 +78,13 @@ export class HomePage {
 	}
 
 	gotoLogin() {
-		this.navCtrl.push( LoginNonmedinetPage );
+		this.storage.clear().then(() => {
+	      this.navCtrl.push( LoginNonmedinetPage );
+	    });
+		
+	}
+	call(){
+		window.location = "tel:" + '6566977700'
 	}
 
 }

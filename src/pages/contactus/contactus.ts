@@ -30,7 +30,8 @@ export class ContactusPage {
 
   getData(){
     this.storage.get('memInfo').then((val) => {
-        val === undefined ? this.loggedIn = true : this.loggedIn = false;
+      console.log(val)
+        val === undefined ? this.loggedIn = false : this.loggedIn = true;
     });
   }
 

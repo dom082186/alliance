@@ -1,6 +1,6 @@
 webpackJsonp([11],{
 
-/***/ 310:
+/***/ 307:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24,7 +24,7 @@ var ClinicdetailsPageModule = (function () {
     return ClinicdetailsPageModule;
 }());
 ClinicdetailsPageModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
             __WEBPACK_IMPORTED_MODULE_2__clinicdetails__["a" /* ClinicdetailsPage */],
         ],

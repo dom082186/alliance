@@ -1,6 +1,6 @@
 webpackJsonp([7],{
 
-/***/ 314:
+/***/ 311:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24,7 +24,7 @@ var ContactusPageModule = (function () {
     return ContactusPageModule;
 }());
 ContactusPageModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
             __WEBPACK_IMPORTED_MODULE_2__contactus__["a" /* ContactusPage */],
         ],

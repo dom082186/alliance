@@ -156,8 +156,8 @@ export class EcardPage {
 
 	backButtonClick(){
 		console.log('backButtonClick')
-    	//this.navCtrl.pop();  // remember to put this to add the back button behavior
-    	this.navCtrl.popToRoot();
+    	this.navCtrl.pop();  // remember to put this to add the back button behavior
+    	//this.navCtrl.popToRoot();
 
 	}
 
