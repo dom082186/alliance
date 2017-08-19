@@ -2,12 +2,34 @@ page-ecard {
 	.ecard-content {
 		.ecard-title {
 			background: $yellow;
-			color: #fff;
 			padding: 10px 15px;
-			font: 16px/1.45 $light;
 
-			strong {
+			.text {
 				font: 16px/1.45 $medium;
+				margin: 0 10px 0 0;
+				color: #fff;
+			}
+
+			.select-container {
+				position: relative;
+
+				&:after {
+					content: '\f078';
+					font: 12px/1.45px 'FontAwesome';
+					color: gray;
+					top: 15px;
+					right: 10px;
+					position: absolute;
+				}
+
+				select {
+					width: 100%;
+					appearance: none;
+					color: #000;
+					padding: 5px 10px;
+					background: #fff;
+					border-radius: 5px;
+				}
 			}
 		}
 
