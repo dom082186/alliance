@@ -41,7 +41,6 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { GeocoderProvider } from '../providers/geocoder/geocoder';
 import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
 
-import { Ng2OrderModule } from 'ng2-order-pipe';
 
 
 @NgModule({
@@ -69,7 +68,6 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     ],
     imports: [
         BrowserModule,
-        Ng2OrderModule,
         IonicModule.forRoot(MyApp, {tabsPlacement: 'top'}),
         HttpModule,
         IonicStorageModule.forRoot({ name: '__mydb', driverOrder: ['sqlite', 'websql', 'indexeddb'] })
