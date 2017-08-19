@@ -16,10 +16,13 @@
 </ion-header>
 <ion-content>
     <div class="ecard-content has-header has-copyright">
-        <div class="ecard-title"><strong>E-Card</strong>&nbsp;&nbsp;
-            <select class="col-xs-16" style="width:75%;color: #5c5c5c;font-size: 14px !important;" [(ngModel)]="card.name" name="name" (change)="onChange(card.name)"> 
-                <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
-            </select>
+        <div class="ecard-title row middle-xs">
+            <div class="text">E-Card</div>
+            <div class="col-xs-auto select-container">
+                <select [(ngModel)]="card.name" name="name" (change)="onChange(card.name)"> 
+                    <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
+                </select>
+            </div>
         </div>
         <div class="bg-white">
             <div class="flip-container" #cardContainer>
