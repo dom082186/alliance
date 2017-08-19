@@ -33411,6 +33411,9 @@ page-ecard .ecard-content .flip-container.flip .flipper {
 }
 
 page-ecard .ecard-content .flip-container .flipper {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
   transition: 0.6s;
   -webkit-transition: 0.6s;
   -moz-transition: 0.6s;
@@ -33443,6 +33446,11 @@ page-ecard .ecard-content .flip-container .flipper .back {
   left: 0;
 }
 
+page-ecard .ecard-content .flip-container .flipper .card {
+  width: 100%;
+  max-width: 260px;
+}
+
 page-ecard .ecard-content .flip-container .flipper .card img {
   position: absolute;
   z-index: 1;
@@ -33455,13 +33463,14 @@ page-ecard .ecard-content .flip-container .flipper .card img {
 page-ecard .ecard-content .flip-container .flipper .card .card-details {
   position: relative;
   z-index: 2;
-  top: 55px;
-  padding: 0px 20px;
+  padding: 40px 20px 0;
+  height: 170px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .label {
   font-size: 8px;
   font-weight: bold;
+  margin: 0 2px 0 0;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .content {
@@ -33469,12 +33478,16 @@ page-ecard .ecard-content .flip-container .flipper .card .content {
   font-weight: bold;
 }
 
-page-ecard .ecard-content h3 {
+page-ecard .ecard-content .card-bottom-text {
+  margin-top: 180px;
+}
+
+page-ecard .ecard-content .card-bottom-text h3 {
   font: 16px/1.45 "Helvetica-Light";
   margin: 0 0 30px;
 }
 
-page-ecard .ecard-content .validation {
+page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
 }
 
