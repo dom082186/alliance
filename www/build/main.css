@@ -33130,6 +33130,17 @@ page-clinicslocator .content-ios .list-container {
   padding-top: 266px;
 }
 
+<<<<<<< HEAD
+=======
+page-clinicslocator .content-md .clinic-header {
+  top: 56px;
+}
+
+page-clinicslocator .content-md .list-container {
+  padding-top: 254px;
+}
+
+>>>>>>> c7617855f11fa269eb7ebd14c59a130982b48c14
 page-clinicslocator .clinic-header {
   position: fixed;
   top: 44px;
@@ -33441,6 +33452,7 @@ page-ecard .ecard-content .flip-container .flipper .card img {
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 260px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .card-details {
