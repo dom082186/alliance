@@ -33122,6 +33122,14 @@ page-clinicslocator .header .toolbar .toolbar-background {
   border: 0;
 }
 
+page-clinicslocator .content-ios .clinic-header {
+  top: 64px;
+}
+
+page-clinicslocator .content-ios .list-container {
+  padding-top: 266px;
+}
+
 page-clinicslocator .clinic-header {
   position: fixed;
   top: 44px;
