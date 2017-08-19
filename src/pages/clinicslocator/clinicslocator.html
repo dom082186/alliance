@@ -16,21 +16,23 @@
 <ion-content>
 	<div class="clinicsLocator-content has-header has-copyright">
 		
-		<div class="tabs-menu">
-			<ul class="row between-xs middle-xs">
-				<li class="text-xs-uppercase text-xs-center" #all id="all" (click)="filterAllData()">All List</li>
-				<li class="text-xs-uppercase text-xs-center" #nearby id="nearby" (click)="filterNearData()">Nearby</li>
-				<li class="text-xs-uppercase text-xs-center" #gp id="gp" (click)="filterGPData()">GP Clinics</li>
-				<li class="text-xs-uppercase text-xs-center" #sp id="sp" (click)="filterSPData()">SP Clinics</li>
-			</ul>
-		</div>
-		<div id="maps">
-		<div #map id="map"></div>
-			<div class="search-clinic row middle-xs" style="z-index: 1" >
-				<input type="text" [(ngModel)]="ngClinic.searchList" name="searchList" placeholder="Search Clinics" />
-				<div class="btn-search"><i class="fa fa-search" aria-hidden="true" (click)="searchClinic(ngClinic.searchList)"></i></div>
+		<div class="clinic-header">
+			<div class="tabs-menu">
+				<ul class="row between-xs middle-xs">
+					<li class="text-xs-uppercase text-xs-center" #all id="all" (click)="filterAllData()">All List</li>
+					<li class="text-xs-uppercase text-xs-center" #nearby id="nearby" (click)="filterNearData()">Nearby</li>
+					<li class="text-xs-uppercase text-xs-center" #gp id="gp" (click)="filterGPData()">GP Clinics</li>
+					<li class="text-xs-uppercase text-xs-center" #sp id="sp" (click)="filterSPData()">SP Clinics</li>
+				</ul>
 			</div>
-		</div> <!-- end of .google-map -->
+			<div class="map-container">
+				<div #map id="map"></div>
+				<div class="search-clinic row middle-xs" style="z-index: 1" >
+					<input type="text" [(ngModel)]="ngClinic.searchList" name="searchList" placeholder="Search Clinics" />
+					<div class="btn-search"><i class="fa fa-search" aria-hidden="true" (click)="searchClinic(ngClinic.searchList)"></i></div>
+				</div>
+			</div>
+		</div>
 
 		<div class="list-container">
 			<ul class="clinics-list">
