@@ -26,6 +26,32 @@ page-checkbalance {
 					}
 				}
 			}
+
+			.select-container {
+				position: relative;
+				padding:10px 10px;
+
+				&:after {
+					content: '\f078';
+					font: 12px/1.45px 'FontAwesome';
+					color: gray;
+					top: 25px;
+					right: 15px;
+					position: absolute;
+				}
+
+				select {
+					width: 100%;
+					appearance: none;
+					color: #5c5c5c;
+					padding: 5px 10px;
+					background: #fff;
+					border-radius: 5px;
+					border: 1px solid #ddd;
+				}
 		}
+		}
+		
+		
 	}
 }

@@ -53,6 +53,42 @@ export class EcardServiceProvider {
 
 	}
 
+	getDependents(parameters){
+		if (this.data) {
+			// already loaded data
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var headers1 = new Headers({'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'});
+
+		    var link = apiUrl + "ApplicationUser/GetDependentList";
+		    var opts = new RequestOptions({headers:headers1});
+		    this.http
+			    .post(link, parameters, opts)
+			    .map(response => response.json())
+			    .subscribe(data => {
+			        //console.log('login API success');
+			        resolve(data);
+			    }, e => {
+			        let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					      }
+					    }]
+					});
+					alert.present();
+			        reject(e);
+			});
+		})
+
+	}
+
 
 
 

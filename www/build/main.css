@@ -32792,6 +32792,32 @@ page-checkbalance .checkBalance-details .section-details .info .details {
   font: 14px/1.45 "Helvetica-Bold";
 }
 
+page-checkbalance .checkBalance-details .select-container {
+  position: relative;
+  padding: 10px 10px;
+}
+
+page-checkbalance .checkBalance-details .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 25px;
+  right: 15px;
+  position: absolute;
+}
+
+page-checkbalance .checkBalance-details .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
 page-claims .tabs-menu {
   background: #fff;
   margin: 0 0 15px;
@@ -33350,10 +33376,6 @@ page-contactus .details .right-details .text {
   width: calc( 100% - 20px);
 }
 
-page-contactus .details .right-details .text a {
-  color: #5c5c5c;
-}
-
 page-contactus .details .right-details .address {
   margin: 0 0 10px;
 }
@@ -33382,13 +33404,37 @@ page-contactus .details .btn-panel .btn-call {
 
 page-ecard .ecard-content .ecard-title {
   background: #f3a121;
-  color: #fff;
   padding: 10px 15px;
-  font: 16px/1.45 "Helvetica-Light";
 }
 
-page-ecard .ecard-content .ecard-title strong {
+page-ecard .ecard-content .ecard-title .text {
   font: 16px/1.45 "Helvetica-Medium";
+  margin: 0 10px 0 0;
+  color: #fff;
+}
+
+page-ecard .ecard-content .ecard-title .select-container {
+  position: relative;
+}
+
+page-ecard .ecard-content .ecard-title .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 15px;
+  right: 10px;
+  position: absolute;
+}
+
+page-ecard .ecard-content .ecard-title .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
 }
 
 page-ecard .ecard-content .flip-container {

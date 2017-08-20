@@ -15,24 +15,30 @@
 </ion-header>
 <ion-content>
     <div class="checkBalance-content has-header has-copyright">
+        
         <div class="checkBalance-details">
+        <div class="col-xs-auto select-container" *ngIf="hasDependents">
+            <select [(ngModel)]="balance.name" name="name" (change)="onChange(balance.name)"> 
+                <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
+            </select>
+        </div>
             <div class="section-details">
                 <div class="title">Your Plan Details</div>
                 <div class="info row between-xs">
                     <div class="label col-xs-6">NRIC/FIN</div>
-                    <div class="details col-xs-6 text-xs-right">{{memberInfo.MemberNRIC}}</div>
+                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.MemberNRIC}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label col-xs-6">Member Name</div>
-                    <div class="details col-xs-6 text-xs-right">{{memberInfo.MemberName}}</div>
+                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.MemberName}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label col-xs-6">Company Name</div>
-                    <div class="details col-xs-6 text-xs-right">{{memberInfo.CompanyName}}</div>
+                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.CompanyName}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label col-xs-6">Last Modified Date</div>
-                    <div class="details col-xs-6 text-xs-right">23/05/2017</div>
+                    <div class="details col-xs-6 text-xs-right">{{toDate | date: 'MM/dd/yyyy'}}</div>
                 </div>
             </div> <!-- end of .section-details -->
             <div class="section-details">

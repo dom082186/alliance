@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 import { ClinicslocatorPage } from '../clinicslocator/clinicslocator';
 import { CheckbalancePage } from '../checkbalance/checkbalance';
@@ -22,6 +23,24 @@ declare var window;
 })
 export class HomePage {
 
+	options : InAppBrowserOptions = {
+	    location : 'yes',//Or 'no' 
+	    hidden : 'no', //Or  'yes'
+	    clearcache : 'yes',
+	    clearsessioncache : 'yes',
+	    zoom : 'yes',//Android only ,shows browser zoom controls 
+	    hardwareback : 'yes',
+	    mediaPlaybackRequiresUserAction : 'no',
+	    shouldPauseOnSuspend : 'no', //Android only 
+	    closebuttoncaption : 'Close', //iOS only
+	    disallowoverscroll : 'no', //iOS only 
+	    toolbar : 'yes', //iOS only 
+	    enableViewportScale : 'no', //iOS only 
+	    allowInlineMediaPlayback : 'no',//iOS only 
+	    presentationstyle : 'pagesheet',//iOS only 
+	    fullscreen : 'yes',//Windows only    
+	};
+
 	posts: any;
 	public people: any
 	memberInfo: any[];
@@ -30,9 +49,19 @@ export class HomePage {
 	isAccountHasClaims: boolean = false;
 
 	
-	constructor ( public navCtrl: NavController, public loginService: LoginServiceProvider,public storage: Storage ) {
+	constructor ( public navCtrl: NavController, public loginService: LoginServiceProvider,public storage: Storage, 
+		public menu: MenuController, private theInAppBrowser: InAppBrowser, private alertCtrl: AlertController) {
+	
 		this.getData();
+		this.menu.swipeEnable(false);
+
 	}
+
+
+
+	ionViewDidEnter() {
+    	this.menu.swipeEnable(false);
+  	}
 
 	getData(){
 		this.storage.get('memInfo').then((val) => {
@@ -48,7 +77,7 @@ export class HomePage {
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
-		    
+		    console.log(val1);
 		});	
 	}
 
@@ -77,12 +106,39 @@ export class HomePage {
 		this.navCtrl.push( ContactusPage );
 	}
 
-	gotoLogin() {
+	gotoLogout() {
 		this.storage.clear().then(() => {
 	      this.navCtrl.push( LoginNonmedinetPage );
 	    });
 		
 	}
+
+	public openWithSystemBrowser(url : string){
+	    let target = "_system";
+	    this.theInAppBrowser.create(url,target,this.options);
+	}
+
+	public openWithInAppBrowser(url : string){
+		if(this.memberNetwork == "aviva"){
+			let target = "_blank";
+	    	this.theInAppBrowser.create(url,target,this.options);
+		}else{
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Appointment (ARS) is for AVIVA members only.',
+				enableBackdropDismiss: false,
+				buttons: [{
+			        text: 'OK',
+			        role: 'Cancel',
+			        handler: () => {
+			          
+			      }
+			    }]
+			});
+			alert.present();
+		}
+	}
+
 	call(){
 		window.location = "tel:" + '6566977700'
 	}

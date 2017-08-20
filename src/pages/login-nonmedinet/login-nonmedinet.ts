@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Platform, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
@@ -48,19 +48,22 @@ export class LoginNonmedinetPage {
 		public storage: Storage, 
 		private alertCtrl: AlertController, 
 		public geolocation: Geolocation,
-		public platform: Platform) {
+		public platform: Platform,
+		public menu: MenuController) {
 		
 		this.loadNetworks();
 		// platform.ready().then(() => {
 		//     this.loadMap();
 		// });
 
-		
+		this.menu.swipeEnable(false);
   }
 
 
   	ionViewDidLoad(){
-		
+		this.storage.clear().then(() => {
+			console.log('clear')
+	    });
 	}
 
 	gotoLogin() {
@@ -122,7 +125,7 @@ export class LoginNonmedinetPage {
 
 	doLogin() {
 		
-		// this.storage.set('memNetwork', this.login['network']); //set localstorage for network
+		//this.storage.set('memNetwork', this.login['network']); //set localstorage for network
 		this.storage.set('memNetwork', 'ge');
 
 		// if( this.login['nric'] == "" || this.login['nric'] == undefined){
@@ -179,7 +182,7 @@ export class LoginNonmedinetPage {
 				// var sha512 = require('sha512')
 				// var hash = sha512(this.login['password'])
 				this.loginCredentials = "usernric=S00000002A&network=ge&membertype=member";
-				// this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
+				//this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
 					console.log(this.loginCredentials);
 				this.loginService.login(this.loginCredentials).then((result) => {
 				    this.loading.dismiss();
@@ -224,7 +227,7 @@ export class LoginNonmedinetPage {
 			// 	return;
 			// }
 			
-		// }
+		//}
 
 	}
 

@@ -40,7 +40,8 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { GeocoderProvider } from '../providers/geocoder/geocoder';
 import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
         ContactusPage,
         TermsconditionsPage,
         LoginNonmedinetPage,
-        ClinicnearbyPage
+        ClinicnearbyPage,
+        ClaimdetailsPage
     ],
     imports: [
         BrowserModule,
@@ -93,7 +95,8 @@ import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
         ContactusPage,
         TermsconditionsPage,
         LoginNonmedinetPage,
-        ClinicnearbyPage
+        ClinicnearbyPage,
+        ClaimdetailsPage
     ],
   providers: [
     StatusBar,
@@ -105,7 +108,8 @@ import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
     Geolocation,
     NativeGeocoder,
     GeocoderProvider,
-    ClaimServiceProvider
+    ClaimServiceProvider,
+    InAppBrowser
     
   ]
 })

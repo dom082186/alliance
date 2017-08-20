@@ -32792,6 +32792,32 @@ page-checkbalance .checkBalance-details .section-details .info .details {
   font: 14px/1.45 "Helvetica-Bold";
 }
 
+page-checkbalance .checkBalance-details .select-container {
+  position: relative;
+  padding: 10px 10px;
+}
+
+page-checkbalance .checkBalance-details .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 25px;
+  right: 15px;
+  position: absolute;
+}
+
+page-checkbalance .checkBalance-details .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
 page-claims .tabs-menu {
   background: #fff;
   margin: 0 0 15px;
@@ -32846,6 +32872,14 @@ page-claims .claims-list .claim-item .label {
 page-claims .claims-list .claim-item .text {
   font: 14px/1.45 "Helvetica-Medium";
   width: calc( 100% - 120px);
+}
+
+page-claims .dateTime {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: transparent;
 }
 
 page-clinicdetails .header .toolbar .toolbar-background {
@@ -33114,86 +33148,109 @@ page-clinicslocator .header .toolbar .toolbar-background {
   border: 0;
 }
 
-page-clinicslocator .tabs-menu {
+page-clinicslocator .content-md .clinic-header {
+  top: 56px;
+}
+
+page-clinicslocator .content-md .list-container {
+  padding-top: 254px;
+}
+
+page-clinicslocator .clinic-header {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  width: 100%;
+}
+
+page-clinicslocator .clinic-header .tabs-menu {
   background: #fff;
 }
 
-page-clinicslocator .tabs-menu ul li {
+page-clinicslocator .clinic-header .tabs-menu ul li {
   color: #ababab;
   padding: 7px 5px 5px;
   font: 12px/1.45 "Helvetica-Medium";
   border-bottom: 2px solid transparent;
 }
 
-page-clinicslocator .tabs-menu ul li.active {
+page-clinicslocator .clinic-header .tabs-menu ul li.active {
   border-bottom: 2px solid #eea52e;
 }
 
-page-clinicslocator .tabs-menu ul li.inactive {
+page-clinicslocator .clinic-header .tabs-menu ul li.inactive {
   border-bottom: none;
 }
 
-page-clinicslocator #map {
+page-clinicslocator .clinic-header .map-container {
+  position: relative;
+}
+
+page-clinicslocator .clinic-header .map-container #map {
   width: 100%;
-  height: 250px;
+  height: 200px;
   background: #000;
   position: relative;
   margin: 0 0 15px;
 }
 
-page-clinicslocator #map .search-clinic {
+page-clinicslocator .clinic-header .map-container .search-clinic {
   position: absolute;
-  top: 20px;
-  width: calc( 100% - 30px);
-  left: 15px;
+  top: 10px;
+  width: calc( 100% - 20px);
+  left: 10px;
   background: #fff;
   border-radius: 3px;
   padding: 10px 15px;
 }
 
-page-clinicslocator #map .search-clinic input[type=text] {
+page-clinicslocator .clinic-header .map-container .search-clinic input[type=text] {
   width: calc( 100% - 20px);
 }
 
-page-clinicslocator #map .search-clinic .btn-search {
+page-clinicslocator .clinic-header .map-container .search-clinic .btn-search {
   width: 20px;
   text-align: center;
 }
 
-page-clinicslocator .clinics-list .clinic-item {
+page-clinicslocator .list-container {
+  padding-top: 246px;
+}
+
+page-clinicslocator .list-container .clinics-list .clinic-item {
   background: #fff;
   padding: 5px 10px;
   margin: 0 0 10px;
 }
 
-page-clinicslocator .clinics-list .clinic-item .logo {
+page-clinicslocator .list-container .clinics-list .clinic-item .logo {
   width: 40px;
 }
 
-page-clinicslocator .clinics-list .clinic-item .details {
+page-clinicslocator .list-container .clinics-list .clinic-item .details {
   width: calc( 100% - 80px);
   padding: 0 10px;
 }
 
-page-clinicslocator .clinics-list .clinic-item .details h3 {
+page-clinicslocator .list-container .clinics-list .clinic-item .details h3 {
   font: 16px/1.2 "Helvetica-Bold";
   margin: 0;
 }
 
-page-clinicslocator .clinics-list .clinic-item .details .clinic-type {
+page-clinicslocator .list-container .clinics-list .clinic-item .details .clinic-type {
   font: 16px/1.2 "Helvetica-Light";
 }
 
-page-clinicslocator .clinics-list .clinic-item .details .address {
+page-clinicslocator .list-container .clinics-list .clinic-item .details .address {
   font: 12px/1.45 "Helvetica-Light";
 }
 
-page-clinicslocator .clinics-list .clinic-item .details .distance {
+page-clinicslocator .list-container .clinics-list .clinic-item .details .distance {
   font: 12px/1.45 "Helvetica-Bold";
   margin: 0 15px 0 0;
 }
 
-page-clinicslocator .clinics-list .clinic-item .type {
+page-clinicslocator .list-container .clinics-list .clinic-item .type {
   background: #eea52e;
   color: #fff;
   text-transform: uppercase;
@@ -33319,10 +33376,6 @@ page-contactus .details .right-details .text {
   width: calc( 100% - 20px);
 }
 
-page-contactus .details .right-details .text a {
-  color: #5c5c5c;
-}
-
 page-contactus .details .right-details .address {
   margin: 0 0 10px;
 }
@@ -33351,13 +33404,37 @@ page-contactus .details .btn-panel .btn-call {
 
 page-ecard .ecard-content .ecard-title {
   background: #f3a121;
-  color: #fff;
   padding: 10px 15px;
-  font: 16px/1.45 "Helvetica-Light";
 }
 
-page-ecard .ecard-content .ecard-title strong {
+page-ecard .ecard-content .ecard-title .text {
   font: 16px/1.45 "Helvetica-Medium";
+  margin: 0 10px 0 0;
+  color: #fff;
+}
+
+page-ecard .ecard-content .ecard-title .select-container {
+  position: relative;
+}
+
+page-ecard .ecard-content .ecard-title .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 15px;
+  right: 10px;
+  position: absolute;
+}
+
+page-ecard .ecard-content .ecard-title .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
 }
 
 page-ecard .ecard-content .flip-container {
@@ -33372,6 +33449,9 @@ page-ecard .ecard-content .flip-container.flip .flipper {
 }
 
 page-ecard .ecard-content .flip-container .flipper {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
   transition: 0.6s;
   -webkit-transition: 0.6s;
   -moz-transition: 0.6s;
@@ -33404,24 +33484,31 @@ page-ecard .ecard-content .flip-container .flipper .back {
   left: 0;
 }
 
+page-ecard .ecard-content .flip-container .flipper .card {
+  width: 100%;
+  max-width: 260px;
+}
+
 page-ecard .ecard-content .flip-container .flipper .card img {
   position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 260px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .card-details {
   position: relative;
   z-index: 2;
-  top: 55px;
-  padding: 0px 20px;
+  padding: 40px 20px 0;
+  height: 170px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .label {
   font-size: 8px;
   font-weight: bold;
+  margin: 0 2px 0 0;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .content {
@@ -33429,12 +33516,16 @@ page-ecard .ecard-content .flip-container .flipper .card .content {
   font-weight: bold;
 }
 
-page-ecard .ecard-content h3 {
+page-ecard .ecard-content .card-bottom-text {
+  margin-top: 180px;
+}
+
+page-ecard .ecard-content .card-bottom-text h3 {
   font: 16px/1.45 "Helvetica-Light";
   margin: 0 0 30px;
 }
 
-page-ecard .ecard-content .validation {
+page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
 }
 
@@ -33563,6 +33654,37 @@ page-login-nonmedinet .login-content .switch-login .medinet {
   border-bottom-right-radius: 5px;
 }
 
+page-login-nonmedinet .login-content .loginForm-group {
+  margin: 0 0 15px;
+}
+
+page-login-nonmedinet .login-content .loginForm-group label {
+  display: block;
+  color: #1e2f6a;
+  font: 14px/1.45 "Helvetica-Bold";
+}
+
+page-login-nonmedinet .login-content .loginForm-group input[type=text] {
+  padding: 0 0 5px;
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #a2a2a2;
+}
+
+page-login-nonmedinet .login-content .loginForm-group select {
+  padding: 0 0 5px;
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #a2a2a2;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("../assets/img/icons/dropdown-blue.png") no-repeat right 10px center transparent;
+  background-size: 15px;
+}
+
 page-onboard .content-ios .slider-content {
   min-height: calc( 100vh - 20px);
 }
@@ -33577,7 +33699,7 @@ page-onboard .slider-content {
 
 page-onboard .slider-content .bg-img {
   color: #fff;
-  padding: 30px 15px;
+  padding: 155px 15px 30px;
   min-height: 100vh;
 }
 
