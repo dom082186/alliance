@@ -32864,13 +32864,14 @@ page-claimdetails .claimDetails-content .claim-details .accept-terms label input
 page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox {
   position: relative;
   padding: 0 0 0 20px;
+  font: 12px/1.45 "Helvetica-Light";
 }
 
 page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox:before {
   content: '\f096';
   font: 14px/1.45 'FontAwesome';
   position: absolute;
-  top: 0;
+  top: -2px;
   left: 0;
 }
 
