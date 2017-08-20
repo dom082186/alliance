@@ -32849,6 +32849,31 @@ page-claims .tabs-menu .pane {
   -webkit-animation: slide-in 0.5s forwards;
 }
 
+page-claims .tabs-menu-ben {
+  background: #fff;
+  margin: 0 0 15px;
+}
+
+page-claims .tabs-menu-ben ul {
+  -ms-flex-pack: distribute;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+page-claims .tabs-menu-ben ul li {
+  color: #ababab;
+  padding: 7px 5px 5px;
+  font: 12px/1.45 "Helvetica-Medium";
+  border-bottom: 2px solid transparent;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+page-claims .tabs-menu-ben ul li.active {
+  border-bottom: 2px solid #eea52e;
+  color: #5c5c5c;
+}
+
 page-claims .claims-list .claim-item {
   background-image: url("../assets/img/icons/arrow-right.png");
   background-repeat: no-repeat;
