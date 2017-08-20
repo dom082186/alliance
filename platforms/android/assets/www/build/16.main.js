@@ -1,6 +1,6 @@
 webpackJsonp([16],{
 
-/***/ 304:
+/***/ 303:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29,7 +29,7 @@ AboutusPageModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__aboutus__["a" /* AboutusPage */],
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__aboutus__["a" /* AboutusPage */]),
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__aboutus__["a" /* AboutusPage */]),
         ],
         exports: [
             __WEBPACK_IMPORTED_MODULE_2__aboutus__["a" /* AboutusPage */]

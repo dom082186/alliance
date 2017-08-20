@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-/**
- * Generated class for the ContactusPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
 @IonicPage()
 @Component({
   selector: 'page-contactus',
@@ -23,14 +18,23 @@ export class ContactusPage {
   
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactusPage');
-    this.getData();
+  ionViewDidEnter() {
+    this.menu.swipeEnable(false);
   }
 
-  getData(){
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ContactusPage');
+    this.getMemInfo();
+  }
+
+  getMemInfo(){
     this.storage.get('memInfo').then((val) => {
-        val === undefined ? this.loggedIn = true : this.loggedIn = false;
+        //val === "null" ? this.loggedIn = false : this.loggedIn = true;
+        if(val == null || val == "null"){
+          this.loggedIn = false;
+        }else{
+          this.loggedIn = true;
+        }
     });
   }
 

@@ -8,8 +8,8 @@
             <div class="bar-title text-xs-center">Home</div>
         </ion-title>
         <ion-buttons end>
-            <button ion-button icon-only>
-                <img src="./assets/img/icons/phone.png" width="25" />
+            <button ion-button icon-only (click)="call()">
+                <img  src="./assets/img/icons/phone.png" width="25" />
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -60,7 +60,7 @@
                     </li>
 
                     <li class="col-xs-6">
-                        <a href="#" class="row direction-column-xs center-xs middle-xs">
+                        <a (click)="openWithInAppBrowser('https://ars.alliancehealthcare.com.sg/#/registration')" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/appointment.png" />
                             </span>
@@ -84,7 +84,7 @@
                         </a>
                     </li>
                     <li class="col-xs-6">
-                        <a (click)="gotoLogin()" class="row direction-column-xs center-xs middle-xs">
+                        <a (click)="gotoLogout()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/login.png" />
                             </span>

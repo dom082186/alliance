@@ -110,20 +110,21 @@ export class ClinicdirectionsPage {
 		}, (err) => {
 			this.loading.dismiss();
 			console.log(err);
-			// var message = "";
-			// if(err.statusText != undefined){message = err.statusText;}else{message = err.message;}
-			// let alert = this.alertCtrl.create({
-			// 	title: 'Alert',
-			// 	message: message,
-			// 	buttons: [{
-			//         text: 'OK',
-			//         role: 'Cancel',
-			//         handler: () => {
-			//         	this.navCtrl.pop(); 
-			//       }
-			//     }]
-			// });
-			// alert.present();
+			
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: err.message,
+				enableBackdropDismiss: false,
+				buttons: [{
+			        text: 'OK',
+			        role: 'Cancel',
+			        handler: () => {
+			        	this.navCtrl.pop();
+			      	}
+			    }]
+			});
+			alert.present();
+			/*
 			this.currentLat =  "1.3011873";
 				this.currentLong = "103.8495055";
 				this.loading.dismiss();
@@ -150,20 +151,7 @@ export class ClinicdirectionsPage {
 			});
 
 			let content = "<p>Information</p>";
-
-			// let latitude     : any = "1.3011873",
-	  //           longitude    : any = "103.8495055";
-
-	  //        // this._GEOCODE.reverseGeocode(latitude, longitude).then((data : any) => {
-	  //        //    this.results       = data;
-	  //        //    console.log(data);
-	         
-	  //        // }).catch((error : any)=> {
-	  //        //    this.results       = error.message;
-
-	  //        // });
-
-	         this.addInfoWindow(marker, content);
+			*/
 
 		});
 

@@ -3,8 +3,8 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { Storage } from '@ionic/storage';
 
 import { ClinicdetailsPage } from '../clinicdetails/clinicdetails';
-import { ClinicnearbyPage } from '../clinicnearby/clinicnearby';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+import { ContactusPage } from '../contactus/contactus';
 
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -95,36 +95,50 @@ export class ClinicslocatorPage {
 			this.addInfoWindow(marker, content);
 
 		}, (err) => {
-
-			console.log(err);
-
-			let latLng = new google.maps.LatLng("1.3011873", "103.8495055");
-			this.currentLat = "1.3011873";
-			this.currentLong = "103.8495055";
-			let mapOptions = {
-				enableHighAccuracy: true,
-      			timeout: 5000,
-				center: latLng,
-				zoom: 15,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				zoomControl: false,
-				mapTypeControl: false,
-				scaleControl: false,
-				streetViewControl: false,
-				rotateControl: false
-			}
 			this.loading.dismiss();
-			this.getData();
-			this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-			let marker = new google.maps.Marker({
-				map: this.map,
-				animation: google.maps.Animation.DROP,
-				position: latLng
+			console.log(err.code);
+
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: err.message,
+				enableBackdropDismiss: false,
+				buttons: [{
+			        text: 'OK',
+			        role: 'Cancel',
+			        handler: () => {
+			        	this.navCtrl.pop();
+			      	}
+			    }]
 			});
+			alert.present();
 
-			let content = "<p>You're Here</p>";          
+			// let latLng = new google.maps.LatLng("1.3011873", "103.8495055");
+			// this.currentLat = "1.3011873";
+			// this.currentLong = "103.8495055";
+			// let mapOptions = {
+			// 	enableHighAccuracy: true,
+   //    			timeout: 5000,
+			// 	center: latLng,
+			// 	zoom: 15,
+			// 	mapTypeId: google.maps.MapTypeId.ROADMAP,
+			// 	zoomControl: false,
+			// 	mapTypeControl: false,
+			// 	scaleControl: false,
+			// 	streetViewControl: false,
+			// 	rotateControl: false
+			// }
+			// this.loading.dismiss();
+			// this.getData();
+			// this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+			// let marker = new google.maps.Marker({
+			// 	map: this.map,
+			// 	animation: google.maps.Animation.DROP,
+			// 	position: latLng
+			// });
 
-			this.addInfoWindow(marker, content);
+			// let content = "<p>You're Here</p>";          
+
+			// this.addInfoWindow(marker, content);
 		});
 
 		
@@ -188,6 +202,7 @@ export class ClinicslocatorPage {
 				let alert = this.alertCtrl.create({
 					title: 'Alert',
 					message: result.ValidateMessage,
+					enableBackdropDismiss: false,
 					buttons: [{
 				        text: 'OK',
 				        role: 'Cancel',
@@ -201,6 +216,14 @@ export class ClinicslocatorPage {
 			}else{
 				this.allClinics = result;	
 				this.allClinics1 = result;
+				this.allClinics1.sort((a, b) => {
+			      if (a.Name < b.Name) return -1;
+			      else if (a.Name > b.Name) return 1;
+			      else return 0;
+			    });
+			    
+
+			    console.log(this.allClinics1);
 				this.filterAllData();
 			}
 			console.log(result);
@@ -212,6 +235,7 @@ export class ClinicslocatorPage {
 			let alert = this.alertCtrl.create({
 				title: 'Alert',
 				message: err.statusText,
+				enableBackdropDismiss: false,
 				buttons: [{
 			        text: 'OK',
 			        role: 'Cancel',
@@ -220,6 +244,7 @@ export class ClinicslocatorPage {
 			      }
 			    }]
 			});
+			alert.present();
 		})
 	}
 
@@ -258,9 +283,9 @@ export class ClinicslocatorPage {
 	filterSPData(){
 		this.allClinics = this.allClinics1;
 		this.rd.removeClass(this.gpElement.nativeElement, 'active');
-		this.rd.addClass(this.spElement.nativeElement, 'active');
+		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');
-		this.rd.removeClass(this.allElement.nativeElement, 'active');
+		this.rd.addClass(this.allElement.nativeElement, 'active');
 
 		console.log('sp');
 		let alert = this.alertCtrl.create({
@@ -273,12 +298,14 @@ export class ClinicslocatorPage {
 		        //role: 'cancel',
 		        handler: () => {
 		          console.log('OK clicked');
+		          this.getAllClinics();
 		        }
 		      },
 		      {
 		        text: 'Call Us',
 		        handler: () => {
 		          console.log('Call Us clicked');
+		          this.navCtrl.push( ContactusPage );
 		        }
 		      }
 		    ]
@@ -386,5 +413,8 @@ export class ClinicslocatorPage {
 
 
 	
+
+
+
 
 }

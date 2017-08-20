@@ -23,6 +23,7 @@ export class EcardPage {
 	memberNetwork: any;
 	sessionID: any;
 	ecardParam: any;
+	dependentsParam: any;
 	loading: any;
 	public cardBack:boolean = false;
 	public cardFront:boolean = true;
@@ -32,6 +33,7 @@ export class EcardPage {
 	public cardImgB: any;
 	names:any;
 	card = {}
+	hasDependents: boolean = false;
 	
 
 	@ViewChild('cardContainer') elem:ElementRef;
@@ -55,15 +57,16 @@ export class EcardPage {
 
 
 	getData(){
+		this.showLoader();
 		this.storage.get('memInfo').then((val) => {
 		    this.memberInfo = val;
 		    this.getNetwork();
+		    
 		});
-		this.names = [
-		{'key1': 'mhay', 'key2': 'value', 'key3': 'value3'}, 
-		{'key1': 'mhay1', 'key2': 'value1', 'key3': 'value3'},
-		{'key1': 'mhay2', 'key2': 'value2', 'key3': 'value3'}];
+
 	}
+
+
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
@@ -74,7 +77,44 @@ export class EcardPage {
 	getSession(){
 		this.storage.get('sessionID').then((val1) => {
 		    this.sessionID = val1;
-		    this.loadEcardDetails();
+		    
+		    this.dependentsParam = "relatedmemberid=" + this.memberInfo['RelatedMemberID'] + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.sessionID;
+
+			this.ecardService.getDependents(this.dependentsParam).then((result) => {
+			    this.loading.dismiss();
+				console.log(result);
+
+				if(result.Status == "Failed"){
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: result.ValidateMessage,
+						enableBackdropDismiss: false,
+						buttons: [{
+					        text: 'OK',
+					        role: 'Cancel',
+					        handler: () => {
+					          this.navCtrl.setRoot(LoginNonmedinetPage); 
+					      }
+					    }]
+					});
+					alert.present();
+					
+				}else{
+					if(result.length == 0){
+						this.hasDependents = false
+					}else{
+						this.hasDependents = true
+						this.names = [
+						{'key1': 'mhay', 'key2': 'value', 'key3': 'value3'}, 
+						{'key1': 'mhay1', 'key2': 'value1', 'key3': 'value3'},
+						{'key1': 'mhay2', 'key2': 'value2', 'key3': 'value3'}];
+					}
+					
+				}
+				this.loadEcardDetails();
+			}, (err) => {
+			    this.loading.dismiss();
+		    });
 		});	
 	}
 
@@ -89,7 +129,6 @@ export class EcardPage {
 	onChange(val){
 			console.log(val)
 	}
-
 
 	loadEcardDetails(){
 		//console.log(this.memberNetwork);
@@ -110,6 +149,7 @@ export class EcardPage {
 				let alert = this.alertCtrl.create({
 					title: 'Alert',
 					message: result.ValidateMessage,
+					enableBackdropDismiss: false,
 					buttons: [{
 				        text: 'OK',
 				        role: 'Cancel',
@@ -121,17 +161,33 @@ export class EcardPage {
 				alert.present();
 
 			}else{
-				this.cardInfo = result;
-				console.log(result);
-			    this.cardImgF = apiUrl+this.cardInfo['MemberCardFrontUrl'];	
-			    this.cardImgB = apiUrl+this.cardInfo['MemberCardBackUrl'];	
+				
+				if(result.ErrorMsg == ""){
+					this.cardInfo = result;			    
+				    if(this.cardInfo['MemberCardFrontUrl'] == ""){
+				    	this.cardImgF = apiUrl+"/Images/MemberCard/GE_Front.png";	
+				    }else{
+				    	this.cardImgF = apiUrl+this.cardInfo['MemberCardFrontUrl'];	
+				    }
+				    this.cardImgB = apiUrl+this.cardInfo['MemberCardBackUrl'];	
+				}else{
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: result.ErrorMsg,
+						enableBackdropDismiss: false,
+						buttons: [{
+					        text: 'OK',
+					        role: 'Cancel',
+					        handler: () => {
+					          this.navCtrl.pop();
+					      }
+					    }]
+					});
+					alert.present();
+				}
+
+				
 			}
-		    //console.log(this.cardInfo.CompanyCode);
-		    //console.log(this.cardInfo.MemberCardFrontUrl);
-		    // this.cardImgF.onload = function () {
-		    //     console.log(this.height + " / " + this.width);
-		    // }
-		   
 		    
 		}, (err) => {
 		    this.loading.dismiss();
@@ -156,8 +212,8 @@ export class EcardPage {
 
 	backButtonClick(){
 		console.log('backButtonClick')
-    	//this.navCtrl.pop();  // remember to put this to add the back button behavior
-    	this.navCtrl.popToRoot();
+    	this.navCtrl.pop();  // remember to put this to add the back button behavior
+    	//this.navCtrl.popToRoot();
 
 	}
 

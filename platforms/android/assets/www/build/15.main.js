@@ -1,6 +1,6 @@
 webpackJsonp([15],{
 
-/***/ 305:
+/***/ 304:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29,7 +29,7 @@ AppointmentPageModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__appointment__["a" /* AppointmentPage */],
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__appointment__["a" /* AppointmentPage */]),
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__appointment__["a" /* AppointmentPage */]),
         ],
         exports: [
             __WEBPACK_IMPORTED_MODULE_2__appointment__["a" /* AppointmentPage */]

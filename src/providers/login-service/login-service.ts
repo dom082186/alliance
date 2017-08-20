@@ -53,7 +53,6 @@ export class LoginServiceProvider {
 		      .map(res => res.json())
 		      .subscribe(
 		      	data => {
-		      		console.log(data)
 		        	resolve(data); 	
 		        }, error => {
 					let alert = this.alertCtrl.create({

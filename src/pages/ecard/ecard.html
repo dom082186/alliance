@@ -18,7 +18,7 @@
     <div class="ecard-content has-header has-copyright">
         <div class="ecard-title row middle-xs">
             <div class="text">E-Card</div>
-            <div class="col-xs-auto select-container">
+            <div class="col-xs-auto select-container" *ngIf="hasDependents">
                 <select [(ngModel)]="card.name" name="name" (change)="onChange(card.name)"> 
                     <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
                 </select>

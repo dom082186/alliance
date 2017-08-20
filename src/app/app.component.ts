@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 import { HomePage } from '../pages/home/home';
 import { OnboardPage } from '../pages/onboard/onboard';
@@ -15,18 +16,41 @@ import { ContactusPage } from '../pages/contactus/contactus';
 import { TermsconditionsPage } from '../pages/termsconditions/termsconditions';
 import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet';
 import { SubmitclaimsPage } from '../pages/submitclaims/submitclaims';
+import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
+
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
+
+  options : InAppBrowserOptions = {
+      location : 'yes',//Or 'no' 
+      hidden : 'no', //Or  'yes'
+      clearcache : 'yes',
+      clearsessioncache : 'yes',
+      zoom : 'yes',//Android only ,shows browser zoom controls 
+      hardwareback : 'yes',
+      mediaPlaybackRequiresUserAction : 'no',
+      shouldPauseOnSuspend : 'no', //Android only 
+      closebuttoncaption : 'Close', //iOS only
+      disallowoverscroll : 'no', //iOS only 
+      toolbar : 'yes', //iOS only 
+      enableViewportScale : 'no', //iOS only 
+      allowInlineMediaPlayback : 'no',//iOS only 
+      presentationstyle : 'pagesheet',//iOS only 
+      fullscreen : 'yes',//Windows only    
+  };
+
+
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = OnboardPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, 
+       private theInAppBrowser: InAppBrowser) {
         this.initializeApp();
 
         // used for an example of ngFor and navigation
@@ -54,8 +78,13 @@ export class MyApp {
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+      // Reset the content nav to have just this page
+      // we wouldn't want the back button to show in this scenario
+      if(page.title == "Appointment (ARS)"){
+        let target = "_blank";
+        this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration',target,this.options);
+      }else{
+        this.nav.setRoot(page.component);  
+      }
   }
 }
