@@ -18,7 +18,10 @@ import { ClaimServiceProvider } from '../../providers/claim-service/claim-servic
 })
 export class ClaimsPage {
 
-  @ViewChild('benefitsBtn') elem:ElementRef;
+  @ViewChild('benefitsBtn') benefitsBtnElem:ElementRef;
+  @ViewChild('claimsBtn') claimsBtnElem:ElementRef;
+  @ViewChild('claimsPage') claimsPageElem:ElementRef;
+  
 
   loading: any;
   memberInfo: any[];
@@ -29,6 +32,8 @@ export class ClaimsPage {
   params: any;
   claimForm = {}
   claimHistoryList: any;
+  showBenefitsPage: boolean = false;
+  showClaimsPage: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private rd: Renderer2,
     public storage: Storage,public claimService: ClaimServiceProvider,public loadingCtrl: LoadingController,
@@ -210,9 +215,17 @@ export class ClaimsPage {
   }
 
   gotoBenefits() {
-    this.rd.addClass(this.elem.nativeElement, 'pane');
-  	//this.navCtrl.push( BenefitsPage,{},{ animate: true, direction: 'left'});
-    this.navCtrl.push( SubmitclaimsPage);
+    this.showBenefitsPage = true;
+    this.showClaimsPage = false;
+    this.rd.addClass(this.benefitsBtnElem.nativeElement, 'active');
+    this.rd.removeClass(this.claimsBtnElem.nativeElement, 'active');
+  }
+
+  gotoClaims() {
+    this.showBenefitsPage = false;
+    this.showClaimsPage = true;
+    this.rd.addClass(this.claimsBtnElem.nativeElement, 'active');
+    this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
   }
 
   backButtonClick()

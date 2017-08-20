@@ -23,12 +23,35 @@ page-claims {
 				}
 			}
 		}
-
 		.pane {
 			// -webkit-transition-duration: 300ms!important; 
 			// transition-duration: 300ms!important; 
 			animation: slide-in 0.5s forwards;
     		-webkit-animation: slide-in 0.5s forwards;
+		}
+	}
+
+	.tabs-menu-ben {
+		background: #fff;
+		margin: 0 0 15px;
+
+		ul {
+			-ms-flex-pack: distribute;
+			justify-content: space-around;
+
+			li {
+				color: #ababab;
+				padding: 7px 5px 5px;
+				font: 12px/1.45 $medium;
+				border-bottom: 2px solid transparent;
+				text-align: center;
+				text-transform: uppercase;
+
+				&.active {
+					border-bottom: 2px solid $gold;
+					color: #5c5c5c;
+				}
+			}
 		}
 	}
 
