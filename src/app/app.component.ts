@@ -17,6 +17,7 @@ import { TermsconditionsPage } from '../pages/termsconditions/termsconditions';
 import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet';
 import { SubmitclaimsPage } from '../pages/submitclaims/submitclaims';
 import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
+import { BenefitsPage } from '../pages/benefits/benefits';
 
 
 @Component({

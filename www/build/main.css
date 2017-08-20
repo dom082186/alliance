@@ -32899,6 +32899,10 @@ page-claims .claims-list .claim-item .text {
   width: calc( 100% - 120px);
 }
 
+page-claims .benfitsLabel {
+  color: #f3a121;
+}
+
 page-claims .dateTime {
   width: 100%;
   padding: 7px 10px;

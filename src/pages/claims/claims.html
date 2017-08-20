@@ -14,14 +14,14 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-	<div class="claim-content has-header has-copyright" #claimsPage id="claimsPage" *ngIf="showClaimsPage">
+	<div class="claim-content has-header has-copyright">
 		<div class="tabs-menu">
 			<ul class="row middle-xs">
 				<li #claimsBtn  (click)="gotoClaims()" class="active">Claim History</li>
 				<li #benefitsBtn (click)="gotoBenefits()">Benefits</li>
 			</ul>
 		</div>
-        <div class="bg-white">
+        <div class="bg-white"  #claimsPage id="claimsPage" *ngIf="showClaimsPage">
             <form (ngSubmit)="searchClaim()">
             <div class="searchClaims-container">
                 <div class="form-group"> 
@@ -65,7 +65,7 @@
             </div>
             </form>
         </div>
-        <div class="bg-white">
+        <div class="bg-white"  #claimsPage id="claimsPage" *ngIf="showClaimsPage">
             <div class="claims-list">
 
                 <div class="claim-item" *ngFor = "let claim of claimHistoryList; let id = index" (click)="openClaim(id)">
@@ -100,19 +100,14 @@
                 </div>
             </div>
         </div>
-	</div>
-
-    <!-- Benefits Page  -->
     
-    <div class="benefits-content has-header has-copyright" #benefitsPage id="benefitsPage"  *ngIf="showBenefitsPage">
-        <div class="tabs-menu-ben">
-            <ul class="row middle-xs">
-                <li (click)="gotoClaimsHistory()">Claim History</li>
-                <li class="active">Benefits</li>
-            </ul>
-        </div>
-        <div class="bg-white">
-            <h3 class="text-xs-uppercase">Benefit Plan Details</h3>
+
+
+        <!-- Benefits Page  -->
+
+        <div class="bg-white" #benefitsPage id="benefitsPage"  *ngIf="showBenefitsPage">
+            <h3 class="text-xs-uppercase benfitsLabel">Benefit Plan Details</h3>
+            <form (click)="getBenefits()">
             <div class="row">
                 <div class="col-xs-6 has-padR">
                     <div class="form-group">
@@ -171,7 +166,7 @@
                     </div>
                 </div>
             </div><br/>
-            <h3 class="text-xs-uppercase">Diagnosis Benefit</h3>
+            <h3 class="text-xs-uppercase benfitsLabel">Diagnosis Benefit</h3>
             <div class="row">
                 <div class="col-xs-6 has-padR">
                     <div class="form-group">
@@ -190,7 +185,8 @@
                     </div>
                 </div>
             </div>
-            <h3 class="text-xs-uppercase">Out Panel Details</h3>
+            </form>
+            <h3 class="text-xs-uppercase benfitsLabel">Out Panel Details</h3>
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <thead>
                     <tr>
@@ -229,12 +225,12 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
 
 
 
+	</div>
 
 </ion-content>
 <ion-footer>
