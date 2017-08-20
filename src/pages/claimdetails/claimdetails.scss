@@ -1,3 +1,80 @@
 page-claimdetails {
+	.claimDetails-content {
+		.claim-details {
+			.title {
+				font: 14px/1.45 $bold;
+				margin: 0 0 20px;
+			}
 
+			.info {
+				margin: 0 0 5px;
+
+				.label {
+					font: 12px/1.45 $medium;
+					width: 90px;
+				}
+
+				.details {
+					font: 12px/1.45 $light;
+					width: calc( 100% - 90px );
+					text-align: right;
+				}
+			}
+
+			.disclosure-link {
+				text-decoration: underline;
+				margin: 15px 0 10px;
+				font: 12px/1.45 $light;
+			}
+
+			.accept-terms {
+				label {
+					position: relative;
+
+					input[type=checkbox] {
+						position: absolute;
+						top: 3px;
+						left: 0;
+						z-index: 2;
+						opacity: 0;
+
+						&:checked {
+							+ .checkbox {
+								&:before {
+									content: '\f046';
+									color: $yellow;
+								}
+							}
+						}
+					}
+
+					.checkbox {
+						position: relative;
+						padding: 0 0 0 20px;
+						font: 12px/1.45 $light;
+
+						&:before {
+							content: '\f096';
+							font: 14px/1.45 'FontAwesome';
+							position: absolute;
+							top: -2px;
+							left: 0;
+						}
+
+						.terms-link {
+							text-decoration: underline;
+							font: 12px/1.45 $bold;
+							color: $blue;
+						}
+					}
+				}
+			}
+
+			.btn-panel {
+				.btn {
+					width: calc( 50% - 5px );
+				}
+			}
+		}
+	}
 }

@@ -32818,6 +32818,73 @@ page-checkbalance .checkBalance-details .select-container select {
   border: 1px solid #ddd;
 }
 
+page-claimdetails .claimDetails-content .claim-details .title {
+  font: 14px/1.45 "Helvetica-Bold";
+  margin: 0 0 20px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info {
+  margin: 0 0 5px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info .label {
+  font: 12px/1.45 "Helvetica-Medium";
+  width: 90px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info .details {
+  font: 12px/1.45 "Helvetica-Light";
+  width: calc( 100% - 90px);
+  text-align: right;
+}
+
+page-claimdetails .claimDetails-content .claim-details .disclosure-link {
+  text-decoration: underline;
+  margin: 15px 0 10px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label {
+  position: relative;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label input[type=checkbox] {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label input[type=checkbox]:checked + .checkbox:before {
+  content: '\f046';
+  color: #f3a121;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox {
+  position: relative;
+  padding: 0 0 0 20px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox:before {
+  content: '\f096';
+  font: 14px/1.45 'FontAwesome';
+  position: absolute;
+  top: -2px;
+  left: 0;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox .terms-link {
+  text-decoration: underline;
+  font: 12px/1.45 "Helvetica-Bold";
+  color: #1e2f6a;
+}
+
+page-claimdetails .claimDetails-content .claim-details .btn-panel .btn {
+  width: calc( 50% - 5px);
+}
+
 page-claims .tabs-menu {
   background: #fff;
   margin: 0 0 15px;
