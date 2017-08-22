@@ -37,6 +37,7 @@ export class EcardPage {
 	
 
 	@ViewChild('cardContainer') elem:ElementRef;
+	@ViewChild('detailsContainer') detailsElement:ElementRef;
 
 	constructor(public navCtrl: NavController, 
 		public navParams: NavParams, 
@@ -57,7 +58,7 @@ export class EcardPage {
 
 
 	getData(){
-		this.showLoader();
+		
 		this.storage.get('memInfo').then((val) => {
 		    this.memberInfo = val;
 		    this.getNetwork();
@@ -75,31 +76,32 @@ export class EcardPage {
 	}
 
 	getSession(){
+		//this.showLoader();
 		this.storage.get('sessionID').then((val1) => {
 		    this.sessionID = val1;
 		    
 		    this.dependentsParam = "relatedmemberid=" + this.memberInfo['RelatedMemberID'] + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.sessionID;
-
+		    
 			this.ecardService.getDependents(this.dependentsParam).then((result) => {
 			    this.loading.dismiss();
 				console.log(result);
 
-				if(result.Status == "Failed"){
-					let alert = this.alertCtrl.create({
-						title: 'Alert',
-						message: result.ValidateMessage,
-						enableBackdropDismiss: false,
-						buttons: [{
-					        text: 'OK',
-					        role: 'Cancel',
-					        handler: () => {
-					          this.navCtrl.setRoot(LoginNonmedinetPage); 
-					      }
-					    }]
-					});
-					alert.present();
+				// if(result.Status == "Failed"){
+				// 	let alert = this.alertCtrl.create({
+				// 		title: 'Alert',
+				// 		message: result.ValidateMessage,
+				// 		enableBackdropDismiss: false,
+				// 		buttons: [{
+				// 	        text: 'OK',
+				// 	        role: 'Cancel',
+				// 	        handler: () => {
+				// 	          this.navCtrl.setRoot(LoginNonmedinetPage); 
+				// 	      }
+				// 	    }]
+				// 	});
+				// 	alert.present();
 					
-				}else{
+				// }else{
 					if(result.length == 0){
 						this.hasDependents = false
 					}else{
@@ -110,11 +112,11 @@ export class EcardPage {
 						{'key1': 'mhay2', 'key2': 'value2', 'key3': 'value3'}];
 					}
 					
-				}
-				this.loadEcardDetails();
+				//}
 			}, (err) => {
-			    this.loading.dismiss();
+			    //this.loading.dismiss();
 		    });
+		    this.loadEcardDetails();
 		});	
 	}
 
@@ -137,56 +139,63 @@ export class EcardPage {
 
 		if(this.memberInfo['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
 
-		this.showLoader();
+			this.showLoader();
 
-		this.ecardParam = "nric=" + this.memberInfo['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.sessionID;
+			this.ecardParam = "nric=" + this.memberInfo['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.sessionID;
+			console.log(this.ecardParam);
+			this.ecardService.getEcard(this.ecardParam).then((result) => {
+			    this.loading.dismiss();
+			    console.log(result);
 
-		this.ecardService.getEcard(this.ecardParam).then((result) => {
-		    this.loading.dismiss();
-		    console.log(result);
-
-		    if(result.Status == "Failed"){
-				let alert = this.alertCtrl.create({
-					title: 'Alert',
-					message: result.ValidateMessage,
-					enableBackdropDismiss: false,
-					buttons: [{
-				        text: 'OK',
-				        role: 'Cancel',
-				        handler: () => {
-				          this.navCtrl.setRoot(LoginNonmedinetPage); 
-				      }
-				    }]
-				});
-				alert.present();
-
-			}else{
-				
-				if(result.ErrorMsg == ""){
-					this.cardInfo = result;			    
-				    if(this.cardInfo['MemberCardFrontUrl'] == ""){
-				    	this.cardImgF = apiUrl+"/Images/MemberCard/GE_Front.png";	
-				    }else{
-				    	this.cardImgF = apiUrl+this.cardInfo['MemberCardFrontUrl'];	
-				    }
-				    this.cardImgB = apiUrl+this.cardInfo['MemberCardBackUrl'];	
-				}else{
+			    if(result.Status == "Failed"){
 					let alert = this.alertCtrl.create({
 						title: 'Alert',
-						message: result.ErrorMsg,
+						message: result.ValidateMessage,
 						enableBackdropDismiss: false,
 						buttons: [{
 					        text: 'OK',
 					        role: 'Cancel',
 					        handler: () => {
-					          this.navCtrl.pop();
+					        	if(result.ValidateMessage.toLowerCase() == "Records not found."){
+					        		this.navCtrl.setRoot(LoginNonmedinetPage);
+					        	}else{
+					        		this.navCtrl.pop();
+					        	}
+					           
 					      }
 					    }]
 					});
 					alert.present();
-				}
 
-				
+				}else{
+					
+					if(result.ErrorMsg == ""){
+						this.cardInfo = result;			    
+					    if(this.cardInfo['MemberCardFrontUrl'] == ""){
+					    	this.cardImgF = apiUrl+"/Images/MemberCard/GE_Front.png";	
+					    }else{
+					    	this.cardImgF = apiUrl+this.cardInfo['MemberCardFrontUrl'];	
+					    }
+					    this.cardImgB = apiUrl+this.cardInfo['MemberCardBackUrl'];	
+					}else{
+						let alert = this.alertCtrl.create({
+							title: 'Alert',
+							message: result.ErrorMsg,
+							enableBackdropDismiss: false,
+							buttons: [{
+						        text: 'OK',
+						        role: 'Cancel',
+						        handler: () => {
+						          this.navCtrl.pop();
+						      }
+						    }]
+						});
+						alert.present();
+					}
+
+				if(this.memberNetwork.toLowerCase() == "axa"){
+					this.rd.addClass(this.detailsElement.nativeElement, 'card-axa');
+				}
 			}
 		    
 		}, (err) => {
@@ -195,16 +204,11 @@ export class EcardPage {
 	}
 
 	flipCard(){
-		//this.rd.addClass(this.elem.nativeElement, 'flip');
-		this.cardFront = !this.cardFront;this.cardBack = false;
-		//this.cardFront = !this.cardFront;
-
+		this.rd.addClass(this.elem.nativeElement, 'flip');
 	}
 
 	flipCardBack(){
-		//this.rd.addClass(this.elem.nativeElement, 'flip');
-		//this.cardBack = !this.cardBack;
-		this.cardBack = !this.cardBack;this.cardFront = false;
+		this.rd.removeClass(this.elem.nativeElement, 'flip');
 	}
 
 

@@ -37,6 +37,18 @@ export class LoginServiceProvider {
 			        resolve(data);
 			    }, e => {
 			        console.log(e);
+			        let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          navigator['app'].exitApp();
+					      }
+					    }]
+					});
+					alert.present();
 			        reject(e);
 			});
 		})
@@ -62,7 +74,7 @@ export class LoginServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          //navigator['app'].exitApp();
+					          navigator['app'].exitApp();
 					      }
 					    }]
 					});

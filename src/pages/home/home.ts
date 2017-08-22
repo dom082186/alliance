@@ -94,6 +94,7 @@ export class HomePage {
 	}
 
 	gotoClaims() {
+		
 		this.navCtrl.push( ClaimsPage );	
 		
 	}
@@ -119,7 +120,7 @@ export class HomePage {
 	}
 
 	public openWithInAppBrowser(url : string){
-		if(this.memberNetwork == "aviva"){
+		if(this.memberNetwork.toLowerCase() == "aviva"){
 			let target = "_blank";
 	    	this.theInAppBrowser.create(url,target,this.options);
 		}else{

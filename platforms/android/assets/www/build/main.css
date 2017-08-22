@@ -32818,6 +32818,73 @@ page-checkbalance .checkBalance-details .select-container select {
   border: 1px solid #ddd;
 }
 
+page-claimdetails .claimDetails-content .claim-details .title {
+  font: 14px/1.45 "Helvetica-Bold";
+  margin: 0 0 20px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info {
+  margin: 0 0 5px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info .label {
+  font: 12px/1.45 "Helvetica-Medium";
+  width: 90px;
+}
+
+page-claimdetails .claimDetails-content .claim-details .info .details {
+  font: 12px/1.45 "Helvetica-Light";
+  width: calc( 100% - 90px);
+  text-align: right;
+}
+
+page-claimdetails .claimDetails-content .claim-details .disclosure-link {
+  text-decoration: underline;
+  margin: 15px 0 10px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label {
+  position: relative;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label input[type=checkbox] {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label input[type=checkbox]:checked + .checkbox:before {
+  content: '\f046';
+  color: #f3a121;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox {
+  position: relative;
+  padding: 0 0 0 20px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox:before {
+  content: '\f096';
+  font: 14px/1.45 'FontAwesome';
+  position: absolute;
+  top: -2px;
+  left: 0;
+}
+
+page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox .terms-link {
+  text-decoration: underline;
+  font: 12px/1.45 "Helvetica-Bold";
+  color: #1e2f6a;
+}
+
+page-claimdetails .claimDetails-content .claim-details .btn-panel .btn {
+  width: calc( 50% - 5px);
+}
+
 page-claims .tabs-menu {
   background: #fff;
   margin: 0 0 15px;
@@ -32849,6 +32916,31 @@ page-claims .tabs-menu .pane {
   -webkit-animation: slide-in 0.5s forwards;
 }
 
+page-claims .tabs-menu-ben {
+  background: #fff;
+  margin: 0 0 15px;
+}
+
+page-claims .tabs-menu-ben ul {
+  -ms-flex-pack: distribute;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+page-claims .tabs-menu-ben ul li {
+  color: #ababab;
+  padding: 7px 5px 5px;
+  font: 12px/1.45 "Helvetica-Medium";
+  border-bottom: 2px solid transparent;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+page-claims .tabs-menu-ben ul li.active {
+  border-bottom: 2px solid #eea52e;
+  color: #5c5c5c;
+}
+
 page-claims .claims-list .claim-item {
   background-image: url("../assets/img/icons/arrow-right.png");
   background-repeat: no-repeat;
@@ -32872,6 +32964,10 @@ page-claims .claims-list .claim-item .label {
 page-claims .claims-list .claim-item .text {
   font: 14px/1.45 "Helvetica-Medium";
   width: calc( 100% - 120px);
+}
+
+page-claims .benfitsLabel {
+  color: #f3a121;
 }
 
 page-claims .dateTime {
@@ -33146,6 +33242,14 @@ page-clinicnearby .clinics-list .clinic-item .type {
 
 page-clinicslocator .header .toolbar .toolbar-background {
   border: 0;
+}
+
+page-clinicslocator .header-ios .clinic-header {
+  top: 64px;
+}
+
+page-clinicslocator .content-ios .list-container {
+  padding-top: 266px;
 }
 
 page-clinicslocator .content-md .clinic-header {
@@ -33479,9 +33583,13 @@ page-ecard .ecard-content .flip-container .flipper .front {
 
 page-ecard .ecard-content .flip-container .flipper .back {
   width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 page-ecard .ecard-content .flip-container .flipper .card {
@@ -33527,6 +33635,11 @@ page-ecard .ecard-content .card-bottom-text h3 {
 
 page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
+}
+
+page-ecard .ecard-content .card-axa {
+  top: 30px !important;
+  height: 140px !important;
 }
 
 page-home .home-content .home-menu {

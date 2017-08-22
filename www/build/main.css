@@ -33244,6 +33244,14 @@ page-clinicslocator .header .toolbar .toolbar-background {
   border: 0;
 }
 
+page-clinicslocator .header-ios .clinic-header {
+  top: 64px;
+}
+
+page-clinicslocator .content-ios .list-container {
+  padding-top: 266px;
+}
+
 page-clinicslocator .content-md .clinic-header {
   top: 56px;
 }
@@ -33575,9 +33583,13 @@ page-ecard .ecard-content .flip-container .flipper .front {
 
 page-ecard .ecard-content .flip-container .flipper .back {
   width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 page-ecard .ecard-content .flip-container .flipper .card {
@@ -33623,6 +33635,11 @@ page-ecard .ecard-content .card-bottom-text h3 {
 
 page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
+}
+
+page-ecard .ecard-content .card-axa {
+  top: 30px !important;
+  height: 140px !important;
 }
 
 page-home .home-content .home-menu {

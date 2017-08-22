@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http,  Headers, RequestOptions  } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { AlertController } from 'ionic-angular';
 
 
 let apiUrl = 'http://118.201.197.142/api/';
@@ -10,7 +11,7 @@ export class ClinicServiceProvider {
 
 	data: any;
 
-  constructor(public http: Http) {
+  constructor(public http: Http,private alertCtrl: AlertController) {
     
   }
 
@@ -33,6 +34,18 @@ export class ClinicServiceProvider {
 			        resolve(data);
 			    }, e => {
 			        console.log(e);
+			        let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          navigator['app'].exitApp();
+					      }
+					    }]
+					});
+					alert.present();
 			        reject(e);
 			});
 		})
@@ -62,7 +75,18 @@ export class ClinicServiceProvider {
 					this.data = data;
 					resolve(data);
 				}, e => {
-					console.log(e);
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          navigator['app'].exitApp();
+					      }
+					    }]
+					});
+					alert.present();
 					reject(e);
 				});
 		});

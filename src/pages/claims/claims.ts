@@ -31,6 +31,7 @@ export class ClaimsPage {
   sessionID: any;
   params: any;
   claimForm = {}
+  benefitsForm = {}
   claimHistoryList: any;
   showBenefitsPage: boolean = false;
   showClaimsPage: boolean = true;
@@ -80,6 +81,10 @@ export class ClaimsPage {
 
   searchClaim() {
     this.showLoader();
+    this.showBenefitsPage = false;
+    this.showClaimsPage = true;
+    this.rd.addClass(this.claimsBtnElem.nativeElement, 'active');
+    this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
     var dateFromObj = new Date(this.claimForm['fromDate']);
     var dateToObj = new Date(this.claimForm['toDate']);
 
@@ -208,6 +213,7 @@ export class ClaimsPage {
     }
   }
 
+
   openClaim(index){
     console.log(index);
     console.log(this.claimHistoryList[index]);
@@ -219,13 +225,38 @@ export class ClaimsPage {
     this.showClaimsPage = false;
     this.rd.addClass(this.benefitsBtnElem.nativeElement, 'active');
     this.rd.removeClass(this.claimsBtnElem.nativeElement, 'active');
-  }
 
-  gotoClaims() {
-    this.showBenefitsPage = false;
-    this.showClaimsPage = true;
-    this.rd.addClass(this.claimsBtnElem.nativeElement, 'active');
-    this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
+
+     this.showLoader();
+     this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.memberInfo['BenefitPlanID']  +"&internal_LoggedInUserRegisterID="+ this.sessionID;
+     this.claimService.getBenefitsAPI(this.params).then((result) => {
+            this.loading.dismiss();
+            console.log(result);
+
+            if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+               console.log('success');
+            }
+          
+        }, (err) => {
+            this.loading.dismiss();
+        }); 
+
+
   }
 
   backButtonClick()

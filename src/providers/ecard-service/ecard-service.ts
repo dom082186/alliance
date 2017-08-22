@@ -41,7 +41,7 @@ export class EcardServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          //navigator['app'].exitApp();
+					          navigator['app'].exitApp();
 					      }
 					    }]
 					});
@@ -71,18 +71,18 @@ export class EcardServiceProvider {
 			        //console.log('login API success');
 			        resolve(data);
 			    }, e => {
-			        let alert = this.alertCtrl.create({
-						title: 'Alert',
-						message: "Error loading requests",
-						buttons: [{
-					        text: 'OK',
-					        role: 'cancel',
-					        handler: () => {
-					          //navigator['app'].exitApp();
-					      }
-					    }]
-					});
-					alert.present();
+			  //       let alert = this.alertCtrl.create({
+					// 	title: 'Alert',
+					// 	message: "Error loading requests",
+					// 	buttons: [{
+					//         text: 'OK',
+					//         role: 'cancel',
+					//         handler: () => {
+					//           navigator['app'].exitApp();
+					//       }
+					//     }]
+					// });
+					// alert.present();
 			        reject(e);
 			});
 		})

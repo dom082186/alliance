@@ -83,17 +83,17 @@ page-ecard {
 
 				.back {
 					width: 100%;
-					// -webkit-backface-visibility: hidden;
-					// -moz-backface-visibility: hidden;
-					// -o-backface-visibility: hidden;
-					// backface-visibility: hidden;
+					-webkit-backface-visibility: hidden;
+					-moz-backface-visibility: hidden;
+					-o-backface-visibility: hidden;
+					backface-visibility: hidden;
 					position: absolute;
 					top: 0;
 					left: 0;
-					// -webkit-transform: rotateY(180deg);
-					// -moz-transform: rotateY(180deg);
-					// -o-transform: rotateY(180deg);
-					// transform: rotateY(180deg);
+					-webkit-transform: rotateY(180deg);
+					-moz-transform: rotateY(180deg);
+					-o-transform: rotateY(180deg);
+					transform: rotateY(180deg);
 				}
 
 				.card {
@@ -140,6 +140,11 @@ page-ecard {
 			.validation {
 				font: 18px/1.45 $bold;
 			}
+		}
+
+		.card-axa {
+			top: 30px !important;
+    		height: 140px !important;
 		}
 	}
 }

@@ -70,22 +70,22 @@ export class CheckbalancePage {
         this.ecardService.getDependents(this.dependentsParam).then((result) => {
             this.loading.dismiss();
             console.log(result);
-            if(result.Status == "Failed"){
-              let alert = this.alertCtrl.create({
-                title: 'Alert',
-                message: result.ValidateMessage,
-                enableBackdropDismiss: false,
-                buttons: [{
-                      text: 'OK',
-                      role: 'Cancel',
-                      handler: () => {
-                        this.navCtrl.setRoot(LoginNonmedinetPage); 
-                    }
-                  }]
-              });
-              alert.present();
+            // if(result.Status == "Failed"){
+            //   let alert = this.alertCtrl.create({
+            //     title: 'Alert',
+            //     message: result.ValidateMessage,
+            //     enableBackdropDismiss: false,
+            //     buttons: [{
+            //           text: 'OK',
+            //           role: 'Cancel',
+            //           handler: () => {
+            //             this.navCtrl.setRoot(LoginNonmedinetPage); 
+            //         }
+            //       }]
+            //   });
+            //   alert.present();
               
-            }else{
+            // }else{
               if(result.length == 0){
                 this.hasDependents = false
               }else{
@@ -96,9 +96,9 @@ export class CheckbalancePage {
                 {'key1': 'mhay2', 'key2': 'value2', 'key3': 'value3'}];
               }
               
-            }
+            // }
           }, (err) => {
-              this.loading.dismiss();
+              //this.loading.dismiss();
           });
     });  
   }

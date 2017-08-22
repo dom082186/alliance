@@ -6,6 +6,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { HttpModule } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Keyboard } from '@ionic-native/keyboard';
 // import { NativeGeocoder } from '@ionic-native/native-geocoder';
 
 
@@ -109,7 +110,8 @@ import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
     NativeGeocoder,
     GeocoderProvider,
     ClaimServiceProvider,
-    InAppBrowser
+    InAppBrowser,
+    Keyboard
     
   ]
 })

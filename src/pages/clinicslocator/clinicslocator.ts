@@ -21,7 +21,7 @@ declare var google;
 export class ClinicslocatorPage {
 
 	@ViewChild('map') mapElement: ElementRef;
-	@ViewChild('gp') gpElement: ElementRef;
+	//@ViewChild('gp') gpElement: ElementRef;
 	@ViewChild('sp') spElement: ElementRef;
 	@ViewChild('nearby') nearbyElement: ElementRef;
 	@ViewChild('all') allElement: ElementRef;
@@ -97,10 +97,16 @@ export class ClinicslocatorPage {
 		}, (err) => {
 			this.loading.dismiss();
 			console.log(err.code);
+			var errorMsg = ""
+			if(err.code == 1){
+				errorMsg = "User denied location";
+			}else{
+				errorMsg = "Location service not available";
+			}
 
 			let alert = this.alertCtrl.create({
 				title: 'Alert',
-				message: err.message,
+				message: errorMsg,
 				enableBackdropDismiss: false,
 				buttons: [{
 			        text: 'OK',
@@ -265,7 +271,7 @@ export class ClinicslocatorPage {
 
 	filterGPData(){
 		this.allClinics = this.allClinics1;
-		this.rd.addClass(this.gpElement.nativeElement, 'active');
+		//this.rd.addClass(this.gpElement.nativeElement, 'active');
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');
 		this.rd.removeClass(this.allElement.nativeElement, 'active');
@@ -282,7 +288,7 @@ export class ClinicslocatorPage {
 	}
 	filterSPData(){
 		this.allClinics = this.allClinics1;
-		this.rd.removeClass(this.gpElement.nativeElement, 'active');
+		// this.rd.removeClass(this.gpElement.nativeElement, 'active');
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');
 		this.rd.addClass(this.allElement.nativeElement, 'active');
@@ -290,7 +296,7 @@ export class ClinicslocatorPage {
 		console.log('sp');
 		let alert = this.alertCtrl.create({
 		    title: 'Alert',
-		    message: 'For SP Clinics, please call us',
+		    message: 'For SP Clinics, please contact us',
 		    enableBackdropDismiss: false,
 		    buttons: [
 		      {
@@ -323,7 +329,7 @@ export class ClinicslocatorPage {
 	filterNearData(){
 		this.allClinics = this.allClinics1;
 
-		this.rd.removeClass(this.gpElement.nativeElement, 'active');
+		//this.rd.removeClass(this.gpElement.nativeElement, 'active');
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.addClass(this.nearbyElement.nativeElement, 'active');
 		this.rd.removeClass(this.allElement.nativeElement, 'active');
@@ -359,7 +365,7 @@ export class ClinicslocatorPage {
 	}
 
 	filterAllData() {
-		this.rd.removeClass(this.gpElement.nativeElement, 'active');
+		//this.rd.removeClass(this.gpElement.nativeElement, 'active');
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');
 		this.rd.addClass(this.allElement.nativeElement, 'active');

@@ -27,13 +27,13 @@
         <div class="bg-white">
             <div class="flip-container" #cardContainer>
                 <div class="flipper">
-
-                    <div class="front card flip"  *ngIf="cardFront" (click)="cardBack = !cardBack;cardFront = false" >
+                        <!-- cardBack = !cardBack;cardFront = false -->
+                    <div class="front card flip" (click)="flipCard()" >
                     <!-- isFlip=!isFlip;cardBack = !cardBack;cardFront = false -->
                         <!-- <img src="./assets/img/cards/front.png" /> -->
                         <!-- <img src="http://118.201.197.142/Images/MemberCard/GE_Front.png" id="imageDiv"> -->
                         <img src="{{cardImgF}}" />
-                        <div class="card-details row center-xs direction-column-xs">
+                        <div class="card-details row center-xs direction-column-xs" #detailsContainer id='detailsContainer'>
                             <div class="row middle-xs">
                                 <div class="label">Company Code:</div>
                                 <div class="content">{{cardInfo?.CompanyCode}}</div>
@@ -64,8 +64,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="back card" *ngIf="cardBack" (click)="cardFront = !cardFront;cardBack = false">
+                        <!-- cardFront = !cardFront;cardBack = false -->
+                    <div class="back card" (click)="flipCardBack()">
                         <img src="{{cardImgB}}" />
                     </div>
                 </div>

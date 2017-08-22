@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform,AlertController,ToastController } from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
@@ -19,6 +20,7 @@ import { SubmitclaimsPage } from '../pages/submitclaims/submitclaims';
 import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
 import { BenefitsPage } from '../pages/benefits/benefits';
 
+import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +28,7 @@ import { BenefitsPage } from '../pages/benefits/benefits';
 export class MyApp {
 
   options : InAppBrowserOptions = {
-      location : 'yes',//Or 'no' 
+      location : 'yes',//Or 'no'
       hidden : 'no', //Or  'yes'
       clearcache : 'yes',
       clearsessioncache : 'yes',
@@ -47,26 +49,58 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = OnboardPage;
+  public memberNetwork: any;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
     constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, 
-       private theInAppBrowser: InAppBrowser) {
+       private theInAppBrowser: InAppBrowser,public storage: Storage,private alertCtrl: AlertController,public toastCtrl:ToastController, private keyboard: Keyboard) {
         this.initializeApp();
 
+
+        this.storage.get('memInfo').then((val) => {
+          if(val != undefined){
+              if(val.UserName == ""){
+               this.pages = [
+                  { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png' },
+                  { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png' },
+                  { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png' },
+                  { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png' },
+                  // { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png' },
+                  { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png' },
+                  { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png'},
+                  { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png' },
+                  { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png' },
+                  { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png' }
+              ];
+            }else{
+              this.pages = [
+                    { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png' },
+                    { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png' },
+                    { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png' },
+                    { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png' },
+                    { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png' },
+                    { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png' },
+                    { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png'},
+                    { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png' },
+                    { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png' },
+                    { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png' }
+                ];
+            }
+          }
+        });
+
+        this.storage.get('memNetwork').then((val1) => {
+            this.memberNetwork = val1;
+        });  
         // used for an example of ngFor and navigation
-        this.pages = [
-            { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png' },
-            { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png' },
-            { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png' },
-            { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png' },
-            { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png' },
-            { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png' },
-            { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png'},
-            { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png' },
-            { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png' },
-            { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png' }
-        ];
+
+        this.platform.ready().then(() => {
+           let view = this.nav.getActive();
+
+          console.log(view.component.name)
+        });
+        
     }
 
   initializeApp() {
@@ -75,17 +109,124 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.keyboard.hideKeyboardAccessoryBar(false);
+
+
+
+      //Registration of push in Android and Windows Phone
+        var lastTimeBackPress = 0;
+        var timePeriodToExit  = 2000;
+
+        this.platform.registerBackButtonAction(() => {
+            // get current active page
+            let view = this.nav.getActive();
+            let backButtonPressedOnceToExit = false;
+            if (view.component.name == "HomePage") {
+                //Double check to exit app
+                if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+                    this.platform.exitApp(); //Exit from app
+                } else {
+                    let toast = this.toastCtrl.create({
+                        message:  'Press back again to exit App?',
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toast.present();
+                    lastTimeBackPress = new Date().getTime();
+                }
+            } 
+        });
+     
+
+      /*
+      //this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
+          //back button handle
+      //Registration of push in Android and Windows Phone
+        var lastTimeBackPress = 0;
+        var timePeriodToExit  = 2000;
+
+        this.platform.registerBackButtonAction(() => {
+            // get current active page
+            let view = this.nav.getActive();
+            if (view.component.name == "HomePage") {
+                //Double check to exit app
+                if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+                    this.platform.exitApp(); //Exit from app
+                } else {
+                    let toast = this.toastCtrl.create({
+                        message:  'Press back again to exit App?',
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toast.present();
+                    lastTimeBackPress = new Date().getTime();
+                }
+            } else {
+                // go to previous page
+                this.nav.pop({});
+            }
+        });
+      */
+
+
+
     });
+
+
   }
+
+
+
+  showToast() {
+        let toast = this.toastCtrl.create({
+          message: 'Press Again to exit',
+          duration: 2000,
+          position: 'bottom'
+        });
+
+        toast.onDidDismiss(() => {
+          console.log('Dismissed toast');
+        });
+
+        toast.present();
+      }
+
 
   openPage(page) {
       // Reset the content nav to have just this page
       // we wouldn't want the back button to show in this scenario
       if(page.title == "Appointment (ARS)"){
-        let target = "_blank";
-        this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration',target,this.options);
+        
+        if(this.memberNetwork.toLowerCase() == "aviva"){
+          let target = "_blank";
+          this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration',target,this.options);
+        }else{
+          let alert = this.alertCtrl.create({
+            title: 'Alert',
+            message: 'Appointment (ARS) is for AVIVA members only.',
+            enableBackdropDismiss: false,
+            buttons: [{
+                  text: 'OK',
+                  role: 'Cancel',
+                  handler: () => {
+                    
+                }
+              }]
+          });
+          alert.present();
+        }
+
+
       }else{
         this.nav.setRoot(page.component);  
       }
+  }
+
+  myHandlerFunction(){
+     let toast = this.toastCtrl.create({
+      message: "Press Again to Confirm Exit",
+      duration: 3000
+    });
+    toast.present(); 
   }
 }
