@@ -171,7 +171,7 @@ export class ClinicslocatorPage {
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
-		    this.getSession();
+		    this.getAllClinics();
 		});	
 	}
 
@@ -193,14 +193,14 @@ export class ClinicslocatorPage {
 	getAllClinics(){
 		this.showLoader();
 		var empType = "";
-		if(this.memberInfo['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
+		if(this.memberInfo[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
 
 		this.clinicService.getClinicsAPIx({
-			nric: this.memberInfo['MemberNRIC'],
+			nric: this.memberInfo[0]['MemberNRIC'],
 			Program: "null",
 			EmpType: empType,
 			network: this.memberNetwork,
-			internal_LoggedInUserRegisterID: this.sessionID
+			internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
 		}).then(result => {
 			this.loading.dismiss();
 			
@@ -213,7 +213,12 @@ export class ClinicslocatorPage {
 				        text: 'OK',
 				        role: 'Cancel',
 				        handler: () => {
-				          this.navCtrl.setRoot(LoginNonmedinetPage); 
+				        	if(result.ValidateMessage.toLowerCase() != "records not found."){
+				        		this.navCtrl.setRoot(LoginNonmedinetPage); 
+				        	}else{
+				        		this.navCtrl.pop();
+				        	}
+				          
 				      }
 				    }]
 				});

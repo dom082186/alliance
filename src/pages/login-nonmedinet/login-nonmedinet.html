@@ -23,9 +23,9 @@
 					<input type="text" [(ngModel)]="login.nric" name="nric" [attr.maxlength]="10"/>
 				</div>
 				<div class="loginForm-group">
-					<label for="membertype">Member Type</label>
+					<label for="membertype" selected>Member Type</label>
 					<select [(ngModel)]="login.membertype" name="membertype">
-						<option value="">Member Type</option>
+						<option value="" disabled selected>Member Type</option>
 						<option value="member">Member</option>
 						<option value="dependent">Dependent</option>
 					</select>
@@ -33,7 +33,7 @@
 				<div class="loginForm-group">
 					<label for="network">Select Program</label>
 					<select [(ngModel)]="login.network" name="network" (change)="onChange(login.network)">
-						<option value="">Select Program</option>
+						<option value="" disabled selected>Select Program</option>
 						<option *ngFor="let network of networks;" [value]="network.ID">{{network.Program}}</option>
 					</select>
 				</div>

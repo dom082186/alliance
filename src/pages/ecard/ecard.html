@@ -20,7 +20,8 @@
             <div class="text">E-Card</div>
             <div class="col-xs-auto select-container" *ngIf="hasDependents">
                 <select [(ngModel)]="card.name" name="name" (change)="onChange(card.name)"> 
-                    <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
+                    <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
+                    <!-- <option *ngFor="let name of memberInfo">{{name.MemberName}}</option> -->
                 </select>
             </div>
         </div>
@@ -44,11 +45,13 @@
                             </div>
                             <div class="row middle-xs">
                                 <div class="label">Member Name:</div>
-                                <div class="content">{{cardInfo?.EmployeeName}}</div>
+                                <!-- <div class="content">{{cardInfo?.EmployeeName}}</div> -->
+                                <div class="content">{{cardName}}</div>
+                                
                             </div>
                             <div class="row middle-xs">
                                 <div class="label">NRIC/FIN:</div>
-                                <div class="content">{{cardInfo?.EmployeeName}}</div>
+                                <div class="content">{{cardNRIC}}</div>
                             </div>
                             <div class="row middle-xs">
                                 <div class="label">Scheme:</div>

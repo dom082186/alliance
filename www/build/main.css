@@ -33614,13 +33614,13 @@ page-ecard .ecard-content .flip-container .flipper .card .card-details {
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .label {
-  font-size: 8px;
+  font-size: 6px;
   font-weight: bold;
   margin: 0 2px 0 0;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .content {
-  font-size: 8px;
+  font-size: 6px;
   font-weight: bold;
 }
 
@@ -33647,7 +33647,7 @@ page-home .home-content .home-menu {
 }
 
 page-home .home-content .home-menu li {
-  border: 1px solid #324587;
+  border: 1px solid #faf9f9;
   border-bottom: 0;
   position: relative;
 }
@@ -33694,7 +33694,8 @@ page-home .home-content .home-menu li a .icon img {
 
 page-home .home-content .home-menu li a .text {
   margin: 5px 0 0;
-  color: #fff;
+  color: #27417d;
+  font-weight: bold;
 }
 
 page-login .login-content .logo-container {

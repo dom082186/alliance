@@ -66,12 +66,11 @@ export class HomePage {
 	getData(){
 		this.storage.get('memInfo').then((val) => {
 		    this.memberInfo = val;
-		    this.sessionID = val.Internal_LoggedInUserRegisterID
-		    if(val.UserName != ""){
+		    this.sessionID = val[0].Internal_LoggedInUserRegisterID
+		    if(val[0].UserName != ""){
 		    	this.isAccountHasClaims = true	
 		    }
 		    this.getNetwork();
-		    console.log(this.isAccountHasClaims)
 		});
 	}
 	getNetwork(){

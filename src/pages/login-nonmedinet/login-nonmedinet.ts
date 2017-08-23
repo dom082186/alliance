@@ -61,6 +61,7 @@ export class LoginNonmedinetPage {
 
 
   	ionViewDidLoad(){
+
 		this.storage.clear().then(() => {
 			console.log('clear')
 	    });
@@ -111,6 +112,7 @@ export class LoginNonmedinetPage {
 				alert.present();
 			}else{
 				this.networks = result;
+				
 			}
 
 		}, (err) => {
@@ -187,7 +189,31 @@ export class LoginNonmedinetPage {
 				this.loginService.login(this.loginCredentials).then((result) => {
 				    this.loading.dismiss();
 				    console.log(result);
-				    	
+
+				    if(result.Status_Volatile){
+				    	let alert = this.alertCtrl.create({
+							title: 'Alert',
+							message: 'Member does not exist',
+							buttons: [{
+						        text: 'OK',
+						        role: 'cancel',
+						        handler: () => {
+						          console.log('Cancel clicked');
+						      }
+						    }]
+						});
+						alert.present();
+				    }else{
+				    	this.setData(result);
+				    	this.navCtrl.setRoot( HomePage );	
+				    	for(let item of result){
+					    	//this.storage.set('sessionID', result.Internal_LoggedInUserRegisterID);
+					    	
+						}
+
+				    }
+
+				    /*	
 				    if(result.Status_Volatile){
 				    	let alert = this.alertCtrl.create({
 							title: 'Alert',
@@ -206,8 +232,9 @@ export class LoginNonmedinetPage {
 				    	this.storage.set('sessionID', result.Internal_LoggedInUserRegisterID);
 				    	this.navCtrl.setRoot( HomePage );	
 				    }
+				    */
 				    
-				    }, (err) => {
+				}, (err) => {
 				      this.loading.dismiss();
 			    });
 

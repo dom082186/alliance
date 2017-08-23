@@ -19,7 +19,8 @@
         <div class="checkBalance-details">
         <div class="col-xs-auto select-container" *ngIf="hasDependents">
             <select [(ngModel)]="balance.name" name="name" (change)="onChange(balance.name)"> 
-                <option  *ngFor="let name of names; let i = index" [attr.selected]="i == 0" [value]="name.key2">{{name.key1}}</option>
+                <option  *ngFor="let name of memberInfo1; let i = index" [value]="i" >{{name.MemberName}}</option>
+                    <!-- <option *ngFor="let name of memberInfo">{{name.MemberName}}</option> -->
             </select>
         </div>
             <div class="section-details">

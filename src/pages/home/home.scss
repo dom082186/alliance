@@ -1,10 +1,11 @@
 page-home {
 	.home-content {
+
 		.home-menu {
 			height: calc( 100vh - 120px );
 
 			li {
-				border: 1px solid #324587;
+				border: 1px solid #faf9f9;
 				border-bottom: 0;
 				position: relative;
 
@@ -46,7 +47,8 @@ page-home {
 
 					.text {
 						margin: 5px 0 0;
-						color: #fff;
+						color: #27417d;
+						font-weight: bold;
 					}
 				}
 			}

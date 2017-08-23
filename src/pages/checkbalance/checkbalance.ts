@@ -16,6 +16,7 @@ export class CheckbalancePage {
 
   memberInfo: any;
   memberInfo1: any;
+  tempMemInfo: any;
   memberNetwork: any;
   sessionID: any;
   loading: any;
@@ -34,7 +35,7 @@ export class CheckbalancePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CheckbalancePage');
     this.showLoader();
-    this.memberInfo = this.getFromStorageAsync();
+    this.getNetwork();
   }
 
   showLoader(){
@@ -46,60 +47,30 @@ export class CheckbalancePage {
   }
 
   async getFromStorageAsync(){
-    this.getNetwork();
-    return await this.storage.get('memInfo');
+    
+    return await this.memberInfo1[0];
  
   }
 
   getNetwork(){
     this.storage.get('memInfo').then((val) => {
+        this.loading.dismiss();
         this.memberInfo1 = val;
+        this.memberInfo = this.getFromStorageAsync();
+        if(val.length > 1){ this.hasDependents = true; }else{this.hasDependents = false;}
+        this.storage.get('memNetwork').then((val1) => {
+            this.memberNetwork = val1;
+        });  
+        this.balance['name'] = 0; // initial value for dropdown
+
     });
 
-    this.storage.get('memNetwork').then((val1) => {
-        this.memberNetwork = val1;
-        this.getSession();
-    });  
   }
 
   getSession(){
     this.storage.get('sessionID').then((val1) => {
         this.sessionID = val1;
-        this.dependentsParam = "relatedmemberid=" + this.memberInfo1['RelatedMemberID'] + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.sessionID;
-
-        this.ecardService.getDependents(this.dependentsParam).then((result) => {
-            this.loading.dismiss();
-            console.log(result);
-            // if(result.Status == "Failed"){
-            //   let alert = this.alertCtrl.create({
-            //     title: 'Alert',
-            //     message: result.ValidateMessage,
-            //     enableBackdropDismiss: false,
-            //     buttons: [{
-            //           text: 'OK',
-            //           role: 'Cancel',
-            //           handler: () => {
-            //             this.navCtrl.setRoot(LoginNonmedinetPage); 
-            //         }
-            //       }]
-            //   });
-            //   alert.present();
-              
-            // }else{
-              if(result.length == 0){
-                this.hasDependents = false
-              }else{
-                this.hasDependents = true
-                this.names = [
-                {'key1': 'mhay', 'key2': 'value', 'key3': 'value3'}, 
-                {'key1': 'mhay1', 'key2': 'value1', 'key3': 'value3'},
-                {'key1': 'mhay2', 'key2': 'value2', 'key3': 'value3'}];
-              }
-              
-            // }
-          }, (err) => {
-              //this.loading.dismiss();
-          });
+        this.loading.dismiss();
     });  
   }
 
