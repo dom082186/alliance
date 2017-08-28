@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform,AlertController,ToastController } from 'ionic-angular';
+import { Nav, Platform,AlertController,ToastController,Events } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -50,56 +50,53 @@ export class MyApp {
 
   rootPage: any = OnboardPage;
   public memberNetwork: any;
+  appMemInfo: any;
+  appMemNetwork: any;
 
-  pages: Array<{title: string, component: any, icon: string}>;
+  pages: Array<{title: string, component: any, icon: string, class: any, close:any}>;
 
     constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, 
-       private theInAppBrowser: InAppBrowser,public storage: Storage,private alertCtrl: AlertController,public toastCtrl:ToastController, private keyboard: Keyboard) {
+       private theInAppBrowser: InAppBrowser,public storage: Storage,private alertCtrl: AlertController,
+       public toastCtrl:ToastController, private keyboard: Keyboard,public events: Events) {
         this.initializeApp();
 
-
-        this.storage.get('memInfo').then((val) => {
-          if(val != undefined){
-              if(val.UserName == ""){
-               this.pages = [
-                  { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png' },
-                  { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png' },
-                  { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png' },
-                  { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png' },
-                  // { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png' },
-                  { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png' },
-                  { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png'},
-                  { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png' },
-                  { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png' },
-                  { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png' }
-              ];
-            }else{
-              this.pages = [
-                    { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png' },
-                    { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png' },
-                    { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png' },
-                    { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png' },
-                    { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png' },
-                    { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png' },
-                    { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png'},
-                    { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png' },
-                    { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png' },
-                    { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png' }
-                ];
-            }
-          }
-        });
-
-        this.storage.get('memNetwork').then((val1) => {
-            this.memberNetwork = val1;
-        });  
-        // used for an example of ngFor and navigation
-
         this.platform.ready().then(() => {
-           let view = this.nav.getActive();
-
-          console.log(view.component.name)
+            let view = this.nav.getActive();
+            console.log(view.component.name)
         });
+
+        this.pages = [
+            { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png', class: '', close: 'true' },
+            { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png', class: '', close: 'true' },
+            { title: 'E-Card', component: EcardPage, icon: './assets/img/icons/ecard.png', class: '', close: 'true' },
+            { title: 'Check Balance', component: CheckbalancePage, icon: './assets/img/icons/check-balance.png', class: '', close: 'true' },
+            { title: 'Claims', component: ClaimsPage, icon: './assets/img/icons/claims.png', class: '', close: 'true' },
+            { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png', class: '', close: 'true' },
+            { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png', class: '', close: 'true'},
+            { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png', class: '', close: 'true' },
+            //{ title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
+            { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png', class: '', close: 'true' }
+        ];
+
+
+          events.subscribe('user:created', (user, network) => {
+            // user and time are the same arguments passed in `events.publish(user, time)`
+              this.appMemInfo = user;
+              this.appMemNetwork = network;
+                            
+              if(network.toLowerCase() != "aviva"){
+                this.pages[5].icon = './assets/img/icons/appointment-black.png';
+                this.pages[5].class = 'text-color';
+                this.pages[5].close = 'false';
+              }
+
+              if(user[0].UserName == ""){
+                this.pages[4].icon = './assets/img/icons/claims-black.png';
+                this.pages[4].class = 'text-color';
+                this.pages[4].close = 'false';
+              }
+
+          });
         
     }
 
@@ -110,8 +107,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.keyboard.hideKeyboardAccessoryBar(false);
-
-
 
       //Registration of push in Android and Windows Phone
         var lastTimeBackPress = 0;
@@ -136,39 +131,6 @@ export class MyApp {
                 }
             } 
         });
-     
-
-      /*
-      //this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
-          //back button handle
-      //Registration of push in Android and Windows Phone
-        var lastTimeBackPress = 0;
-        var timePeriodToExit  = 2000;
-
-        this.platform.registerBackButtonAction(() => {
-            // get current active page
-            let view = this.nav.getActive();
-            if (view.component.name == "HomePage") {
-                //Double check to exit app
-                if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
-                    this.platform.exitApp(); //Exit from app
-                } else {
-                    let toast = this.toastCtrl.create({
-                        message:  'Press back again to exit App?',
-                        duration: 3000,
-                        position: 'bottom'
-                    });
-                    toast.present();
-                    lastTimeBackPress = new Date().getTime();
-                }
-            } else {
-                // go to previous page
-                this.nav.pop({});
-            }
-        });
-      */
-
-
 
     });
 
@@ -176,57 +138,28 @@ export class MyApp {
   }
 
 
-
-  showToast() {
-        let toast = this.toastCtrl.create({
-          message: 'Press Again to exit',
-          duration: 2000,
-          position: 'bottom'
-        });
-
-        toast.onDidDismiss(() => {
-          console.log('Dismissed toast');
-        });
-
-        toast.present();
-      }
+  clickMenu(item) {
+    this.events.publish('menu:clicked', item);
+  }
 
 
   openPage(page) {
       // Reset the content nav to have just this page
       // we wouldn't want the back button to show in this scenario
-      if(page.title == "Appointment (ARS)"){
-        
-        if(this.memberNetwork.toLowerCase() == "aviva"){
-          let target = "_blank";
-          this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration',target,this.options);
-        }else{
-          let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: 'Appointment (ARS) is for AVIVA members only.',
-            enableBackdropDismiss: false,
-            buttons: [{
-                  text: 'OK',
-                  role: 'Cancel',
-                  handler: () => {
-                    
-                }
-              }]
-          });
-          alert.present();
+     
+      if(page.title.toLowerCase() == 'appointment (ars)' || page.title.toLowerCase() == 'claims'){
+        if(this.appMemNetwork.toLowerCase() != "aviva"){
+          console.log('no ars');
         }
 
-
+        if(this.appMemInfo[0].UserName == ""){
+          console.log('no claims');
+        }
       }else{
-        this.nav.setRoot(page.component);  
+          this.nav.push( page.component );  
       }
+      
   }
 
-  myHandlerFunction(){
-     let toast = this.toastCtrl.create({
-      message: "Press Again to Confirm Exit",
-      duration: 3000
-    });
-    toast.present(); 
-  }
+ 
 }

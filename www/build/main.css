@@ -32348,6 +32348,10 @@ h3 {
   margin: 0;
 }
 
+.text-color {
+  color: #5c5c5c !important;
+}
+
 .full-height {
   min-height: 100vh;
   padding: 20px 15px 0;
@@ -33135,7 +33139,7 @@ page-clinicdirections .clinicDirections-content .clinicDirections-header .to .te
 
 page-clinicdirections .clinicDirections-content #googlemap {
   background: #000;
-  height: calc( 100vh - 400px);
+  height: calc( 100vh - 500px);
   width: 100%;
 }
 
@@ -33146,8 +33150,41 @@ page-clinicdirections .clinicDirections-content #directionlist {
   height: auto;
 }
 
+page-clinicdirections .clinicDirections-content #directionlistW {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
 page-clinicdirections .content-ios .clinicDirections-content #google-map {
   height: calc( 100vh - 195px);
+}
+
+page-clinicdirections .select-container {
+  position: relative;
+  padding: 10px 10px;
+}
+
+page-clinicdirections .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 25px;
+  right: 15px;
+  position: absolute;
+}
+
+page-clinicdirections .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 page-clinicnearby .header .toolbar .toolbar-background {
@@ -33315,6 +33352,10 @@ page-clinicslocator .clinic-header .map-container .search-clinic input[type=text
 page-clinicslocator .clinic-header .map-container .search-clinic .btn-search {
   width: 20px;
   text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
 }
 
 page-clinicslocator .list-container {

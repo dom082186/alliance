@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, AlertController } from 'ionic-angular';
+import { NavController, MenuController, AlertController,Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
@@ -47,11 +47,15 @@ export class HomePage {
 	memberNetwork: any;
 	sessionID: any;
 	isAccountHasClaims: boolean = false;
+	isAccountAviva: boolean = false;
+	isDependent: boolean = false;
 
 	
 	constructor ( public navCtrl: NavController, public loginService: LoginServiceProvider,public storage: Storage, 
-		public menu: MenuController, private theInAppBrowser: InAppBrowser, private alertCtrl: AlertController) {
-	
+		public menu: MenuController, private theInAppBrowser: InAppBrowser, private alertCtrl: AlertController,
+		public events: Events) {
+		
+
 		this.getData();
 		this.menu.swipeEnable(false);
 
@@ -70,13 +74,20 @@ export class HomePage {
 		    if(val[0].UserName != ""){
 		    	this.isAccountHasClaims = true	
 		    }
+		    if(this.memberInfo[0]['IsEmployee'] != true){ 
+		    	this.isDependent = false	
+		    }
 		    this.getNetwork();
+
 		});
 	}
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
 		    console.log(val1);
+		    if(val1.toLowerCase() == "aviva"){
+		    	this.isAccountAviva = true;
+		    }
 		});	
 	}
 
@@ -119,6 +130,8 @@ export class HomePage {
 	}
 
 	public openWithInAppBrowser(url : string){
+
+
 		if(this.memberNetwork.toLowerCase() == "aviva"){
 			let target = "_blank";
 	    	this.theInAppBrowser.create(url,target,this.options);
@@ -140,7 +153,7 @@ export class HomePage {
 	}
 
 	call(){
-		window.location = "tel:" + '6566977700'
+		window.location = "tel:" + '+6566977700'
 	}
 
 }

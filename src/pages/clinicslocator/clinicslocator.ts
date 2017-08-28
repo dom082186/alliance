@@ -2,13 +2,14 @@ import { Component,Renderer2,ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
+
 import { ClinicdetailsPage } from '../clinicdetails/clinicdetails';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { ContactusPage } from '../contactus/contactus';
 
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { Keyboard } from '@ionic-native/keyboard';
 
 declare var google;
 
@@ -47,7 +48,8 @@ export class ClinicslocatorPage {
 		private alertCtrl: AlertController,
 		public clinicService: ClinicServiceProvider,
 		private rd: Renderer2,
-		public geolocation: Geolocation) {
+		public geolocation: Geolocation,
+		private keyboard: Keyboard) {
 
 		
 	}
@@ -262,16 +264,17 @@ export class ClinicslocatorPage {
 
 	searchClinic(searchStr){
 		console.log(searchStr)
-		this.allClinics = this.allClinics1;
-		this.allClinics = this.allClinics.filter((clinic) => {
-			var string = clinic.Name+" "+clinic.UnitNumber+" "+clinic.BuildingName+" "+clinic.RoadName;
-			//return (clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1)
-			return string.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
-		});
-
-		if(this.allClinics.length == 0){
-			this.noClinics = true;
+		if(searchStr != undefined || searchStr != ""){
+			this.allClinics = this.allClinics1;
+			this.allClinics = this.allClinics.filter((clinic) => {
+				//var string = clinic.Name+" "+clinic.UnitNumber+" "+clinic.BuildingName+" "+clinic.RoadName;
+				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
+			});
+			if(this.allClinics.length == 0){
+				this.noClinics = true;
+			}
 		}
+		this.keyboard.close();
 	}
 
 	filterGPData(){

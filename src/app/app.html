@@ -9,7 +9,7 @@
             <ion-list>
                 <div class="row middle-xs sidebar-menu-item" menuClose *ngFor="let p of pages" (click)="openPage(p)">
                     <div class="icon"><img src="{{ p.icon }}" /></div>
-                    <div class="text">{{p.title}}</div>
+                    <div class="text {{p.class}}">{{p.title}}</div>
                 </div>
             </ion-list>
             <div class="sidebar-copyright">&copy; Alliance Healthcare 2017. All Rights Reserved</div>

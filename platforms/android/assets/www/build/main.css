@@ -33315,6 +33315,10 @@ page-clinicslocator .clinic-header .map-container .search-clinic input[type=text
 page-clinicslocator .clinic-header .map-container .search-clinic .btn-search {
   width: 20px;
   text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
 }
 
 page-clinicslocator .list-container {
@@ -33614,13 +33618,13 @@ page-ecard .ecard-content .flip-container .flipper .card .card-details {
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .label {
-  font-size: 8px;
+  font-size: 6px;
   font-weight: bold;
   margin: 0 2px 0 0;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .content {
-  font-size: 8px;
+  font-size: 6px;
   font-weight: bold;
 }
 
@@ -33695,6 +33699,7 @@ page-home .home-content .home-menu li a .icon img {
 page-home .home-content .home-menu li a .text {
   margin: 5px 0 0;
   color: #27417d;
+  font-weight: bold;
 }
 
 page-login .login-content .logo-container {

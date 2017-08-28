@@ -1,4 +1,4 @@
-import { Component,ViewChild, ElementRef } from '@angular/core';
+import { Component,ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController,LoadingController,Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GeocoderProvider } from '../../providers/geocoder/geocoder';
@@ -15,6 +15,7 @@ export class ClinicdirectionsPage {
 	
 	@ViewChild('googlemap') mapElement: ElementRef;
 	@ViewChild('directionlist') directionElement: ElementRef;
+	@ViewChild('mode') modeElement: ElementRef;
 
 	
   	
@@ -25,6 +26,7 @@ export class ClinicdirectionsPage {
 	currentLong: any;
 	currentLat: any;
 	loading: any;
+	
 
 	/**
     * Define a string value to handle returned geocoding results
@@ -32,13 +34,15 @@ export class ClinicdirectionsPage {
     public results : string;
     currentAddress : any;
     clinicAddress  : any;
+    directions =  {}
 
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 		public geolocation: Geolocation, private alertCtrl: AlertController,
 		public _GEOCODE   : GeocoderProvider,
 		public loadingCtrl: LoadingController,
-		public platform: Platform) {
+		public platform: Platform,
+		public rd: Renderer2) {
 		this.clinicLong = this.navParams.get('long');
 		this.clinicLat = this.navParams.get('lat');
 		this.clinicname = this.navParams.get('name');
@@ -46,11 +50,13 @@ export class ClinicdirectionsPage {
 
 		console.log(this.clinicAddress);
 
+
+
 	}
 
 	ionViewDidLoad(){
 		this.platform.ready().then(() => {
-		    this.loadMap();
+		    this.loadMap('d');
 		});
 	}
 
@@ -62,14 +68,16 @@ export class ClinicdirectionsPage {
 	    this.loading.present();
 	}
 
-	loadMap(){
+	loadMap(distanceMode){
 		this.showLoader();
 
 		var posOptions = { timeout: 30000, enableHighAccuracy: true };
 
 		this.geolocation.getCurrentPosition(posOptions).then((position) => {
-			this.currentLat =  position.coords.latitude;
-			this.currentLong = position.coords.longitude;
+			// this.currentLat =  position.coords.latitude;
+			// this.currentLong = position.coords.longitude;
+			this.currentLat =  "1.3011873";
+				this.currentLong = "103.8495055";
 			this.loading.dismiss();
 			
 			console.log(this.currentLong)
@@ -88,6 +96,7 @@ export class ClinicdirectionsPage {
 				rotateControl: false
 			}
 
+			
 
 			this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
@@ -99,13 +108,35 @@ export class ClinicdirectionsPage {
 
 			let content = "<p>Information</p>";
 
-	        this._GEOCODE.reverseGeocode(position.coords.latitude, position.coords.longitude).then((data : any) => {
-	            this.currentAddress = data.subThoroughfare + " " + data.thoroughfare + " " + data.subLocality + " " + data.locality + " " + data.administrativeArea +" "+ data.countryName;
+	        //this._GEOCODE.reverseGeocode(position.coords.latitude, position.coords.longitude).then((data : any) => {
+	        this._GEOCODE.reverseGeocode(this.currentLat, this.currentLong).then((data : any) => {
+
+	        	if(data.subThoroughfare != undefined || data.thoroughfare != undefined || data.subLocality != undefined || data.locality!= undefined || data.administrativeArea !=undefined){
+	        		this.currentAddress = data.thoroughfare + " " + data.locality + " " + data.countryName;
+	        	}else{
+					this.currentAddress = data.subThoroughfare + " " + data.thoroughfare + " " + data.subLocality + " " + data.locality + " " + data.administrativeArea +" "+ data.countryName;	        		
+	        	}
 	        }).catch((error : any)=> {
 	            this.results       = error.message;
 	        });
 
-	        this.addInfoWindow(marker, content);
+	        this.addInfoWindow(marker, content, distanceMode);
+
+	        var p = new google.maps.DirectionsService();
+        	var r = new google.maps.DirectionsRenderer();
+
+        	r.setMap(this.map);
+        	r.setPanel(this.directionElement.nativeElement);
+
+			//--- Listen to click events in the component
+			//--- onchange travelMode
+		    this.rd.listen(this.modeElement.nativeElement, 'change', (event) => {
+		      	this.getDistance(this.directions['mode'], p,r)
+		    })
+
+		    //-- initial travelMode
+		    this.directions['mode'] = 'd';
+		    this.getDistance('d', p,r);
 
 		}, (err) => {
 			this.loading.dismiss();
@@ -157,6 +188,7 @@ export class ClinicdirectionsPage {
 
 	}
 
+
 	addMarker(){
 		let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 		let marker = new google.maps.Marker({
@@ -167,11 +199,11 @@ export class ClinicdirectionsPage {
 
 		let content = "<p>Information</p>";  
 
-		this.addInfoWindow(marker, content);
+		//this.addInfoWindow(marker, content,distanceMode);
 
 	}
 
-	addInfoWindow(marker, content){
+	addInfoWindow(marker, content, distanceMode){
 
 		let infoWindow = new google.maps.InfoWindow({
 			content: content
@@ -181,27 +213,28 @@ export class ClinicdirectionsPage {
 			infoWindow.open(this.map, marker);
 		});
 
-		this.getDistance();
+		//this.getDistance(distanceMode);
 
 	}
 
-	getDistance() {
+	getDistance(distanceMode,p,r) {
+		console.log(distanceMode)
+
+		var mode: any;//google.maps.TravelMode.DRIVING
+		if(distanceMode == 'd'){mode = google.maps.TravelMode.DRIVING}else{mode = google.maps.TravelMode.WALKING}
+
 
 		let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 		let clinicLatLng = new google.maps.LatLng(this.clinicLat, this.clinicLong);
 		//let clinicLatLng = new google.maps.LatLng("14.3489", "121.0392");
 		
-
-		var p = new google.maps.DirectionsService();
-        var r = new google.maps.DirectionsRenderer();
         var f = {
             origin: latLng,
             destination: clinicLatLng,
-            travelMode: google.maps.TravelMode.DRIVING
+            travelMode: mode
         };
 
-        r.setMap(this.map);
-        r.setPanel(this.directionElement.nativeElement);
+        
         p.route(f, function(t, e) {
 	        if (e == google.maps.DirectionsStatus.OK) {
 	        	r.setDirections(t)

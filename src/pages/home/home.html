@@ -25,7 +25,7 @@
                             <span class="text row center-xs top-xs">Clinics Locator</span>
                         </a>
                     </li>
-                    <li class="col-xs-6">
+                    <li class="col-xs-6" *ngIf="!isDependent">
                         <a (click)="gotoEcard()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/e-card.png" />
@@ -33,10 +33,26 @@
                             <span class="text row center-xs top-xs">E-Card</span>
                         </a>
                     </li>
-                    <li class="col-xs-6">
+                     <li class="col-xs-6" *ngIf="isDependent">
+                        <a class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/e-card-black.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">E-Card</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6" *ngIf="!isDependent">
                         <a (click)="gotoCheckBalance()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/check-balance.png" />
+                            </span>
+                            <span class="text row center-xs top-xs">Check Balance</span>
+                        </a>
+                    </li>
+                    <li class="col-xs-6" *ngIf="isDependent">
+                        <a class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/check-balance-black.png" />
                             </span>
                             <span class="text row center-xs top-xs">Check Balance</span>
                         </a>
@@ -59,12 +75,20 @@
                         </a>
                     </li>
 
-                    <li class="col-xs-6">
+                    <li class="col-xs-6" *ngIf="isAccountAviva">
                         <a (click)="openWithInAppBrowser('https://ars.alliancehealthcare.com.sg/#/registration')" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/appointment.png" />
                             </span>
                             <span class="text row center-xs top-xs">Appointment</span>
+                        </a>
+                    </li>
+                     <li class="col-xs-6" *ngIf="!isAccountAviva">
+                        <a class="row direction-column-xs center-xs middle-xs">
+                            <span class="icon row center-xs bottom-xs">
+                                <img src="./assets/img/home/appointment-black.png" />
+                            </span>
+                            <span class="text row center-xs top-xs" style="color: #808080 !important">Appointment</span>
                         </a>
                     </li>
                     <li class="col-xs-6">

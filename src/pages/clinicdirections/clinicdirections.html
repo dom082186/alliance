@@ -26,8 +26,17 @@
 					<div class="text">{{clinicAddress}}</div>
 				</div>
 			</div>
+			<div class="col-xs-auto select-container">
+			<!--  (change)="onChange(directions.mode)" -->
+	            <select [(ngModel)]="directions.mode" name="mode" #mode id="mode" > 
+	                <option value="d">Driving</option>
+	                <option value="w">Walking</option>
+	            </select>
+	        </div>
+	      
 			<div #googlemap id="googlemap"></div>
 			<div #directionlist id="directionlist"></div>
+			<!-- <div #directionlistW id="directionlistW" *ngIf="isWalking">ssss</div> -->
 		</div>
 	</div>
 </ion-content>

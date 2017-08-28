@@ -5,12 +5,13 @@ import { Storage } from '@ionic/storage';
 import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
 
 @IonicPage()
 @Component({
   selector: 'page-checkbalance',
   templateUrl: 'checkbalance.html',
-  providers: [EcardServiceProvider]
+  providers: [ClaimServiceProvider],
 })
 export class CheckbalancePage {
 
@@ -19,23 +20,27 @@ export class CheckbalancePage {
   tempMemInfo: any;
   memberNetwork: any;
   sessionID: any;
+  checkBalanceInfo: any;
+  annualLimitDetails: any;
   loading: any;
   names: any;
   dependentsParam: any;
   balance ={}
   toDate: String = new Date().toISOString();
   hasDependents: boolean = false;
+  params: any;
+
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public storage: Storage,
               public loadingCtrl: LoadingController, private alertCtrl: AlertController,
-              public ecardService: EcardServiceProvider) {
+              public claimService: ClaimServiceProvider) {
       
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CheckbalancePage');
     this.showLoader();
-    this.getNetwork();
+    this.getMemInfo();
   }
 
   showLoader(){
@@ -52,32 +57,79 @@ export class CheckbalancePage {
  
   }
 
-  getNetwork(){
+  getMemInfo(){
     this.storage.get('memInfo').then((val) => {
-        this.loading.dismiss();
         this.memberInfo1 = val;
         this.memberInfo = this.getFromStorageAsync();
         if(val.length > 1){ this.hasDependents = true; }else{this.hasDependents = false;}
-        this.storage.get('memNetwork').then((val1) => {
-            this.memberNetwork = val1;
-        });  
         this.balance['name'] = 0; // initial value for dropdown
+    });
 
+    this.storage.get('memNetwork').then((val1) => {
+        this.memberNetwork = val1;
+        this.getCheckBalanceInfo();
     });
 
   }
 
-  getSession(){
-    this.storage.get('sessionID').then((val1) => {
-        this.sessionID = val1;
+  getNetwork(){
+    this.storage.get('memNetwork').then((val1) => {
+        this.memberNetwork = val1;
+        console.log(val1);
         this.loading.dismiss();
-    });  
+    });
+    this.getCheckBalanceInfo();
+  }
+
+  getCheckBalanceInfo(){
+      
+      // var empType = "";
+      // if(this.memberInfo1[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
+      // this.params = "network="  + this.memberNetwork + "&nric=" + this.memberInfo1[0]['MemberNRIC'] + "&empType=" + empType + "&internal_LoggedInUserRegisterID="+ this.memberInfo1[0]['Internal_LoggedInUserRegisterID'];
+      
+      // console.log(this.params)
+
+      // this.claimService.getCheckBalanceAPI(this.params).then((result) => {
+            this.loading.dismiss();
+      //       console.log(result);
+            
+
+      //       if(result.Status == "Failed"){
+      //         let alert = this.alertCtrl.create({
+      //           title: 'Alert',
+      //           message: result.ValidateMessage,
+      //           enableBackdropDismiss: false,
+      //           buttons: [{
+      //                 text: 'OK',
+      //                 role: 'Cancel',
+      //                 handler: () => {
+                        
+      //               }
+      //             }]
+      //         });
+      //         alert.present();
+              
+      //       }else{
+      //           this.annualLimitDetails = result.AnnualLimitDetails[0];
+      //           this.checkBalanceInfo = result;
+      //           console.log(this.annualLimitDetails);
+      //       }
+          
+      //   }, (err) => {
+            
+      //   }); 
   }
 
   onChange(value) {
-    console.log(value);
+    this.memberInfo = this.getInfoFromAsync(value);
   }
 
+
+  async getInfoFromAsync(val){
+    
+    return await this.memberInfo1[val];
+ 
+  }
 
 
 
