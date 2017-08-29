@@ -26,51 +26,48 @@
             </div>
         </div>
         <div class="bg-white">
-            <div class="flip-container" #cardContainer>
+            <div class="flip-container" (click)="flipCard()" #cardContainer>
                 <div class="flipper">
-                        <!-- cardBack = !cardBack;cardFront = false -->
-                    <div class="front card flip" (click)="flipCard()" >
-                    <!-- isFlip=!isFlip;cardBack = !cardBack;cardFront = false -->
-                        <!-- <img src="./assets/img/cards/front.png" /> -->
-                        <!-- <img src="http://118.201.197.142/Images/MemberCard/GE_Front.png" id="imageDiv"> -->
-                        
-                        <img src="{{cardImgF}}" />
-                        <div class="card-details row center-xs direction-column-xs" #detailsContainer id='detailsContainer'>
-                            <div class="row middle-xs">
+                    <div class="front card">
+                        <img src="assets/img/cards/sample.png" />
+                        <div class="card-details row" #detailsContainer id='detailsContainer'>
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">Company Code:</div>
                                 <div class="content">{{cardInfo?.CompanyCode}}</div>
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">Company Name:</div>
                                 <div class="content">{{cardInfo?.CompanyName}}</div>
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">Member Name:</div>
                                 <!-- <div class="content">{{cardInfo?.EmployeeName}}</div> -->
                                 <div class="content">{{cardName}}</div>
                                 
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">NRIC/FIN:</div>
                                 <div class="content">{{cardNRIC}}</div>
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">Scheme:</div>
                                 <div class="content">{{cardInfo?.Scheme}}</div>
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label">Clinic:</div>
                                 <div class="content">{{cardInfo?.Clinics}}</div>
                             </div>
-                            <div class="row middle-xs">
+                            <div class="col-xs-12 row middle-xs">
                                 <div class="label self-top-xs">Remarks:</div>
                                 <div class="content">{{cardInfo?.Remarks}}<br>{{cardInfo?.Remarks1}}<br>{{cardInfo?.Remarks2}}<br>{{cardInfo?.Remarks3}}</div>
                             </div>
                         </div>
                     </div>
-                        <!-- cardFront = !cardFront;cardBack = false -->
-                    <div class="back card" (click)="flipCardBack()">
-                        <img src="{{cardImgB}}" />
+                    <div class="back card">
+                        <img src="assets/img/cards/sample.png" />
+                        <div class="card-details">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
