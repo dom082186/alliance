@@ -21,6 +21,7 @@ export class CheckbalancePage {
   memberNetwork: any;
   sessionID: any;
   checkBalanceInfo: any;
+  balanceRemarks: any;
   annualLimitDetails: any;
   loading: any;
   names: any;
@@ -30,6 +31,9 @@ export class CheckbalancePage {
   hasDependents: boolean = false;
   params: any;
 
+
+
+
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public storage: Storage,
               public loadingCtrl: LoadingController, private alertCtrl: AlertController,
@@ -38,7 +42,7 @@ export class CheckbalancePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CheckbalancePage');
+    
     this.showLoader();
     this.getMemInfo();
   }
@@ -76,54 +80,50 @@ export class CheckbalancePage {
     this.storage.get('memNetwork').then((val1) => {
         this.memberNetwork = val1;
         console.log(val1);
-        this.loading.dismiss();
     });
     this.getCheckBalanceInfo();
   }
 
   getCheckBalanceInfo(){
       
-      // var empType = "";
-      // if(this.memberInfo1[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
-      // this.params = "network="  + this.memberNetwork + "&nric=" + this.memberInfo1[0]['MemberNRIC'] + "&empType=" + empType + "&internal_LoggedInUserRegisterID="+ this.memberInfo1[0]['Internal_LoggedInUserRegisterID'];
+      var empType = "";
+      if(this.memberInfo1[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
+      this.params = "network="  + this.memberNetwork + "&nric=" + this.memberInfo1[0]['MemberNRIC'] + "&empType=" + empType + "&internal_LoggedInUserRegisterID="+ this.memberInfo1[0]['Internal_LoggedInUserRegisterID'];
       
-      // console.log(this.params)
+      console.log(this.params)
 
-      // this.claimService.getCheckBalanceAPI(this.params).then((result) => {
+      this.claimService.getCheckBalanceAPI(this.params).then((result) => {
             this.loading.dismiss();
-      //       console.log(result);
+            console.log(result);
             
-
-      //       if(result.Status == "Failed"){
-      //         let alert = this.alertCtrl.create({
-      //           title: 'Alert',
-      //           message: result.ValidateMessage,
-      //           enableBackdropDismiss: false,
-      //           buttons: [{
-      //                 text: 'OK',
-      //                 role: 'Cancel',
-      //                 handler: () => {
+            if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
                         
-      //               }
-      //             }]
-      //         });
-      //         alert.present();
+                    }
+                  }]
+              });
+              alert.present();
               
-      //       }else{
-      //           this.annualLimitDetails = result.AnnualLimitDetails[0];
-      //           this.checkBalanceInfo = result;
-      //           console.log(this.annualLimitDetails);
-      //       }
+            }else{
+              this.balanceRemarks = this.getCheckInfoFromAsync(result)
+              this.annualLimitDetails = result.AnnualLimitDetails[0];
+            }
           
-      //   }, (err) => {
-            
-      //   }); 
+      }, (err) => {
+            this.loading.dismiss();
+      }); 
   }
 
   onChange(value) {
     this.memberInfo = this.getInfoFromAsync(value);
   }
-
 
   async getInfoFromAsync(val){
     
@@ -131,10 +131,11 @@ export class CheckbalancePage {
  
   }
 
-
-
-
-
+  async getCheckInfoFromAsync(val){
+    
+    return await val;
+ 
+  }
 
   	backButtonClick()
 	{

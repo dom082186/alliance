@@ -74,10 +74,8 @@ export class ClinicdirectionsPage {
 		var posOptions = { timeout: 30000, enableHighAccuracy: true };
 
 		this.geolocation.getCurrentPosition(posOptions).then((position) => {
-			// this.currentLat =  position.coords.latitude;
-			// this.currentLong = position.coords.longitude;
-			this.currentLat =  "1.3011873";
-				this.currentLong = "103.8495055";
+			this.currentLat =  position.coords.latitude;
+			this.currentLong = position.coords.longitude;
 			this.loading.dismiss();
 			
 			console.log(this.currentLong)

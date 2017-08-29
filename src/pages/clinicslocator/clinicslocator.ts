@@ -22,7 +22,7 @@ declare var google;
 export class ClinicslocatorPage {
 
 	@ViewChild('map') mapElement: ElementRef;
-	//@ViewChild('gp') gpElement: ElementRef;
+	@ViewChild('searchList') searchElement: ElementRef;
 	@ViewChild('sp') spElement: ElementRef;
 	@ViewChild('nearby') nearbyElement: ElementRef;
 	@ViewChild('all') allElement: ElementRef;
@@ -37,6 +37,7 @@ export class ClinicslocatorPage {
 	clinicsParams: any;
 	allClinics: any;
 	allClinics1: any;
+	resultClinics: any;
 	currentLat: any;
 	currentLong: any;
 	noClinics: boolean = false;
@@ -70,8 +71,10 @@ export class ClinicslocatorPage {
 
 			this.currentLat = position.coords.latitude;
 			this.currentLong = position.coords.longitude;
+			// this.currentLat = "1.3011873";
+			// this.currentLong = "103.8495055";
 
-			let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 			let mapOptions = {
 				enableHighAccuracy: true,
       			timeout: 5000,
@@ -176,7 +179,6 @@ export class ClinicslocatorPage {
 		    this.getAllClinics();
 		});	
 	}
-
 	getSession(){
 		this.storage.get('sessionID').then((val1) => {
 		    this.sessionID = val1;
@@ -205,7 +207,8 @@ export class ClinicslocatorPage {
 			internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
 		}).then(result => {
 			this.loading.dismiss();
-			
+
+
 			if(result.Status == "Failed"){
 				let alert = this.alertCtrl.create({
 					title: 'Alert',
@@ -235,11 +238,11 @@ export class ClinicslocatorPage {
 			      else return 0;
 			    });
 			    
-
-			    console.log(this.allClinics1);
 				this.filterAllData();
 			}
-			console.log(result);
+
+
+			
 			
 		}, err => {
 			this.loading.dismiss();
@@ -261,17 +264,39 @@ export class ClinicslocatorPage {
 		})
 	}
 
+	onInputChange(searchStr) {
+	    
+	    if(searchStr == undefined || searchStr ==""){
+	    	console.log('undefined')
+	    	//this.allClinics = this.allClinics1;
+	    	this.filterNearData();
+	    }else{
+	    	this.allClinics = this.resultClinics;
+			this.allClinics = this.allClinics.filter((clinic) => {
+				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
+			});
+
+			if(this.allClinics.length == 0){
+				this.noClinics = true;
+			}else{
+				this.noClinics = false;
+			}
+	    }
+
+	}
+
 
 	searchClinic(searchStr){
-		console.log(searchStr)
+		
 		if(searchStr != undefined || searchStr != ""){
 			this.allClinics = this.allClinics1;
-			this.allClinics = this.allClinics.filter((clinic) => {
-				//var string = clinic.Name+" "+clinic.UnitNumber+" "+clinic.BuildingName+" "+clinic.RoadName;
-				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
+			this.allClinics = this.allClinics.filter((clinic) => {			
+				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;				
 			});
 			if(this.allClinics.length == 0){
 				this.noClinics = true;
+			}else{
+				this.noClinics = false;
 			}
 		}
 		this.keyboard.close();
@@ -311,20 +336,19 @@ export class ClinicslocatorPage {
 		        text: 'OK',
 		        //role: 'cancel',
 		        handler: () => {
-		          console.log('OK clicked');
 		          this.getAllClinics();
 		        }
 		      },
 		      {
 		        text: 'Call Us',
 		        handler: () => {
-		          console.log('Call Us clicked');
 		          this.navCtrl.push( ContactusPage );
 		        }
 		      }
 		    ]
 		  });
 		  alert.present();
+
 		// this.allClinics = this.allClinics.filter((clinic) => {
 		// 	return clinic.ClinicType == "SP";
 		// });
@@ -363,9 +387,10 @@ export class ClinicslocatorPage {
 			dist = dist * 1.609344;
 			clinic.Distance = dist.toFixed(2);
 
-
-			return dist < 3;
+			return dist < 8;
 		});
+
+		this.resultClinics = this.allClinics;
 		
 		if(this.allClinics.length == 0){
 			this.noClinics = true;

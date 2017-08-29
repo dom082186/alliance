@@ -1,5 +1,5 @@
 import { Component,Renderer2, ViewChild,ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController, AlertController, ModalController } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
 import { Storage } from '@ionic/storage';
 
@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage';
 import { SubmitclaimsPage } from '../submitclaims/submitclaims';
 import { ClaimdetailsPage } from '../claimdetails/claimdetails';
 
-
+import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
 
 @IonicPage()
@@ -26,8 +26,6 @@ export class ClaimsPage {
   loading: any;
   memberInfo: any[];
   memberNetwork: any;
-  memberName: any;
-  memberNRIC: any;
   sessionID: any;
   params: any;
   claimForm = {}
@@ -35,10 +33,11 @@ export class ClaimsPage {
   claimHistoryList: any;
   showBenefitsPage: boolean = false;
   showClaimsPage: boolean = true;
+  hasDependents: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private rd: Renderer2,
     public storage: Storage,public claimService: ClaimServiceProvider,public loadingCtrl: LoadingController,
-    private alertCtrl: AlertController,) {
+    private alertCtrl: AlertController,public modalCtrl: ModalController,) {
   
   }
 
@@ -59,9 +58,7 @@ export class ClaimsPage {
   getData(){
     this.storage.get('memInfo').then((val) => {
         this.memberInfo = val;
-        this.memberName = this.memberInfo['MemberName'];
-        this.memberNRIC = this.memberInfo['MemberNRIC'];
-
+        if(val.length > 1){ this.hasDependents = true; }else{this.hasDependents = false;}
         this.getNetwork();
     });
   }
@@ -87,8 +84,9 @@ export class ClaimsPage {
     this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
     var dateFromObj = new Date(this.claimForm['fromDate']);
     var dateToObj = new Date(this.claimForm['toDate']);
+    var nameIndex = this.claimForm['claimName'];
 
-    console.log(this.claimForm['claimName']);
+
     if(this.claimForm['claimName'] == "" || this.claimForm['claimName'] == undefined){
         this.loading.dismiss();
         let alert = this.alertCtrl.create({
@@ -153,7 +151,7 @@ export class ClaimsPage {
 
     }else{
      
-      this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.sessionID;
+      this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[nameIndex]['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
 
       console.log(this.params);
 
@@ -161,50 +159,85 @@ export class ClaimsPage {
             this.loading.dismiss();
             console.log(result);
 
-            if(result.Status == "Failed"){
-              let alert = this.alertCtrl.create({
-                title: 'Alert',
-                message: result.ValidateMessage,
-                enableBackdropDismiss: false,
-                buttons: [{
-                      text: 'OK',
-                      role: 'Cancel',
-                      handler: () => {
+            // if(result.Status == "Failed"){
+            //   let alert = this.alertCtrl.create({
+            //     title: 'Alert',
+            //     message: result.ValidateMessage,
+            //     enableBackdropDismiss: false,
+            //     buttons: [{
+            //           text: 'OK',
+            //           role: 'Cancel',
+            //           handler: () => {
                         
-                    }
-                  }]
-              });
-              alert.present();
+            //         }
+            //       }]
+            //   });
+            //   alert.present();
               
-            }else{
+            // }else{
                 
                  this.claimHistoryList = 
                   [
-                     {
-                        "ClaimID": "14a2cae4-2598-4f7e-8f29-d0e6b5f634e7",
-                        "ClaimCode": "TPA52183",
+                    {
+                        "ClaimID": "906b3a4e-3f66-430e-9c4e-82b9bee65553",
+                        "ClaimCode": "TPA45297",
                         "ClaimType": "TPA Claim",
-                        "Treatmentdate": "2015-09-02T00:00:00",
-                        "ClinicName": "ktge test clinic",
-                        "ClaimStatus": "NEW",
-                        "PatientName": "John",
-                        "PatientNRIC": "S1234567A",
-                        "MCDays": 2
-                     },
-                     {
-                        "ClaimID": "14a2cae4-2598-4f7e-8f29-d0e6b5f634e7",
-                        "ClaimCode": "TPA52184",
-                        "ClaimType": "TPA Claim 2",
-                        "Treatmentdate": "2015-10-02T00:00:00",
-                        "ClinicName": "maine test clinic",
-                        "ClaimStatus": "NEW",
-                        "PatientName": "Maine",
-                        "PatientNRIC": "S1234567C",
-                        "MCDays": 4
-                     }
-                  ]
+                        "Treatmentdate": "2017-07-28T00:00:00",
+                        "ClinicName": "A LIFE CLINIC PTE LTD",
+                        "ClaimStatus": "Paid",
+                        "PatientName": "Alfred",
+                        "PatientNRIC": "S7211235B",
+                        "MCDays": 0,
+                        "TotalFeeBeforeGST": 160,
+                        "TotalFeeGST": 20,
+                        "TotalFeeAfterGST": 180,
+                        "ClaimBeforeGST": 0,
+                        "ClaimGST": 0,
+                        "ClaimAfterGST": 0,
+                        "CashCollected": 150,
+                        "TotalDeductAmount": 30
+                    },
+                    {
+                        "ClaimID": "56d770bf-9bf4-4e92-864f-8db6248109d8",
+                        "ClaimCode": "TPA45299",
+                        "ClaimType": "TPA Claim",
+                        "Treatmentdate": "2017-07-31T00:00:00",
+                        "ClinicName": "A LIFE CLINIC PTE LTD",
+                        "ClaimStatus": "Pending",
+                        "PatientName": "Alfred",
+                        "PatientNRIC": "S7211235B",
+                        "MCDays": 0,
+                        "TotalFeeBeforeGST": 138,
+                        "TotalFeeGST": 0,
+                        "TotalFeeAfterGST": 138,
+                        "ClaimBeforeGST": 0,
+                        "ClaimGST": 0,
+                        "ClaimAfterGST": 0,
+                        "CashCollected": 108,
+                        "TotalDeductAmount": 30
+                    },
+                    {
+                        "ClaimID": "d00e5f34-2d8c-42e4-9fd2-84b3b89fc9bd",
+                        "ClaimCode": "Claim236732",
+                        "ClaimType": "Panel Claim",
+                        "Treatmentdate": "2017-08-02T00:00:00",
+                        "ClinicName": "ABUNDANT HEALTH MEDICAL CLINIC PTE LTD",
+                        "ClaimStatus": null,
+                        "PatientName": "Alfred",
+                        "PatientNRIC": "S7211235B",
+                        "MCDays": 1,
+                        "TotalFeeBeforeGST": 22,
+                        "TotalFeeGST": 1.54,
+                        "TotalFeeAfterGST": 23.54,
+                        "ClaimBeforeGST": 17.33,
+                        "ClaimGST": 1.21,
+                        "ClaimAfterGST": 18.54,
+                        "CashCollected": 5,
+                        "TotalDeductAmount": 18.54
+                    }
+                ]
 
-            }
+            // }
           
         }, (err) => {
             this.loading.dismiss();
@@ -217,7 +250,9 @@ export class ClaimsPage {
   openClaim(index){
     console.log(index);
     console.log(this.claimHistoryList[index]);
-    this.navCtrl.push( ClaimdetailsPage, {details: this.claimHistoryList[index]});
+    //this.navCtrl.push( ClaimdetailsPage, {details: this.claimHistoryList[index]});
+     let contactModal = this.modalCtrl.create(ClaimdetailsPage);
+     contactModal.present();
   }
 
   gotoBenefits() {

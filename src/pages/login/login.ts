@@ -5,6 +5,7 @@ import { OnboardPage } from '../onboard/onboard';
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+import { ClaimsPage } from '../claims/claims';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 
@@ -31,13 +32,14 @@ import { AlertController } from 'ionic-angular';
 })
 export class LoginPage {
 
-	//networks: {}
-	public networks: any[];
+	
+	memberNetwork: any;
 	posts: any
-	public memberinfo: any;
+	public memberInfo: any;
 	loading: any;
   	data: any;
   	loginCredentials: any;
+  	sessionID: any;
 	login = {}
 
 
@@ -49,97 +51,80 @@ export class LoginPage {
 		public storage: Storage,
 		private alertCtrl: AlertController ) {
 		
+		
+		this.storage.get('memInfo').then((val) => {
+		    this.memberInfo = val;
+		    this.sessionID = val[0].Internal_LoggedInUserRegisterID
+		    //this.login['username'] = val[0].UserName
+		    this.login['username'] = val[0].MemberNRIC
+		    this.getNetwork();
+
+		});
 	}
+
+	getNetwork(){
+		this.storage.get('memNetwork').then((val1) => {
+		    this.memberNetwork = val1;
+		});	
+	}
+
+
 
 	doLogin() {
 		console.log(this.login['password'])
 		console.log(this.login['network'])
 
-		if( this.login['username'] == "" || this.login['username'] == undefined){
-			let alert = this.alertCtrl.create({
-				title: 'Alert',
-				message: 'Username is required',
-				buttons: [{
-			        text: 'OK',
-			        role: 'cancel',
-			        handler: () => {
-			          console.log('Cancel clicked');
-			      }
-			    }]
-			});
-			alert.present();
-			return;
-		}
 
-		if(this.login['password'] == "" || this.login['password'] == undefined){
-			let alert = this.alertCtrl.create({
-				title: 'Alert',
-				message: 'Password is required',
-				buttons: [{
-			        text: 'OK',
-			        role: 'cancel',
-			        handler: () => {
-			          console.log('Cancel clicked');
-			      }
-			    }]
-			});
-			alert.present();
-			return;
-		}
+		// if(this.login['password'] == "" || this.login['password'] == undefined){
+		// 	let alert = this.alertCtrl.create({
+		// 		title: 'Alert',
+		// 		message: 'Password is required',
+		// 		buttons: [{
+		// 	        text: 'OK',
+		// 	        role: 'cancel',
+		// 	        handler: () => {
+		// 	          console.log('Cancel clicked');
+		// 	      }
+		// 	    }]
+		// 	});
+		// 	alert.present();
+		// 	return;
 
-		if(this.login['network']=="" || this.login['network'] == undefined){
-			let alert = this.alertCtrl.create({
-				title: 'Alert',
-				message: 'Kindly select a network',
-				buttons: [{
-			        text: 'OK',
-			        role: 'cancel',
-			        handler: () => {
-			          console.log('Cancel clicked');
-			      }
-			    }]
-			});
-			alert.present();
-			return;
-
-		}else{
+		// }else{
 
 			this.showLoader();
 			var sha512 = require('sha512')
-			var hash = sha512(this.login['password'])
+			var hash = sha512('P@ssw0rd');//sha512(this.login['password'])
 				console.log(hash.toString('hex'))
-			this.loginCredentials = "username=" + this.login['username'] + "&network=" + this.login['network'] + "&password=" + hash.toString('hex');
+			this.loginCredentials = "username=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
+			//this.loginCredentials = "username=" + this.login['username'] + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');
 				console.log(this.loginCredentials);
-			this.loginService.login(this.loginCredentials).then((result) => {
+			this.loginService.loginUsername(this.loginCredentials).then((result) => {
 			    this.loading.dismiss();
 			    console.log(result);
-			    console.log(result.IsActive);
 
-			    if(result.IsActive){
-			    	this.navCtrl.setRoot( HomePage );	
-			    }else{
-			    	let alert = this.alertCtrl.create({
-						title: 'Alert',
-						message: 'Member does not exist',
-						buttons: [{
-					        text: 'OK',
-					        role: 'cancel',
-					        handler: () => {
-					          console.log('Cancel clicked');
-					      }
-					    }]
-					});
-					alert.present();
-			    }
+			    	if(result.Status_Volatile){
+				    	let alert = this.alertCtrl.create({
+							title: 'Alert',
+							message: 'Member does not exist',
+							buttons: [{
+						        text: 'OK',
+						        role: 'cancel',
+						        handler: () => {
+						          this.navCtrl.setRoot( HomePage );	
+						      }
+						    }]
+						});
+						alert.present();
+				    }else{
+				    	this.setData(result);
+				    	this.navCtrl.setRoot( ClaimsPage );		
+				    }
 
-			    
-			      //this.data = result;
-			      //localStorage.setItem('token', this.data.access_token);
-			      //this.navCtrl.setRoot(TabsPage);
 			    }, (err) => {
 			      this.loading.dismiss();
 		    });
-		}
+		// }
 
 	}
 
@@ -152,52 +137,16 @@ export class LoginPage {
 	  }
 
 
-	logForm() {
-	    //console.log(this.login)
-	    // this.loginService.postRequest()
-	    // .then(data => {
-	    //   this.memberinfo = data;
-	    //   console.log ('Hello LoginServiceProvider Provider')
-	    // });
-	    // console.log (this.memberinfo)
-	}
-	  
-
-	gotoLoginNonMediNet() {
-		this.navCtrl.setRoot( LoginNonmedinetPage );
-	}
-
-	goSlider() {
-		this.navCtrl.setRoot(OnboardPage);
-	}
-
-	goRegister() {
-		this.navCtrl.setRoot(RegisterPage);
-	}
-
-	gotoHome() {
-		this.navCtrl.setRoot( HomePage );
+	setData(res){
+		this.storage.set('memClaimInfo', res);
 	}
 
 
-	setData(){
-		console.log('setData')
-		this.storage.set('myData', 'good');	
+
+	backButtonClick()
+	{
+    	this.navCtrl.pop();  // remember to put this to add the back button behavior
 	}
-
-	getData(){
-		// this.storage.get('myData').then((val) => {
-	 	// console.log('Your age is', val);
-	 	// });
-	 		// Or to get a key/value pair
-		  this.storage.get('myData').then((val) => {
-		    console.log('Your age is', val);
-		  });
-	}
-	
-
-
-
 
 
 

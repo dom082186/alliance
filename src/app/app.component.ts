@@ -74,27 +74,33 @@ export class MyApp {
             { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png', class: '', close: 'true' },
             { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png', class: '', close: 'true'},
             { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png', class: '', close: 'true' },
-            //{ title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
+            // { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
             { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png', class: '', close: 'true' }
         ];
 
 
           events.subscribe('user:created', (user, network) => {
             // user and time are the same arguments passed in `events.publish(user, time)`
-              this.appMemInfo = user;
-              this.appMemNetwork = network;
-                            
-              if(network.toLowerCase() != "aviva"){
-                this.pages[5].icon = './assets/img/icons/appointment-black.png';
-                this.pages[5].class = 'text-color';
-                this.pages[5].close = 'false';
-              }
+            console.log(user.length);
+            console.log(network);
+            if(user.length > 0){
+                this.appMemInfo = user;
+                this.appMemNetwork = network;
+                              
+                if(network.toLowerCase() != "aviva"){
+                  this.pages[5].icon = './assets/img/icons/appointment-black.png';
+                  this.pages[5].class = 'text-color';
+                  this.pages[5].close = 'false';
+                }
 
-              if(user[0].UserName == ""){
-                this.pages[4].icon = './assets/img/icons/claims-black.png';
-                this.pages[4].class = 'text-color';
-                this.pages[4].close = 'false';
-              }
+                if(user[0].UserName == ""){
+                  this.pages[4].icon = './assets/img/icons/claims-black.png';
+                  this.pages[4].class = 'text-color';
+                  this.pages[4].close = 'false';
+                }
+
+
+            }
 
           });
         
@@ -129,6 +135,8 @@ export class MyApp {
                     toast.present();
                     lastTimeBackPress = new Date().getTime();
                 }
+            }else{
+              this.nav.pop();
             } 
         });
 

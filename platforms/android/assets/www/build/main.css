@@ -32348,6 +32348,10 @@ h3 {
   margin: 0;
 }
 
+.text-color {
+  color: #5c5c5c !important;
+}
+
 .full-height {
   min-height: 100vh;
   padding: 20px 15px 0;
@@ -32789,7 +32793,11 @@ page-checkbalance .checkBalance-details .section-details .info {
 }
 
 page-checkbalance .checkBalance-details .section-details .info .details {
-  font: 14px/1.45 "Helvetica-Bold";
+  font: 12px/1.45 "Helvetica-Bold";
+}
+
+page-checkbalance .checkBalance-details .section-details .keyLabel {
+  font-size: 12px !important;
 }
 
 page-checkbalance .checkBalance-details .select-container {
@@ -33146,8 +33154,41 @@ page-clinicdirections .clinicDirections-content #directionlist {
   height: auto;
 }
 
+page-clinicdirections .clinicDirections-content #directionlistW {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
 page-clinicdirections .content-ios .clinicDirections-content #google-map {
   height: calc( 100vh - 195px);
+}
+
+page-clinicdirections .select-container {
+  position: relative;
+  padding: 10px 10px;
+}
+
+page-clinicdirections .select-container:after {
+  content: '\f078';
+  font: 12px/1.45px 'FontAwesome';
+  color: gray;
+  top: 25px;
+  right: 15px;
+  position: absolute;
+}
+
+page-clinicdirections .select-container select {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #5c5c5c;
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 page-clinicnearby .header .toolbar .toolbar-background {

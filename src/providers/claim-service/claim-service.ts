@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { AlertController } from 'ionic-angular';
 
 
+
 let apiUrl = 'http://118.201.197.142/api/';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class ClaimServiceProvider {
 	data: any;
 
 	constructor(public http: Http,private alertCtrl: AlertController) {
-		console.log('Hello ClaimServiceProvider Provider');
+		
 	}
 
 
@@ -43,7 +44,8 @@ export class ClaimServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
 					      }
 					    }]
 					});
@@ -81,7 +83,7 @@ export class ClaimServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
 					      }
 					    }]
 					});
@@ -119,7 +121,8 @@ export class ClaimServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          return;
 					      }
 					    }]
 					});

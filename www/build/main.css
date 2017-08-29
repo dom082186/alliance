@@ -32793,7 +32793,11 @@ page-checkbalance .checkBalance-details .section-details .info {
 }
 
 page-checkbalance .checkBalance-details .section-details .info .details {
-  font: 14px/1.45 "Helvetica-Bold";
+  font: 12px/1.45 "Helvetica-Bold";
+}
+
+page-checkbalance .checkBalance-details .section-details .keyLabel {
+  font-size: 12px !important;
 }
 
 page-checkbalance .checkBalance-details .select-container {
@@ -33139,7 +33143,7 @@ page-clinicdirections .clinicDirections-content .clinicDirections-header .to .te
 
 page-clinicdirections .clinicDirections-content #googlemap {
   background: #000;
-  height: calc( 100vh - 500px);
+  height: calc( 100vh - 400px);
   width: 100%;
 }
 

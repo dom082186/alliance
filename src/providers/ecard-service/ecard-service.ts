@@ -41,7 +41,8 @@ export class EcardServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          return;
 					      }
 					    }]
 					});

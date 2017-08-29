@@ -38,9 +38,14 @@
 					</select>
 				</div>
 				<!-- <ion-item>
-				  <ion-label>Terms and Conditions</ion-label>
+				  <label (click)="openTerms()">Terms and Conditions</label>
 				  <ion-checkbox color="blue" [(ngModel)]="isCheckTM" (click)="addValue($event)" name="isCheckTM"></ion-checkbox>
 				</ion-item> -->
+				<div class="loginForm-group" style="display: none">
+					
+					<ion-checkbox color="blue" [(ngModel)]="isCheckTM" (click)="addValue($event)" name="isCheckTM"></ion-checkbox>
+					<label style="display: inline-block;" (click)="openTerms()">Terms and Conditions</label>
+				</div>
 				<div class="btn-panel">
 					<button class="btn btn-yellow" type="submit"  >Login</button>
 					<!-- type="submit" -->

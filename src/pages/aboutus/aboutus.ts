@@ -18,7 +18,7 @@ export class AboutusPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AboutusPage');
+    
   }
 
   	backButtonClick()

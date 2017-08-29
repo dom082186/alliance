@@ -1,41 +1,38 @@
+<ion-header>
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle>
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Login to our MediNet Login</div>
+            	<!-- <div class="logo-container row middle-xs center-xs">
+					<img src="./assets/img/logo.png" alt="Alliance Healthcare" width="140" />
+				</div> -->
+        </ion-title>
+       <!--  <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons> -->
+    </ion-navbar>
+</ion-header>
 <ion-content>
 	<div class="login-content full-height row direction-column-xs between-xs pb-40">
 		<div>
-<!-- 			<div class="btn-back row middle-xs end-xs">
-				<img src="./assets/img/icons/back.png" (click)="goSlider()" />
-			</div> -->
-			<div class="logo-container row middle-xs center-xs">
-				<img src="./assets/img/logo.png" alt="Alliance Healthcare" width="180" />
-			</div>
-<!-- 			<div class="row middle-xs center-xs">
-				<div class="switch-login row middle-xs">
-					<div class="non-medinet text-xs-center" (click)="gotoLoginNonMediNet()">Non-MediNet User</div>
-					<div class="medinet text-xs-center">MediNet User</div>
-				</div>
-			</div> -->
-			<!-- <h3>MediNet Login</h3> -->
-			<h3>Login to our MediNet Login</h3>
+			
 			<form (ngSubmit)="doLogin()">
 			<div class="form-container">
 				<ion-item>
 					<ion-label color="blue" floating>Username</ion-label>
-					<ion-input [(ngModel)]="login.username" name="username"></ion-input>
+					<ion-input [(ngModel)]="login.username" name="username" disabled></ion-input>
 				</ion-item>
 				<ion-item>
 					<ion-label color="blue" floating>Password</ion-label>
 					<ion-input type="password" [(ngModel)]="login.password" name="password"></ion-input>
 				</ion-item>
-				<ion-item>
-					<ion-label color="blue"  floating>Network</ion-label>
-					<ion-input [(ngModel)]="login.network" name="network"></ion-input>
-					<ion-select>
-						<ion-option value="">Select</ion-option>
-					</ion-select>
-				</ion-item>
 				<div class="btn-panel">
 					<!-- <button class="btn btn-yellow" (click)="gotoHome()">Login</button> -->
 					<button class="btn btn-yellow" type="submit">Login</button>
-					<a (click)="goRegister()" class="btn btn-gray">Register</a>
 				</div>
 			</div>
 			</form>

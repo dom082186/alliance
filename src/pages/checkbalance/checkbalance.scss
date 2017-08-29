@@ -22,8 +22,12 @@ page-checkbalance {
 					margin: 0 0 5px;
 
 					.details {
-						font: 14px/1.45 $bold;
+						font: 12px/1.45 $bold;
 					}
+				}
+
+				.keyLabel {
+					font-size: 12px !important; 
 				}
 			}
 

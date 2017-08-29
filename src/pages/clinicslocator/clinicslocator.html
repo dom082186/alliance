@@ -25,7 +25,8 @@
 			<div class="map-container">
 				<div #map id="map"></div>
 				<div class="search-clinic row middle-xs" style="z-index: 1" >
-					<input type="text" [(ngModel)]="ngClinic.searchList" name="searchList" placeholder="Search Clinics" />
+					<input type="text" #searchList id="searchList" [(ngModel)]="ngClinic.searchList" name="searchList" placeholder="Search Clinics" (keyup)="onInputChange(ngClinic.searchList)" />
+					<!-- (keypress)="onChange($event)" -->
 					<button class="btn-search" type="submit">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</button>

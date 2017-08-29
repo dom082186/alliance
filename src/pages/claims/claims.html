@@ -28,7 +28,7 @@
                     <div class="label">Name</div>
                     <div class="input-field">
                         <select name="select_name" name="claimName" [(ngModel)]="claimForm.claimName">
-                            <option value="{{memberNRIC}}" >{{memberName}}</option>
+                            <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
                         </select>
                     </div>
                 </div>

@@ -23,13 +23,11 @@ export class ContactusPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactusPage');
     this.getMemInfo();
   }
 
   getMemInfo(){
     this.storage.get('memInfo').then((val) => {
-        //val === "null" ? this.loggedIn = false : this.loggedIn = true;
         if(val == null || val == "null"){
           this.loggedIn = false;
         }else{

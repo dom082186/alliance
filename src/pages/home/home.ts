@@ -12,6 +12,7 @@ import { EcardPage } from '../ecard/ecard';
 import { AboutusPage } from '../aboutus/aboutus';
 import { ContactusPage } from '../contactus/contactus';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+import { LoginPage } from '../login/login';
 
 
 declare var window;
@@ -84,7 +85,6 @@ export class HomePage {
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
-		    console.log(val1);
 		    if(val1.toLowerCase() == "aviva"){
 		    	this.isAccountAviva = true;
 		    }
@@ -104,9 +104,8 @@ export class HomePage {
 	}
 
 	gotoClaims() {
-		
-		this.navCtrl.push( ClaimsPage );	
-		
+		//this.navCtrl.push( ClaimsPage );	
+		this.navCtrl.push(LoginPage);
 	}
 
 	gotoAboutUs() {

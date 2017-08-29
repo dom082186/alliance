@@ -41,7 +41,8 @@ export class ClinicServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          return;
 					      }
 					    }]
 					});
@@ -82,7 +83,8 @@ export class ClinicServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          return;
 					      }
 					    }]
 					});

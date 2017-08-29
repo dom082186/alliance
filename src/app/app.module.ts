@@ -43,6 +43,7 @@ import { GeocoderProvider } from '../providers/geocoder/geocoder';
 import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
+import { KeyPipe } from '../pipes/key/key';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
         TermsconditionsPage,
         LoginNonmedinetPage,
         ClinicnearbyPage,
-        ClaimdetailsPage
+        ClaimdetailsPage,
+    KeyPipe
     ],
     imports: [
         BrowserModule,

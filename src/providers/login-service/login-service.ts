@@ -44,7 +44,8 @@ export class LoginServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					        	return;
+					          //navigator['app'].exitApp();
 					      }
 					    }]
 					});
@@ -74,7 +75,8 @@ export class LoginServiceProvider {
 					        text: 'OK',
 					        role: 'cancel',
 					        handler: () => {
-					          navigator['app'].exitApp();
+					          //navigator['app'].exitApp();
+					          return;
 					      }
 					    }]
 					});
@@ -82,6 +84,46 @@ export class LoginServiceProvider {
 					reject(error);
 		      });
 		});
+	};
+
+
+
+	loginUsername(credentials) {
+		if (this.data) {
+		    // already loaded data
+		    return Promise.resolve(this.data);
+		  }
+		
+		return new Promise((resolve, reject) => {
+			var headers1 = new Headers({'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'});
+		    //headers1.append("content-type", 'application/json');
+		    //headers1.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+
+		    var link = apiUrl + "loginauthentication/LoginWithUsername";
+		    var opts = new RequestOptions({headers:headers1});
+		    this.http
+			    .post(link, credentials, opts)
+			    .map(response => response.json())
+			    .subscribe(data => {
+			        resolve(data);
+			    }, e => {
+			        console.log(e);
+			        let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+			        reject(e);
+			});
+		})
 	};
 
 }

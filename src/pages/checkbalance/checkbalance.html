@@ -44,14 +44,15 @@
             </div> <!-- end of .section-details -->
             <div class="section-details">
                 <div class="title">Annual Limit Details</div>
-                <div class="info row between-xs" >
-                    <div class="label col-xs-6">Total Annual Limit Balance</div>
-                    <div class="details col-xs-6 text-xs-right">aaa</div>
+                <div class="info row between-xs" *ngFor="let thisKey of annualLimitDetails | key">
+                    <div class="label col-xs-6 keyLabel">{{thisKey.key}}</div>
+                    <div class="details col-xs-6 text-xs-right" >{{thisKey.value}}</div>
                     <!-- S$ 157.50 -->
                 </div>
             </div>
             <div class="section-details">
                 <div class="title">Remarks</div>
+                <div>{{(balanceRemarks | async)?.Remarks}}</div>
             </div>
         </div> <!-- end of .checkBalance-details -->
     </div> <!-- end of .checkBalance-content -->

@@ -6,6 +6,8 @@ import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 import { OnboardPage } from '../onboard/onboard';
+import { TermsconditionsPage } from '../termsconditions/termsconditions';
+
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 
@@ -38,7 +40,7 @@ export class LoginNonmedinetPage {
 	loading: any;
   	loginCredentials: any;
 	login = {}
-	// isCheckTM : boolean = false;
+	isCheckTM : boolean = false;
 
 
   constructor(public navCtrl: NavController, 
@@ -56,7 +58,8 @@ export class LoginNonmedinetPage {
 		// platform.ready().then(() => {
 		//     this.loadMap();
 		// });
-
+		this.login['membertype'] = "";
+		this.login['network'] = "";
 		this.menu.swipeEnable(false);
   }
 
@@ -128,8 +131,10 @@ export class LoginNonmedinetPage {
 	}
 
 	doLogin() {
-		
+		//====== LIVE
 		//this.storage.set('memNetwork', this.login['network']); //set localstorage for network
+		
+		//====== TEST
 		this.storage.set('memNetwork', 'ge');
 
 		// if( this.login['nric'] == "" || this.login['nric'] == undefined){
@@ -183,16 +188,19 @@ export class LoginNonmedinetPage {
 
 			// if(this.isCheckTM == true){
 				this.showLoader();
-				// var sha512 = require('sha512')
-				// var hash = sha512(this.login['password'])
-				this.loginCredentials = "usernric=S00000002A&network=ge&membertype=member";
+				
+				//====== TEST
+				this.loginCredentials = "usernric=S78432ASE&network=ge&membertype=member";
+				
+				//====== LIVE	
 				//this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
 					console.log(this.loginCredentials);
+
 				this.loginService.login(this.loginCredentials).then((result) => {
 				    this.loading.dismiss();
-				    console.log(result);
+				    console.log(result.length);
 
-				    if(result.length > 0){
+				    if(result.length > 0 ){
 				    	if(result.Status_Volatile){
 					    	let alert = this.alertCtrl.create({
 								title: 'Alert',
@@ -209,10 +217,13 @@ export class LoginNonmedinetPage {
 					    }else{
 					    	this.setData(result);
 					    	this.navCtrl.setRoot( HomePage );	
-					    	for(let item of result){
-						    	//this.storage.set('sessionID', result.Internal_LoggedInUserRegisterID);
-							}
 
+							//====== LIVE
+		  					//this.events.publish('user:created', result, this.login['network']);  
+
+
+		  					//====== TEST
+		  					this.events.publish('user:created', result, 'ge'); 
 					    }
 
 				    }else{
@@ -230,30 +241,7 @@ export class LoginNonmedinetPage {
 						alert.present();
 				    }
 				    
-  					//this.events.publish('user:created', result, this.login['network']);
-  					this.events.publish('user:created', result, 'ge');
-
-
-				    /*	
-				    if(result.Status_Volatile){
-				    	let alert = this.alertCtrl.create({
-							title: 'Alert',
-							message: 'Member does not exist',
-							buttons: [{
-						        text: 'OK',
-						        role: 'cancel',
-						        handler: () => {
-						          console.log('Cancel clicked');
-						      }
-						    }]
-						});
-						alert.present();
-				    }else {
-				    	this.setData(result);
-				    	this.storage.set('sessionID', result.Internal_LoggedInUserRegisterID);
-				    	this.navCtrl.setRoot( HomePage );	
-				    }
-				    */
+				    
 				    
 				}, (err) => {
 				      this.loading.dismiss();
@@ -277,6 +265,10 @@ export class LoginNonmedinetPage {
 			
 		//}
 
+	}
+
+	openTerms(){
+		this.navCtrl.push( TermsconditionsPage);
 	}
 
 	setData(res){
