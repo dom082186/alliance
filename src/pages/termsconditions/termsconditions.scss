@@ -1,5 +1,14 @@
 page-termsconditions {
+	.header-ios {
+		.title-ios {
+			padding-left: 50px;
+			padding-right: 50px;
+		}
+	}
 	.tnc-content {
+		background: #fff;
+		padding: 0 0 20px;
+
 		.tnc-list {
 			counter-reset: list;
 
@@ -16,6 +25,18 @@ page-termsconditions {
 					}
 				}
 			}
+		}
+	}
+
+	.iframe-container {
+		height: 100vh;
+		background: #fff;
+		padding: 0 0 30px;
+
+		iframe {
+			// transform: scale( .95 );
+			// transform-origin: bottom center;
+			// margin-top: -30px;
 		}
 	}
 }

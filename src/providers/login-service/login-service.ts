@@ -12,7 +12,7 @@ export class LoginServiceProvider {
 
 	data: any;
 
-	constructor(public http: Http,private alertCtrl: AlertController) {
+	constructor(public http: Http,private alertCtrl: AlertController,) {
 
 	}
 
@@ -125,5 +125,11 @@ export class LoginServiceProvider {
 			});
 		})
 	};
+
+
+
+
+
+
 
 }

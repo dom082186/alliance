@@ -121,7 +121,7 @@ export class LoginNonmedinetPage {
 			}
 
 		}, (err) => {
-			this.loading.dismiss();
+			//this.loading.dismiss();
 		});
 	}
 	
@@ -132,68 +132,68 @@ export class LoginNonmedinetPage {
 
 	doLogin() {
 		//====== LIVE
-		//this.storage.set('memNetwork', this.login['network']); //set localstorage for network
+		this.storage.set('memNetwork', this.login['network']); //set localstorage for network
 		
 		//====== TEST
-		this.storage.set('memNetwork', 'ge');
+		// this.storage.set('memNetwork', 'ge');
 
-		// if( this.login['nric'] == "" || this.login['nric'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'NRIC is required',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
-		// }
+		if( this.login['nric'] == "" || this.login['nric'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'NRIC is required',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
+		}
 
-		// if(this.login['membertype'] == "" || this.login['membertype'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'Please select a Member Type',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
-		// }
+		if(this.login['membertype'] == "" || this.login['membertype'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Please select a Member Type',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
+		}
 
-		// if(this.login['network']=="" || this.login['network'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'Kindly select a network',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
+		if(this.login['network']=="" || this.login['network'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Kindly select a network',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
 
-		// }else{
+		}else{
 
-			// if(this.isCheckTM == true){
+			if(this.isCheckTM == true){
 				this.showLoader();
 				
 				//====== TEST
-				this.loginCredentials = "usernric=S78432ASE&network=ge&membertype=member";
+				// this.loginCredentials = "usernric=S78432ASE&network=ge&membertype=member";
 				
 				//====== LIVE	
-				//this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
+				this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
 					console.log(this.loginCredentials);
 
 				this.loginService.login(this.loginCredentials).then((result) => {
@@ -219,11 +219,11 @@ export class LoginNonmedinetPage {
 					    	this.navCtrl.setRoot( HomePage );	
 
 							//====== LIVE
-		  					//this.events.publish('user:created', result, this.login['network']);  
+		  					this.events.publish('user:created', result, this.login['network']);  
 
 
 		  					//====== TEST
-		  					this.events.publish('user:created', result, 'ge'); 
+		  					// this.events.publish('user:created', result, 'ge'); 
 					    }
 
 				    }else{
@@ -247,23 +247,23 @@ export class LoginNonmedinetPage {
 				      this.loading.dismiss();
 			    });
 
-			// }else{
-			// 	let alert = this.alertCtrl.create({
-			// 		title: 'Alert',
-			// 		message: 'Please confirm that you have agreed on our Terms and Condition.',
-			// 		buttons: [{
-			// 	        text: 'OK',
-			// 	        role: 'cancel',
-			// 	        handler: () => {
-			// 	          console.log('Cancel clicked');
-			// 	      }
-			// 	    }]
-			// 	});
-			// 	alert.present();
-			// 	return;
-			// }
+			}else{
+				let alert = this.alertCtrl.create({
+					title: 'Alert',
+					message: 'Please confirm that you have agreed on our Terms and Condition.',
+					buttons: [{
+				        text: 'OK',
+				        role: 'cancel',
+				        handler: () => {
+				          console.log('Cancel clicked');
+				      }
+				    }]
+				});
+				alert.present();
+				return;
+			}
 			
-		//}
+		}
 
 	}
 

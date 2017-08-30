@@ -69,6 +69,7 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <allow-navigation href="*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -115,4 +116,7 @@
     <allow-navigation href="http://192.168.8.125:8100" />
     <plugin name="cordova-plugin-nativegeocoder" spec="~2.0.2" />
     <allow-navigation href="http://192.168.8.103:8100" />
+    <allow-navigation href="http://192.168.8.114:8100" />
+    <allow-navigation href="http://192.168.8.105:8100" />
+    <allow-navigation href="http://192.168.1.15:8100" />
 </widget>

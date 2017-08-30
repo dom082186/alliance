@@ -33498,6 +33498,14 @@ page-contactus .aboutUs-content .bg-white {
   top: -100px;
 }
 
+page-contactus .aboutUs-content .bg-white iframe {
+  height: 30vh;
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transform-origin: bottom center;
+  transform-origin: bottom center;
+}
+
 page-contactus .details {
   padding: 0 15px;
 }
@@ -33923,6 +33931,16 @@ page-register .register-content h1 {
   color: #1e2f6a;
 }
 
+page-termsconditions .header-ios .title-ios {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+page-termsconditions .tnc-content {
+  background: #fff;
+  padding: 0 0 20px;
+}
+
 page-termsconditions .tnc-content .tnc-list {
   counter-reset: list;
 }
@@ -33939,4 +33957,10 @@ page-termsconditions .tnc-content .tnc-list .tnc-item .tnc-title {
 
 page-termsconditions .tnc-content .tnc-list .tnc-item .tnc-title:before {
   content: counter(list) ". ";
+}
+
+page-termsconditions .iframe-container {
+  height: 100vh;
+  background: #fff;
+  padding: 0 0 30px;
 }

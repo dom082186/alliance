@@ -71,8 +71,8 @@ export class ClinicslocatorPage {
 
 			this.currentLat = position.coords.latitude;
 			this.currentLong = position.coords.longitude;
-			// this.currentLat = "1.3011873";
-			// this.currentLong = "103.8495055";
+			//this.currentLat = "1.3011873";
+			//this.currentLong = "103.8495055";
 
 			let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 			let mapOptions = {
@@ -239,10 +239,8 @@ export class ClinicslocatorPage {
 			    });
 			    
 				this.filterAllData();
+
 			}
-
-
-			
 			
 		}, err => {
 			this.loading.dismiss();
@@ -282,7 +280,6 @@ export class ClinicslocatorPage {
 				this.noClinics = false;
 			}
 	    }
-
 	}
 
 
@@ -391,6 +388,18 @@ export class ClinicslocatorPage {
 		});
 
 		this.resultClinics = this.allClinics;
+
+
+		// function mycomparator(a,b) {   return parseInt(a.Distance) - parseInt(b.Distance);  } 
+		// this.resultClinics.sort(mycomparator); 
+
+		this.resultClinics.sort((a, b) => {
+	      if (a.Distance < b.Distance) return -1;
+	      else if (a.Distance > b.Distance) return 1;
+	      else return 0;
+	    });
+
+		console.log(this.resultClinics)
 		
 		if(this.allClinics.length == 0){
 			this.noClinics = true;

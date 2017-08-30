@@ -1,20 +1,30 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 
 
 import { Storage } from '@ionic/storage';
+
+import { LoginServiceProvider } from '../../providers/login-service/login-service';
+
+
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @IonicPage()
 @Component({
   selector: 'page-termsconditions',
   templateUrl: 'termsconditions.html',
+  providers: [LoginServiceProvider]
 })
 export class TermsconditionsPage {
 
   loggedIn : boolean = false;
   tandc: any;
+  loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public storage: Storage,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public storage: Storage,
+              public loginService: LoginServiceProvider,private alertCtrl: AlertController,
+              public loadingCtrl: LoadingController,public http: Http,) {
     
     this.tandc =   {
        "Remarks": "30",
@@ -30,7 +40,9 @@ export class TermsconditionsPage {
   }
 
   ionViewDidLoad() {
+    //this.showLoader();
     this.getMemInfo();
+    this.getTerms();
   }
 
   getMemInfo(){
@@ -42,6 +54,46 @@ export class TermsconditionsPage {
           this.loggedIn = true;
         }
     });
+  }
+
+  showLoader(){
+    this.loading = this.loadingCtrl.create({
+        content: 'Please Wait...'
+    });
+
+    this.loading.present();
+  }
+
+
+  getTerms() {
+    //this.loginService.loadTerms()
+
+    // .then((result) => {
+
+    //   console.log(result)
+
+    //   if(result.ValidateMessage != undefined){
+    //     let alert = this.alertCtrl.create({
+    //       title: 'Alert',
+    //       message: result.ValidateMessage,
+    //       buttons: [{
+    //             text: 'OK',
+    //             role: 'cancel',
+    //             handler: () => {
+    //               console.log('Cancel clicked');
+    //           }
+    //         }]
+    //     });
+    //     alert.present();
+    //   }else{
+        
+        
+    //   }
+
+    // }, (err) => {
+    //   this.loading.dismiss();
+    // });
+
   }
 
 
