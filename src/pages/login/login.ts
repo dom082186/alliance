@@ -70,35 +70,33 @@ export class LoginPage {
 
 
 
-	doLogin() {
-		console.log(this.login['password'])
-		console.log(this.login['network'])
+	doLogin() {	
 
+		if(this.login['password'] == "" || this.login['password'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Password is required',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
 
-		// if(this.login['password'] == "" || this.login['password'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'Password is required',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
-
-		// }else{
+		}else{
 
 			this.showLoader();
 			var sha512 = require('sha512')
-			var hash = sha512('P@ssw0rd');//sha512(this.login['password'])
-				console.log(hash.toString('hex'))
-			this.loginCredentials = "username=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
-			//this.loginCredentials = "username=" + this.login['username'] + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');
-				console.log(this.loginCredentials);
+			var hash = sha512(this.login['password'])//sha512('P@ssw0rd');//
+
+			//this.loginCredentials = "usernric=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
+			this.loginCredentials = "usernric=" + this.memberInfo[0].MemberNRIC + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');
+			console.log(this.loginCredentials);
+
 			this.loginService.loginUsername(this.loginCredentials).then((result) => {
 			    this.loading.dismiss();
 			    console.log(result);
@@ -111,20 +109,21 @@ export class LoginPage {
 						        text: 'OK',
 						        role: 'cancel',
 						        handler: () => {
-						          this.navCtrl.setRoot( HomePage );	
+						          //this.navCtrl.setRoot( HomePage );	
+						          return;
 						      }
 						    }]
 						});
 						alert.present();
 				    }else{
 				    	this.setData(result);
-				    	this.navCtrl.setRoot( ClaimsPage );		
+				    	this.navCtrl.push( ClaimsPage );		
 				    }
 
 			    }, (err) => {
 			      this.loading.dismiss();
 		    });
-		// }
+		}
 
 	}
 
@@ -138,7 +137,7 @@ export class LoginPage {
 
 
 	setData(res){
-		this.storage.set('memClaimInfo', res);
+		this.storage.set('claimMemInfo', res);
 	}
 
 

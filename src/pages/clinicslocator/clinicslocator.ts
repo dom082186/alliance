@@ -101,7 +101,7 @@ export class ClinicslocatorPage {
 
 		}, (err) => {
 			this.loading.dismiss();
-			console.log(err.code);
+			
 			var errorMsg = ""
 			if(err.code == 1){
 				errorMsg = "User denied location";
@@ -244,7 +244,7 @@ export class ClinicslocatorPage {
 			
 		}, err => {
 			this.loading.dismiss();
-			console.log(err);
+			
 
 			let alert = this.alertCtrl.create({
 				title: 'Alert',
@@ -265,7 +265,6 @@ export class ClinicslocatorPage {
 	onInputChange(searchStr) {
 	    
 	    if(searchStr == undefined || searchStr ==""){
-	    	console.log('undefined')
 	    	//this.allClinics = this.allClinics1;
 	    	this.filterNearData();
 	    }else{
@@ -389,17 +388,12 @@ export class ClinicslocatorPage {
 
 		this.resultClinics = this.allClinics;
 
-
-		// function mycomparator(a,b) {   return parseInt(a.Distance) - parseInt(b.Distance);  } 
-		// this.resultClinics.sort(mycomparator); 
-
 		this.resultClinics.sort((a, b) => {
 	      if (a.Distance < b.Distance) return -1;
 	      else if (a.Distance > b.Distance) return 1;
 	      else return 0;
 	    });
 
-		console.log(this.resultClinics)
 		
 		if(this.allClinics.length == 0){
 			this.noClinics = true;
@@ -444,11 +438,9 @@ export class ClinicslocatorPage {
 
 
 	gotoDetails(index) {
-		console.log(this.allClinics);
 		this.clinicService.getClinic(index).then(result => {
 			this.navCtrl.push( ClinicdetailsPage, {details: this.allClinics[index]});
 		}, err => {
-			console.log(err);
 		})
 		
 	}

@@ -19,17 +19,22 @@
 		<div class="page-banner" style="background-image: url( './assets/img/banners/contact-us2.png' );">
 		</div>
 		<div class="bg-white">
-			<h3 style="margin-top: 35px;">Corporate Office</h3>
+			<h3 style="margin-top: 35px;">{{(contactInfo | async)?.company}}</h3>
 			<p>25 Bukit Batok Crescent<br> 
 				#07-09/10/11/12/13 The Elitist<br>
 				Singapore 658066</p>
-			<h3>Email</h3>
-			<p><a href="mailto:enquiry@alliancehealthcare.com.sg" style="text-decoration: none;color: #eea52e;">enquiry@alliancehealthcare.com.sg</a></p>
+			<!-- <h3>Email</h3>
+			<p><a href="mailto:enquiry@alliancehealthcare.com.sg" style="text-decoration: none;color: #eea52e;">{{(contactInfo | async)?.email}}</a></p> -->
+			
 			<div class="details row middle-xs center-xs">
 				<div class="btn-panel row middle-xs">
-					<a href="tel:+6566977700" class="btn-call">Call Us</a>
+					<a href="mailto:{{(contactInfo | async)?.email}}" class="btn-call">{{(contactInfo | async)?.email}}</a>
 				</div>
-				<!-- <iframe src="http://118.201.197.142/htmlformats/contact-us.html" width="100%"></iframe> -->
+			</div>
+			<div class="details row middle-xs center-xs">
+				<div class="btn-panel row middle-xs" style="margin:20px 0 0 !important">
+					<a href="tel:+65{{(contactInfo | async)?.telephoneno.split(' ').join('')}}" class="btn-call">Call Us</a>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -14,8 +14,21 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div class="iframe-container">
+    <div class="iframe-container" *ngIf="page == 'login' ">
         <iframe src="http://118.201.197.142/htmlformats/terms-conditions.html" width="100%" height="100%"></iframe>
+    </div>
+
+    <div class="tnc-content has-header has-copyright" *ngIf="page == 'claims' ">
+        <div class="bg-white">
+            <div class="tnc-list">
+                <div class="tnc-item">
+                    <div class="tnc-title">{{termsTitle}}</div>
+                    <div class="tnc-content" [innerHTML]="termsBody">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </ion-content>
 <ion-footer>

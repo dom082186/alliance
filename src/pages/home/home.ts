@@ -72,7 +72,7 @@ export class HomePage {
 		this.storage.get('memInfo').then((val) => {
 		    this.memberInfo = val;
 		    this.sessionID = val[0].Internal_LoggedInUserRegisterID
-		    if(val[0].UserName != ""){
+		    if(val[0].MemberNRIC != ""){
 		    	this.isAccountHasClaims = true	
 		    }
 		    if(this.memberInfo[0]['IsEmployee'] != true){ 

@@ -33607,7 +33607,6 @@ page-ecard .ecard-content .flip-container.flip .flipper {
 
 page-ecard .ecard-content .flip-container .flipper {
   width: 100%;
-  max-width: 260px;
   margin: 0 auto;
   transition: 0.6s;
   -webkit-transition: 0.6s;
@@ -33647,7 +33646,6 @@ page-ecard .ecard-content .flip-container .flipper .back {
 
 page-ecard .ecard-content .flip-container .flipper .card {
   width: 100%;
-  max-width: 260px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card img {
@@ -33656,29 +33654,50 @@ page-ecard .ecard-content .flip-container .flipper .card img {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 260px;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .card-details {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  padding: 40px 20px 0;
-  height: 170px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20% 15px 10px 7%;
+}
+
+page-ecard .ecard-content .flip-container .flipper .card .card-details.card-axa {
+  padding-top: 27%;
+}
+
+page-ecard .ecard-content .flip-container .flipper .card .card-details.card-p3 {
+  padding-top: 13%;
+}
+
+page-ecard .ecard-content .flip-container .flipper .card .card-details.card-ntuc {
+  padding-top: 16%;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .label {
-  font-size: 6px;
-  font-weight: bold;
+  font: 10px/1.45 "Helvetica-Medium";
   margin: 0 2px 0 0;
 }
 
 page-ecard .ecard-content .flip-container .flipper .card .content {
-  font-size: 6px;
-  font-weight: bold;
+  font: 10px/1.45 "Helvetica-Medium";
+}
+
+@media screen and (max-width: 375px) {
+  page-ecard .ecard-content .flip-container .flipper .card .label {
+    font: 8px/1.45 "Helvetica-Medium";
+  }
+  page-ecard .ecard-content .flip-container .flipper .card .content {
+    font: 8px/1.45 "Helvetica-Medium";
+  }
 }
 
 page-ecard .ecard-content .card-bottom-text {
-  margin-top: 180px;
+  margin-top: 250px;
 }
 
 page-ecard .ecard-content .card-bottom-text h3 {
@@ -33688,11 +33707,6 @@ page-ecard .ecard-content .card-bottom-text h3 {
 
 page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
-}
-
-page-ecard .ecard-content .card-axa {
-  top: 30px !important;
-  height: 140px !important;
 }
 
 page-home .home-content .home-menu {

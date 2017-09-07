@@ -135,7 +135,7 @@ export class LoginNonmedinetPage {
 		this.storage.set('memNetwork', this.login['network']); //set localstorage for network
 		
 		//====== TEST
-		// this.storage.set('memNetwork', 'ge');
+		//this.storage.set('memNetwork', 'ntuc');
 
 		if( this.login['nric'] == "" || this.login['nric'] == undefined){
 			let alert = this.alertCtrl.create({
@@ -190,7 +190,7 @@ export class LoginNonmedinetPage {
 				this.showLoader();
 				
 				//====== TEST
-				// this.loginCredentials = "usernric=S78432ASE&network=ge&membertype=member";
+				// this.loginCredentials = "usernric=S8124356A&network=ntuc&membertype=member";
 				
 				//====== LIVE	
 				this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
@@ -198,8 +198,8 @@ export class LoginNonmedinetPage {
 
 				this.loginService.login(this.loginCredentials).then((result) => {
 				    this.loading.dismiss();
-				    console.log(result.length);
-
+		
+				    console.log(result)
 				    if(result.length > 0 ){
 				    	if(result.Status_Volatile){
 					    	let alert = this.alertCtrl.create({
@@ -210,20 +210,22 @@ export class LoginNonmedinetPage {
 							        role: 'cancel',
 							        handler: () => {
 							          console.log('Cancel clicked');
+							          return;
 							      }
 							    }]
 							});
 							alert.present();
 					    }else{
+					    	
 					    	this.setData(result);
 					    	this.navCtrl.setRoot( HomePage );	
 
 							//====== LIVE
-		  					this.events.publish('user:created', result, this.login['network']);  
+		  					//this.events.publish('user:created', result, this.login['network']);  
 
 
 		  					//====== TEST
-		  					// this.events.publish('user:created', result, 'ge'); 
+		  					this.events.publish('user:created', result, 'ge'); 
 					    }
 
 				    }else{
@@ -267,8 +269,8 @@ export class LoginNonmedinetPage {
 
 	}
 
-	openTerms(){
-		this.navCtrl.push( TermsconditionsPage);
+	openTerms(page){
+		this.navCtrl.push( TermsconditionsPage, {page: page});
 	}
 
 	setData(res){

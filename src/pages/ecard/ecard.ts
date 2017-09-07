@@ -89,11 +89,10 @@ export class EcardPage {
 
 		this.showLoader();
 		this.cardNRIC = this.memberInfo[val]['MemberNRIC'];
-		this.ecardParam = "nric=" + this.memberInfo[val]['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.memberNetwork[val]['Internal_LoggedInUserRegisterID'];
-		console.log(this.ecardParam);
+		this.ecardParam = "nric=" + this.memberInfo[val]['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.memberInfo[val]['Internal_LoggedInUserRegisterID'];
+		
 		this.ecardService.getEcard(this.ecardParam).then((result) => {
 		    this.loading.dismiss();
-		    console.log(result);
 
 		    if(result.Status == "Failed"){
 				let alert = this.alertCtrl.create({
@@ -104,7 +103,7 @@ export class EcardPage {
 				        text: 'OK',
 				        role: 'Cancel',
 				        handler: () => {
-				        	if(result.ValidateMessage.toLowerCase() == "Records not found."){
+				        	if(result.ValidateMessage.toLowerCase() != "records not found."){
 				        		this.navCtrl.setRoot(LoginNonmedinetPage);
 				        	}else{
 				        		this.navCtrl.pop();
@@ -155,18 +154,18 @@ export class EcardPage {
     	});
 	}
 
+
 	loadEcardDetails(){
 		this.showLoader();
 		var empType = "";
 		if(this.memberInfo[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
-
+		
 		this.cardNRIC = this.memberInfo[0]['MemberNRIC'];
-		this.ecardParam = "nric=" + this.memberInfo[0]['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.memberNetwork[0]['Internal_LoggedInUserRegisterID'];
-		console.log(this.ecardParam);
+		this.ecardParam = "nric=" + this.memberInfo[0]['MemberNRIC'] + "&empType=" + empType + "&network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+		
 
 		this.ecardService.getEcard(this.ecardParam).then((result) => {
 		    this.loading.dismiss();
-		    console.log(result);
 
 		    if(result.Status == "Failed"){
 				let alert = this.alertCtrl.create({
@@ -177,7 +176,7 @@ export class EcardPage {
 				        text: 'OK',
 				        role: 'Cancel',
 				        handler: () => {
-				        	if(result.ValidateMessage.toLowerCase() == "Records not found."){
+				        	if(result.ValidateMessage.toLowerCase() != "records not found."){
 				        		this.navCtrl.setRoot(LoginNonmedinetPage);
 				        	}else{
 				        		this.navCtrl.pop();
@@ -222,6 +221,13 @@ export class EcardPage {
 			if(this.memberNetwork.toLowerCase() == "axa"){
 				this.rd.addClass(this.detailsElement.nativeElement, 'card-axa');
 			}
+			if(this.memberNetwork.toLowerCase() == "pcube"){
+				this.rd.addClass(this.detailsElement.nativeElement, 'card-p3');
+			}
+
+			if(this.memberNetwork.toLowerCase() == "ntuc"){
+				this.rd.addClass(this.detailsElement.nativeElement, 'card-ntuc');
+			}
 		}
 	    
 		}, (err) => {
@@ -237,14 +243,8 @@ export class EcardPage {
 		this.rd.removeClass(this.elem.nativeElement, 'flip');
 	}
 
-
-	
-
 	backButtonClick(){
-		console.log('backButtonClick')
     	this.navCtrl.pop();  // remember to put this to add the back button behavior
-    	//this.navCtrl.popToRoot();
-
 	}
 
 }

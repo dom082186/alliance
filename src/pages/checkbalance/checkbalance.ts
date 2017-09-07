@@ -79,7 +79,6 @@ export class CheckbalancePage {
   getNetwork(){
     this.storage.get('memNetwork').then((val1) => {
         this.memberNetwork = val1;
-        console.log(val1);
     });
     this.getCheckBalanceInfo();
   }
@@ -89,27 +88,29 @@ export class CheckbalancePage {
       var empType = "";
       if(this.memberInfo1[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
       this.params = "network="  + this.memberNetwork + "&nric=" + this.memberInfo1[0]['MemberNRIC'] + "&empType=" + empType + "&internal_LoggedInUserRegisterID="+ this.memberInfo1[0]['Internal_LoggedInUserRegisterID'];
-      
-      console.log(this.params)
 
       this.claimService.getCheckBalanceAPI(this.params).then((result) => {
             this.loading.dismiss();
-            console.log(result);
             
             if(result.Status == "Failed"){
-              let alert = this.alertCtrl.create({
-                title: 'Alert',
-                message: result.ValidateMessage,
-                enableBackdropDismiss: false,
-                buttons: [{
-                      text: 'OK',
-                      role: 'Cancel',
-                      handler: () => {
-                        
-                    }
-                  }]
-              });
-              alert.present();
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }else{
+                            this.navCtrl.pop();
+                          }
+                           
+                      }
+                    }]
+                });
+                alert.present();
               
             }else{
               this.balanceRemarks = this.getCheckInfoFromAsync(result)

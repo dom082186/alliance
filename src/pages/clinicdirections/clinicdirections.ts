@@ -48,10 +48,7 @@ export class ClinicdirectionsPage {
 		this.clinicname = this.navParams.get('name');
 		this.clinicAddress = this.navParams.get('address');
 
-		console.log(this.clinicAddress);
-
-
-
+		
 	}
 
 	ionViewDidLoad(){
@@ -78,9 +75,6 @@ export class ClinicdirectionsPage {
 			this.currentLong = position.coords.longitude;
 			this.loading.dismiss();
 			
-			console.log(this.currentLong)
-			console.log(this.currentLat)
-
 			let currentLatLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 
 			let mapOptions = {
@@ -137,8 +131,8 @@ export class ClinicdirectionsPage {
 		    this.getDistance('d', p,r);
 
 		}, (err) => {
+			
 			this.loading.dismiss();
-			console.log(err);
 			
 			let alert = this.alertCtrl.create({
 				title: 'Alert',
@@ -216,7 +210,6 @@ export class ClinicdirectionsPage {
 	}
 
 	getDistance(distanceMode,p,r) {
-		console.log(distanceMode)
 
 		var mode: any;//google.maps.TravelMode.DRIVING
 		if(distanceMode == 'd'){mode = google.maps.TravelMode.DRIVING}else{mode = google.maps.TravelMode.WALKING}

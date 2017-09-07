@@ -24,16 +24,25 @@ export class ClaimsPage {
   
 
   loading: any;
-  memberInfo: any[];
+  memberInfo: any;
+  memberClaimInfo: any;
   memberNetwork: any;
+  memberNRIC: any;
   sessionID: any;
   params: any;
+  claimHistoryList: any;
+  benefitPeriod: any;
+  selectedBenefitPeriod: any;
+  selectedBenefitID: any;
+  benefitsInfo: any;
+  tpa_benefits: any;
   claimForm = {}
   benefitsForm = {}
-  claimHistoryList: any;
   showBenefitsPage: boolean = false;
   showClaimsPage: boolean = true;
   hasDependents: boolean = false;
+  noRecordsFound: boolean = false;
+  hideExportButton: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private rd: Renderer2,
     public storage: Storage,public claimService: ClaimServiceProvider,public loadingCtrl: LoadingController,
@@ -45,28 +54,52 @@ export class ClaimsPage {
   ionViewDidLoad(){
     
     this.getData();
+    //this.memberInfo = this.getFromStorageAsync();
+    //this.getNetwork();
   }
 
   showLoader(){
       this.loading = this.loadingCtrl.create({
           content: 'Please Wait...'
       });
-
       this.loading.present();
   }
 
+
+  /// *******************   GET FROM LOGIN API ***************
+  async getFromStorageAsync(){
+    return await this.storage.get('claimMemInfo');
+  }
+  /// *******************   END  ***************
+
+
+  /// *******************   GET FROM LOGINNONMEDINET API ***************
   getData(){
     this.storage.get('memInfo').then((val) => {
         this.memberInfo = val;
+        this.claimForm['claimName'] = 0;
         if(val.length > 1){ this.hasDependents = true; }else{this.hasDependents = false;}
         this.getNetwork();
     });
+
+
+
   }
+  /// *******************   END  ***************
+
+
   getNetwork(){
+    
     this.storage.get('memNetwork').then((val1) => {
         this.memberNetwork = val1;
-        this.getSession();
-    });  
+
+        this.storage.get('claimMemInfo').then((val1) => {
+            this.memberClaimInfo = val1;
+            this.getSession();
+        });
+    });
+
+     
   }
 
   getSession(){
@@ -76,68 +109,30 @@ export class ClaimsPage {
     });  
   }
 
-  searchClaim() {
-    this.showLoader();
+  async getBenefitsFromSync(val){
+    return await val;
+  }
+
+  gotoClaim(){
     this.showBenefitsPage = false;
     this.showClaimsPage = true;
     this.rd.addClass(this.claimsBtnElem.nativeElement, 'active');
     this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
-    var dateFromObj = new Date(this.claimForm['fromDate']);
-    var dateToObj = new Date(this.claimForm['toDate']);
-    var nameIndex = this.claimForm['claimName'];
+  }
+
+  searchClaim() {
+
+      this.showLoader();
+      var dateFromObj = new Date(this.claimForm['fromDate']);
+      var dateToObj = new Date(this.claimForm['toDate']);
+      var nameIndex = this.claimForm['claimName'];
 
 
-    if(this.claimForm['claimName'] == "" || this.claimForm['claimName'] == undefined){
-        this.loading.dismiss();
-        let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: 'Kindly select a Name',
-            enableBackdropDismiss: false,
-            buttons: [{
-                  text: 'OK',
-                  role: 'Cancel',
-                  handler: () => {
-                    
-                }
-              }]
-          });
-          alert.present();
-    }else if(this.claimForm['fromDate'] == "" || this.claimForm['fromDate'] == undefined){
-        this.loading.dismiss();
-        let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: 'Date is required',
-            enableBackdropDismiss: false,
-            buttons: [{
-                  text: 'OK',
-                  role: 'Cancel',
-                  handler: () => {
-                    
-                }
-              }]
-          });
-          alert.present();
-    }else if(this.claimForm['toDate'] == "" || this.claimForm['toDate'] == undefined){
-        this.loading.dismiss();
-        let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: 'Date is required',
-            enableBackdropDismiss: false,
-            buttons: [{
-                  text: 'OK',
-                  role: 'Cancel',
-                  handler: () => {
-                    
-                }
-              }]
-          });
-          alert.present();
-    }else if(dateFromObj  > dateToObj){
-         
-         this.loading.dismiss();
+      if(this.claimForm['fromDate'] == "" || this.claimForm['fromDate'] == undefined){
+          this.loading.dismiss();
           let alert = this.alertCtrl.create({
               title: 'Alert',
-              message: 'Date format is incorrect',
+              message: 'Date is required',
               enableBackdropDismiss: false,
               buttons: [{
                     text: 'OK',
@@ -148,123 +143,114 @@ export class ClaimsPage {
                 }]
             });
             alert.present();
-
-    }else{
-     
-      this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[nameIndex]['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
-
-      console.log(this.params);
-
-        this.claimService.getClaimsAPI(this.params).then((result) => {
-            this.loading.dismiss();
-            console.log(result);
-
-            // if(result.Status == "Failed"){
-            //   let alert = this.alertCtrl.create({
-            //     title: 'Alert',
-            //     message: result.ValidateMessage,
-            //     enableBackdropDismiss: false,
-            //     buttons: [{
-            //           text: 'OK',
-            //           role: 'Cancel',
-            //           handler: () => {
+      }else if(this.claimForm['toDate'] == "" || this.claimForm['toDate'] == undefined){
+          this.loading.dismiss();
+          let alert = this.alertCtrl.create({
+              title: 'Alert',
+              message: 'Date is required',
+              enableBackdropDismiss: false,
+              buttons: [{
+                    text: 'OK',
+                    role: 'Cancel',
+                    handler: () => {
+                      
+                  }
+                }]
+            });
+            alert.present();
+      }else if(dateFromObj  > dateToObj){
+           
+           this.loading.dismiss();
+            let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: 'Date format is incorrect',
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
                         
-            //         }
-            //       }]
-            //   });
-            //   alert.present();
-              
-            // }else{
-                
-                 this.claimHistoryList = 
-                  [
-                    {
-                        "ClaimID": "906b3a4e-3f66-430e-9c4e-82b9bee65553",
-                        "ClaimCode": "TPA45297",
-                        "ClaimType": "TPA Claim",
-                        "Treatmentdate": "2017-07-28T00:00:00",
-                        "ClinicName": "A LIFE CLINIC PTE LTD",
-                        "ClaimStatus": "Paid",
-                        "PatientName": "Alfred",
-                        "PatientNRIC": "S7211235B",
-                        "MCDays": 0,
-                        "TotalFeeBeforeGST": 160,
-                        "TotalFeeGST": 20,
-                        "TotalFeeAfterGST": 180,
-                        "ClaimBeforeGST": 0,
-                        "ClaimGST": 0,
-                        "ClaimAfterGST": 0,
-                        "CashCollected": 150,
-                        "TotalDeductAmount": 30
-                    },
-                    {
-                        "ClaimID": "56d770bf-9bf4-4e92-864f-8db6248109d8",
-                        "ClaimCode": "TPA45299",
-                        "ClaimType": "TPA Claim",
-                        "Treatmentdate": "2017-07-31T00:00:00",
-                        "ClinicName": "A LIFE CLINIC PTE LTD",
-                        "ClaimStatus": "Pending",
-                        "PatientName": "Alfred",
-                        "PatientNRIC": "S7211235B",
-                        "MCDays": 0,
-                        "TotalFeeBeforeGST": 138,
-                        "TotalFeeGST": 0,
-                        "TotalFeeAfterGST": 138,
-                        "ClaimBeforeGST": 0,
-                        "ClaimGST": 0,
-                        "ClaimAfterGST": 0,
-                        "CashCollected": 108,
-                        "TotalDeductAmount": 30
-                    },
-                    {
-                        "ClaimID": "d00e5f34-2d8c-42e4-9fd2-84b3b89fc9bd",
-                        "ClaimCode": "Claim236732",
-                        "ClaimType": "Panel Claim",
-                        "Treatmentdate": "2017-08-02T00:00:00",
-                        "ClinicName": "ABUNDANT HEALTH MEDICAL CLINIC PTE LTD",
-                        "ClaimStatus": null,
-                        "PatientName": "Alfred",
-                        "PatientNRIC": "S7211235B",
-                        "MCDays": 1,
-                        "TotalFeeBeforeGST": 22,
-                        "TotalFeeGST": 1.54,
-                        "TotalFeeAfterGST": 23.54,
-                        "ClaimBeforeGST": 17.33,
-                        "ClaimGST": 1.21,
-                        "ClaimAfterGST": 18.54,
-                        "CashCollected": 5,
-                        "TotalDeductAmount": 18.54
                     }
-                ]
+                  }]
+              });
+              alert.present();
 
-            // }
-          
-        }, (err) => {
-            this.loading.dismiss();
-        }); 
+      }else{
+       
+        //===========  LIVE 
+        //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
+        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
 
-    }
+        //===========  TEST FROM LOGIN NONMEDINET
+        //this.params = "network="  + "ntuc" + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + "2000-09-02 00:00:00.000" + "&visitdateto=" + "2017-09-02 00:00:00.000" +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+
+        //===========  TEST FROM LOGIN
+        //this.params = "network="  + "ntuc" + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + "2000-09-02 00:00:00.000" + "&visitdateto=" + "2017-09-02 00:00:00.000" +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+
+
+        console.log(this.params);
+
+          this.claimService.getClaimsAPI(this.params).then((result) => {
+              this.loading.dismiss();
+              console.log(result);
+
+              if(result.Status == "Failed"){
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          
+                      }
+                    }]
+                });
+                alert.present();
+                
+              }else{
+                  this.claimHistoryList = result;
+
+                  if(result.length == 0){
+                    this.noRecordsFound = true;
+                  }else{
+                    this.noRecordsFound = false;
+                    this.hideExportButton = true;
+                  }
+              }
+            
+          }, (err) => {
+              this.loading.dismiss();
+          }); 
+
+      }
   }
 
 
   openClaim(index){
     console.log(index);
-    console.log(this.claimHistoryList[index]);
-    //this.navCtrl.push( ClaimdetailsPage, {details: this.claimHistoryList[index]});
-     let contactModal = this.modalCtrl.create(ClaimdetailsPage);
-     contactModal.present();
+    let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index],index: index});
+    contactModal.present();
   }
+
 
   gotoBenefits() {
     this.showBenefitsPage = true;
     this.showClaimsPage = false;
     this.rd.addClass(this.benefitsBtnElem.nativeElement, 'active');
     this.rd.removeClass(this.claimsBtnElem.nativeElement, 'active');
+    this.showLoader();
 
 
-     this.showLoader();
-     this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.memberInfo['BenefitPlanID']  +"&internal_LoggedInUserRegisterID="+ this.sessionID;
-     this.claimService.getBenefitsAPI(this.params).then((result) => {
+    this.benefitsForm['employee_nric'] =  this.memberClaimInfo['MemberNRIC']; 
+    this.benefitsForm['select_employeeName'] =  this.memberClaimInfo['MemberNRIC']; 
+    this.benefitsForm['select_employeeName'] = 0;
+
+    
+    var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+    console.log(params)  
+    this.claimService.loadBenefitPeriodAPI(params).then((result) => {
             this.loading.dismiss();
             console.log(result);
 
@@ -284,6 +270,7 @@ export class ClaimsPage {
               alert.present();
               
             }else{
+               this.benefitPeriod = result;
                console.log('success');
             }
           
@@ -291,12 +278,59 @@ export class ClaimsPage {
             this.loading.dismiss();
         }); 
 
+  }
+
+  onChange(val){
+      
+    this.showLoader();  
+    this.selectedBenefitPeriod = this.benefitPeriod[val].period;
+    this.selectedBenefitID = this.benefitPeriod[val].id;
+    var periodArray = this.selectedBenefitPeriod.split(' To ')
+    var periodFrom = periodArray[0].split('From ')
+    
+    this.benefitsForm['benefitPlan_startDate'] = periodFrom[1];
+    this.benefitsForm['benefitPlan_endDate'] = periodArray[1];
+
+
+    this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+    this.claimService.getBenefitsAPI(this.params).then((result) => {
+            this.loading.dismiss();
+
+            if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+               this.benefitsInfo = this.getBenefitsFromSync(result);
+               this.tpa_benefits = result.tpa_benefits;
+            }
+
+            
+        }, (err) => {
+            this.loading.dismiss();
+    }); 
 
   }
+
 
   backButtonClick()
 	{
     	this.navCtrl.pop({});  // remember to put this to add the back button behavior
 	}
+
+  gotoSubmitClaims(){
+    this.navCtrl.push( SubmitclaimsPage );
+  }
 
 }

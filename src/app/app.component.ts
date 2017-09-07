@@ -74,7 +74,7 @@ export class MyApp {
             { title: 'Appointment (ARS)', component: AppointmentPage, icon: './assets/img/icons/appointment.png', class: '', close: 'true' },
             { title: 'About Us', component: AboutusPage, icon: './assets/img/icons/about-us.png', class: '', close: 'true'},
             { title: 'Contact Us', component: ContactusPage, icon: './assets/img/icons/contact-us.png', class: '', close: 'true' },
-            // { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
+            { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
             { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png', class: '', close: 'true' }
         ];
 
@@ -160,7 +160,7 @@ export class MyApp {
           console.log('no ars');
         }
 
-        if(this.appMemInfo[0].UserName == ""){
+        if(this.appMemInfo[0].MemberNRIC == ""){
           console.log('no claims');
         }
       }else{

@@ -16,11 +16,10 @@ export class ClinicnearbyPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ClinicnearbyPage');
+    
   }
 
 	gotoAll(){
-		console.log('aaa');
 		this.navCtrl.push( ClinicslocatorPage );
 	}
 

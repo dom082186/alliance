@@ -17,7 +17,7 @@
 	<div class="claim-content has-header has-copyright">
 		<div class="tabs-menu">
 			<ul class="row middle-xs">
-				<li #claimsBtn  (click)="searchClaim()" class="active">Claim History</li>
+				<li #claimsBtn  (click)="gotoClaim()" class="active">Claim History</li>
 				<li #benefitsBtn (click)="gotoBenefits()">Benefits</li>
 			</ul>
 		</div>
@@ -27,8 +27,9 @@
                 <div class="form-group"> 
                     <div class="label">Name</div>
                     <div class="input-field">
-                        <select name="select_name" name="claimName" [(ngModel)]="claimForm.claimName">
+                        <select  name="claimName" [(ngModel)]="claimForm.claimName">
                             <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
+                            <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option>                             -->
                         </select>
                     </div>
                 </div>
@@ -59,15 +60,19 @@
                         <button class="btn btn-yellow" type="submit">Search</button>
                     </div>
                     <div class="col-xs-6 ">
-                        <a href="#" class="btn btn-gray">Add Claims</a>
+                        <a href="#" class="btn btn-gray" >Add Claims</a>
+                        <!-- (click)="gotoSubmitClaims()" -->
                     </div>
                 </div>
             </div>
             </form>
         </div>
         <div class="bg-white"  #claimsPage id="claimsPage" *ngIf="showClaimsPage">
+            <div class="claims-list" *ngIf="noRecordsFound">
+                <p>No Records Found</p>
+            </div>
+            
             <div class="claims-list">
-
                 <div class="claim-item" *ngFor = "let claim of claimHistoryList; let id = index" (click)="openClaim(id)">
                     <div class="row">
                         <div class="label">Claim Code</div>
@@ -83,7 +88,7 @@
                     </div>
                     <div class="row">
                         <div class="label">Claim Amount</div>
-                        <div class="text">{{claim.ClinicName}}</div>
+                        <div class="text">{{claim.ClaimBeforeGST}}</div>
                     </div>
                     <div class="row">
                         <div class="label">Claim Status</div>
@@ -92,7 +97,7 @@
                 </div>
 
             </div>
-            <div class="btn-panel">
+            <div class="btn-panel" *ngIf="hideExportButton">
                 <div class="row">
                     <div class="col-xs-6">
                         <a href="#" class="btn btn-yellow">Export to CSV</a>
@@ -113,7 +118,7 @@
                     <div class="form-group">
                         <div class="label">Employee NRIC</div>
                         <div class="input-field">
-                            <input type="text" name="employer_nric" [(ngModel)]="benefitsForm.employer_nric" disabled="true"/>
+                            <input type="text" name="employer_nric" [(ngModel)]="benefitsForm.employee_nric" disabled="true"/>
                         </div>
                     </div>
                 </div>
@@ -121,8 +126,9 @@
                     <div class="form-group">
                         <div class="label">Benefit Period</div>
                         <div class="input-field">
-                            <select name="select_benefitPeriod" [(ngModel)]="benefitsForm.select_benefitPeriod" disabled="true">
-                                <option value="">Select</option>
+                            <select name="select_benefitPeriod" [(ngModel)]="benefitsForm.select_benefitPeriod" (change)="onChange(benefitsForm.select_benefitPeriod)">
+                                <option value="" selected disabled>Select</option>
+                                <option [value]="i" *ngFor="let timePeriod of benefitPeriod; let i = index">{{timePeriod.period}}</option>
                             </select>
                         </div>
                     </div>
@@ -133,7 +139,7 @@
                     <div class="form-group">
                         <div class="label">Plan Name</div>
                         <div class="input-field">
-                            <input type="text" name="plan_name" [(ngModel)]="benefitsForm.plan_name" disabled="true"/>
+                            <input type="text" name="plan_name" [(ngModel)]="benefitsForm.plan_name" disabled="true" value="{{(benefitsInfo | async)?.plan_name}}" />
                         </div>
                     </div>
                 </div>
@@ -142,7 +148,9 @@
                         <div class="label">Employee Name</div>
                         <div class="input-field">
                             <select name="select_employeeName" [(ngModel)]="benefitsForm.select_employeeName" disabled="true">
-                                <option value="">Select</option>
+                                <!-- <option value="" selected disabled>Select</option> -->
+                                <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option> -->
+                                <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
                             </select>
                         </div>
                     </div>
@@ -172,7 +180,8 @@
                     <div class="form-group">
                         <div class="label">Acute Diagnosis</div>
                         <div class="input-field">
-                            <input type="text" name="acute_diagnosis" disabled="true"/>
+                            <input type="text" name="acute_diagnosis" disabled="true" value="{{(benefitsInfo | async)?.acute_diagnosis}}" />
+
                         </div>
                     </div>
                 </div>
@@ -180,7 +189,7 @@
                     <div class="form-group">
                         <div class="label">Chronic Diagnosis</div>
                         <div class="input-field">
-                            <input type="text" name="chronic_diagnosis" disabled="true"/>
+                            <input type="text" name="chronic_diagnosis" disabled="true" value="{{(benefitsInfo | async)?.chronic_diagnosis}}" />
                         </div>
                     </div>
                 </div>
@@ -198,30 +207,23 @@
                         <th>Visit / Year</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody *ngFor="let tpa of tpa_benefits">
+                    <tr >
                         <td>GP</td>
-                        <td>0.00</td>
-                        <td>%</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
+                        <td>{{tpa.CoPay}}</td>
+                        <td>{{tpa.CoPayType}}</td>
+                        <td>{{tpa.LimitPerVisiit}}</td>
+                        <td>{{tpa.LimitPerYear}}</td>
+                        <td>{{tpa.NoOfVisitPerYear}}</td>
                     </tr>
-                    <tr>
-                        <td>SP</td>
-                        <td>0.00</td>
-                        <td>%</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
+                    
                 </tbody>
             </table>
             <div class="btn-panel">
                 <div class="row center-xs">
-                    <div class="col-xs-7">
+                    <!-- <div class="col-xs-7">
                         <button type="submit" class="btn btn-yellow">Save</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

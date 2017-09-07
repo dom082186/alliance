@@ -6,7 +6,6 @@ import { AlertController } from 'ionic-angular';
 
 let apiUrl = 'http://118.201.197.142/api/';
 
-
 @Injectable()
 export class LoginServiceProvider {
 
@@ -92,14 +91,14 @@ export class LoginServiceProvider {
 		if (this.data) {
 		    // already loaded data
 		    return Promise.resolve(this.data);
-		  }
+		}
 		
 		return new Promise((resolve, reject) => {
 			var headers1 = new Headers({'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'});
 		    //headers1.append("content-type", 'application/json');
 		    //headers1.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
 
-		    var link = apiUrl + "loginauthentication/LoginWithUsername";
+		    var link = apiUrl + "loginauthentication/LoginWithNRIC";
 		    var opts = new RequestOptions({headers:headers1});
 		    this.http
 			    .post(link, credentials, opts)
@@ -127,7 +126,69 @@ export class LoginServiceProvider {
 	};
 
 
+	getContactInfo(){
+		if (this.data) {
+		    return Promise.resolve(this.data);
+		}
+		
+		return new Promise((resolve,reject) => {
+		    this.http.get('http://118.201.197.142/api/contactus/info')
+		      .map(res => res.json())
+		      .subscribe(
+		      	data => {
+		        	resolve(data); 	
+		        }, error => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(error);
+		      });
+		});
 
+	} 
+
+
+	loadTerms(parameter) {
+		if (this.data) {
+		    return Promise.resolve(this.data);
+		}
+		
+		return new Promise((resolve,reject) => {
+			var URL = apiUrl + "tpaclaim/TermsOfService?network=" + parameter;
+		    this.http.get(URL)
+		      .map(res => res.json())
+		      .subscribe(
+		      	data => {
+		        	resolve(data); 	
+		        }, error => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(error);
+		      });
+		});
+
+	}
 
 
 

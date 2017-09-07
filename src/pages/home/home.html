@@ -67,7 +67,7 @@
                     </li>
 
                     <li class="col-xs-6"  *ngIf="isAccountHasClaims == false">
-                        <a class="row direction-column-xs center-xs middle-xs">
+                        <a (click)="gotoClaims()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/claims-black1.png" />
                             </span>

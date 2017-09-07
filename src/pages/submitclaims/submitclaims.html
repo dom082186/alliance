@@ -15,20 +15,24 @@
 </ion-header>
 <ion-content>
 	<div class="submitClaims-content has-header has-copyright" style="padding-top: 15px;">
+		<form (ngSubmit)="submitClaim()">
 		<div class="bg-white">
 			<h3 class="text-xs-uppercase">Make TPA Claim</h3>
 			<div class="form-group">
 				<div class="label">Employee Name/NRIC</div>
 				<div class="input-field">
-					<select name="select_employee">
-						<option value="">Select</option>
+					<select name="claimName" [(ngModel)]="claimForm.claimName" (change)="onChange(claimForm.claimName)">
+						<option  *ngFor="let name of memberInfo; let i = index" [value]="name.MemberNRIC" >{{name.MemberName}}</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="label">Visit Date</div>
 				<div class="input-field">
-					<input type="text" class="has-calendar" name="visit_date" placeholder="DD/MM/YY" />
+					<!-- <input type="text" class="has-calendar" name="visit_date" placeholder="DD/MM/YY" /> -->
+					<ion-item no-lines style="padding:0px 0px">
+						<ion-datetime class="has-calendar dateTime" displayFormat="MM/DD/YYYY" pickerFormat="MMM DD YYYY" name="toDate" [(ngModel)]="claimForm.toDate"></ion-datetime>
+                    </ion-item>
 				</div>
 			</div><br/>
 			<h3 class="text-xs-uppercase">Provider/Clinic Information</h3>
@@ -46,7 +50,9 @@
 						<div class="label">Claim Type</div>
 						<div class="input-field">
 							<select name="select_claimType">
-								<option value="">Select</option>
+								<option value="" disabled>Select</option>
+								<option value="" *ngFor="let type of claimTypes">{{type.ClaimTypeDescription}}</option>
+								
 							</select>
 						</div>
 					</div>
@@ -187,6 +193,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 </ion-content>
 <ion-footer>

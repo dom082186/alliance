@@ -44,6 +44,8 @@ import { ClaimServiceProvider } from '../providers/claim-service/claim-service';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
 import { KeyPipe } from '../pipes/key/key';
+import { TermsconsServiceProvider } from '../providers/termscons-service/termscons-service';
+import { SubmitClaimServiceProvider } from '../providers/submit-claim-service/submit-claim-service';
 
 
 @NgModule({
@@ -113,7 +115,9 @@ import { KeyPipe } from '../pipes/key/key';
     GeocoderProvider,
     ClaimServiceProvider,
     InAppBrowser,
-    Keyboard
+    Keyboard,
+    TermsconsServiceProvider,
+    SubmitClaimServiceProvider
     
   ]
 })

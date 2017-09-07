@@ -4,7 +4,7 @@
             <img src="./assets/img/icons/menu.png" width="25" />
         </button>
         <ion-title>
-            <div class="bar-title text-xs-center">Login to our MediNet Login</div>
+            <div class="bar-title text-xs-center">Medinet Login</div>
             	<!-- <div class="logo-container row middle-xs center-xs">
 					<img src="./assets/img/logo.png" alt="Alliance Healthcare" width="140" />
 				</div> -->
@@ -22,16 +22,15 @@
 			
 			<form (ngSubmit)="doLogin()">
 			<div class="form-container">
-				<ion-item>
+				<!-- <ion-item>
 					<ion-label color="blue" floating>Username</ion-label>
-					<ion-input [(ngModel)]="login.username" name="username" disabled></ion-input>
-				</ion-item>
+					<ion-input [(ngModel)]="login.username" name="username" disabled ></ion-input>
+				</ion-item> -->
 				<ion-item>
 					<ion-label color="blue" floating>Password</ion-label>
 					<ion-input type="password" [(ngModel)]="login.password" name="password"></ion-input>
 				</ion-item>
 				<div class="btn-panel">
-					<!-- <button class="btn btn-yellow" (click)="gotoHome()">Login</button> -->
 					<button class="btn btn-yellow" type="submit">Login</button>
 				</div>
 			</div>

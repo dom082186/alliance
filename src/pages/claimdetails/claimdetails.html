@@ -1,46 +1,56 @@
 
-<ion-content>
-    <div class="claimDetails-content has-copyright">
+<div class="modal-area row center-xs middle-xs" (customevent)="modalClose()">
+    <div class="content-modal">
+        <div class="close-modal row middle-xs end-xs" (click)="modalClose()">
+            <div class="text">Close</div>
+            <div class="icon"><i class="fa fa-close"></i></div>
+        </div> <!-- end of .close-modal -->
+        
+
+    <div class="claimDetails-content">
         <div class="bg-white">
             <div class="claim-details">
-                <div class="title"><span>S1234567Z</span>: <span>DAVID</span></div>
+                <div class="title"><span>{{claimDetails.PatientNRIC}}</span>: <span>{{claimDetails.PatientName}}</span></div>
                 <div class="info row between-xs">
                     <div class="label">Claim Code</div>
-                    <div class="details">lorem ipsum</div>
+                    <div class="details">{{claimDetails.ClaimCode}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Visit Date</div>
-                    <div class="details">lorem ipsum lorem ipsum</div>
+                    <div class="details">{{claimDetails.Treatmentdate | date: 'MM/dd/yyyy'}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Clinic Name</div>
-                    <div class="details">lorem ipsum lorem ipsum lorem ipsum</div>
+                    <div class="details">{{claimDetails.ClinicName}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Clinic Amount</div>
-                    <div class="details">lorem ipsum</div>
+                    <div class="details">{{claimDetails.CashCollected}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Clinic Status</div>
-                    <div class="details">--</div>
+                    <div class="details">{{claimDetails.ClaimStatus}}</div>
                 </div>
                 <p class="disclosure-link">Patient's Consent for Disclosure of Medical Information</p>
                 <div class="accept-terms">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="checkbox">I accept the <span class="terms-link">Terms and Conditions</span></span>
-                    </label>
+
+                    <ion-checkbox color="blue" style="width: 30px;height: 17px;" [(ngModel)]="isCheckTM" checked name="isCheckTM" disabled></ion-checkbox>
+                    <div style="display:inline-block;" (click)="gotoTermsCons('claims')">I accept the <span class="terms-link" >Terms and Conditions</span></div>
+                    
                 </div>
                 <div class="btn-panel row middle-xs between-xs">
-                    <a class="btn btn-yellow">OK</a>
-                    <a class="btn btn-gray">Edit</a>
+                    <a class="btn btn-yellow" (click)="backButtonClick()">OK</a>
+                    <a class="btn btn-gray" >Edit</a>
+                    <!-- (click)="editClaim()" -->
                 </div>
             </div>
         </div>
-    </div> <!-- end of .checkBalance-content -->
-</ion-content>
+    </div> 
 
 
+
+    </div>
+</div>
 
 <!-- <ion-header>
     <ion-navbar hideBackButton>
