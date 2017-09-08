@@ -32716,6 +32716,30 @@ table tbody tr td {
   background-size: cover;
 }
 
+@media screen and (max-width: 600px) {
+  ion-modal ion-backdrop {
+    visibility: visible !important;
+  }
+  .modal-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .modal-wrapper .modal-area {
+    height: 100vh;
+  }
+  .modal-wrapper .modal-area .close-modal {
+    padding: 0 15px;
+  }
+  .modal-wrapper .modal-area .close-modal .text {
+    color: #fff;
+    margin: 0 5px 0 0;
+  }
+  .modal-wrapper .modal-area .close-modal .icon {
+    color: #fff;
+  }
+}
+
 page-aboutus .aboutUs-content .page-banner {
   position: relative;
   z-index: 2;
@@ -32826,6 +32850,39 @@ page-checkbalance .checkBalance-details .select-container select {
   border: 1px solid #ddd;
 }
 
+page-claimdetails .form-navigator {
+  position: relative;
+}
+
+page-claimdetails .form-navigator .navigator-item {
+  position: relative;
+  z-index: 2;
+}
+
+page-claimdetails .form-navigator .navigator-item .icon-container {
+  margin: 0 0 5px;
+}
+
+page-claimdetails .form-navigator .form-navigator-line {
+  background: #eff3f3;
+  height: 3px;
+  width: 65%;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+page-claimdetails .form-navigator .form-navigator-line .form-navigator-progress {
+  height: 3px;
+}
+
+page-claimdetails .bg-gray {
+  margin: 0 -30px;
+}
+
 page-claimdetails .claimDetails-content .claim-details .title {
   font: 14px/1.45 "Helvetica-Bold";
   margin: 0 0 20px;
@@ -32883,10 +32940,10 @@ page-claimdetails .claimDetails-content .claim-details .accept-terms label .chec
   left: 0;
 }
 
-page-claimdetails .claimDetails-content .claim-details .accept-terms label .checkbox .terms-link {
+page-claimdetails .claimDetails-content .claim-details .terms-link {
   text-decoration: underline;
   font: 12px/1.45 "Helvetica-Bold";
-  color: #1e2f6a;
+  color: #f3a121;
 }
 
 page-claimdetails .claimDetails-content .claim-details .btn-panel .btn {
@@ -33945,6 +34002,14 @@ page-register .register-content h1 {
   color: #1e2f6a;
 }
 
+page-submitclaims .dateTime {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
 page-termsconditions .header-ios .title-ios {
   padding-left: 50px;
   padding-right: 50px;
@@ -33966,11 +34031,7 @@ page-termsconditions .tnc-content .tnc-list .tnc-item {
 page-termsconditions .tnc-content .tnc-list .tnc-item .tnc-title {
   font: 14px/1.45 "Helvetica-Medium";
   margin: 0 0 10px;
-  text-decoration: underline;
-}
-
-page-termsconditions .tnc-content .tnc-list .tnc-item .tnc-title:before {
-  content: counter(list) ". ";
+  text-align: center;
 }
 
 page-termsconditions .iframe-container {

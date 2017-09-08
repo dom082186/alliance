@@ -97,13 +97,13 @@
                 </div>
 
             </div>
-            <div class="btn-panel" *ngIf="hideExportButton">
+            <!-- <div class="btn-panel" *ngIf="hideExportButton">
                 <div class="row">
                     <div class="col-xs-6">
                         <a href="#" class="btn btn-yellow">Export to CSV</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     
 
@@ -126,7 +126,7 @@
                     <div class="form-group">
                         <div class="label">Benefit Period</div>
                         <div class="input-field">
-                            <select name="select_benefitPeriod" [(ngModel)]="benefitsForm.select_benefitPeriod" (change)="onChange(benefitsForm.select_benefitPeriod)">
+                            <select name="select_benefitPeriod" [(ngModel)]="benefitsForm.select_benefitPeriod" (change)="onChange(benefitsForm.select_benefitPeriod)" style="white-space: nowrap">
                                 <option value="" selected disabled>Select</option>
                                 <option [value]="i" *ngFor="let timePeriod of benefitPeriod; let i = index">{{timePeriod.period}}</option>
                             </select>

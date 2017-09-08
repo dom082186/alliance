@@ -81,9 +81,6 @@ export class ClaimsPage {
         if(val.length > 1){ this.hasDependents = true; }else{this.hasDependents = false;}
         this.getNetwork();
     });
-
-
-
   }
   /// *******************   END  ***************
 
@@ -236,47 +233,48 @@ export class ClaimsPage {
 
 
   gotoBenefits() {
-    this.showBenefitsPage = true;
-    this.showClaimsPage = false;
-    this.rd.addClass(this.benefitsBtnElem.nativeElement, 'active');
-    this.rd.removeClass(this.claimsBtnElem.nativeElement, 'active');
-    this.showLoader();
+      this.showBenefitsPage = true;
+      this.showClaimsPage = false;
+      this.rd.addClass(this.benefitsBtnElem.nativeElement, 'active');
+      this.rd.removeClass(this.claimsBtnElem.nativeElement, 'active');
+      this.showLoader();
 
+      this.benefitsForm['employee_nric'] =  this.memberClaimInfo['MemberNRIC']; 
+      this.benefitsForm['select_employeeName'] =  this.memberClaimInfo['MemberNRIC']; 
+      this.benefitsForm['select_employeeName'] = 0;
 
-    this.benefitsForm['employee_nric'] =  this.memberClaimInfo['MemberNRIC']; 
-    this.benefitsForm['select_employeeName'] =  this.memberClaimInfo['MemberNRIC']; 
-    this.benefitsForm['select_employeeName'] = 0;
+      var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+      console.log(params)  
 
-    
-    var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
-    console.log(params)  
-    this.claimService.loadBenefitPeriodAPI(params).then((result) => {
-            this.loading.dismiss();
-            console.log(result);
+      this.claimService.loadBenefitPeriodAPI(params).then((result) => {
+              this.loading.dismiss();
+              console.log(result);
 
-            if(result.Status == "Failed"){
-              let alert = this.alertCtrl.create({
-                title: 'Alert',
-                message: result.ValidateMessage,
-                enableBackdropDismiss: false,
-                buttons: [{
-                      text: 'OK',
-                      role: 'Cancel',
-                      handler: () => {
-                        
-                    }
-                  }]
-              });
-              alert.present();
-              
-            }else{
-               this.benefitPeriod = result;
-               console.log('success');
-            }
-          
-        }, (err) => {
-            this.loading.dismiss();
-        }); 
+              if(result.Status == "Failed"){
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          
+                      }
+                    }]
+                });
+                alert.present();
+                
+              }else{
+                 this.benefitPeriod = result;
+                 this.benefitsForm['select_benefitPeriod'] = 0
+                 this.onChange(0);
+
+              }
+        
+      }, (err) => {
+          this.loading.dismiss();
+      }); 
 
   }
 
@@ -314,6 +312,7 @@ export class ClaimsPage {
             }else{
                this.benefitsInfo = this.getBenefitsFromSync(result);
                this.tpa_benefits = result.tpa_benefits;
+               console.log(result);
             }
 
             
