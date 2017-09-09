@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
 let apiUrl = 'http://118.201.197.142';
@@ -47,14 +48,21 @@ export class EcardPage {
 		public loadingCtrl: LoadingController,
 		private alertCtrl: AlertController,
 		public ecardService: EcardServiceProvider,
-		private rd: Renderer2) {
+		private rd: Renderer2,
+		private screenOrientation: ScreenOrientation) {
 
-		
+		//this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);	
+
 	}
+
+	
 
 	ionViewDidLoad(){
 		this.getData();
 		this.card['name'] = 0; // initial value for dropdown
+		//this.screenOrientation.unlock();
+		// get current
+		console.log(this.screenOrientation.type); 
 	}
 
 

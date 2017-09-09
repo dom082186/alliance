@@ -52,7 +52,7 @@ export class ClaimdetailsPage {
 				this.navCtrl.push( SubmitclaimsPage );
 			}	
 		}else{
-			this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails} );
+			//this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails} );
 		}
 		
 	}

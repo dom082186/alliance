@@ -47,6 +47,8 @@ import { KeyPipe } from '../pipes/key/key';
 import { TermsconsServiceProvider } from '../providers/termscons-service/termscons-service';
 import { SubmitClaimServiceProvider } from '../providers/submit-claim-service/submit-claim-service';
 
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+
 
 @NgModule({
     declarations: [
@@ -117,7 +119,8 @@ import { SubmitClaimServiceProvider } from '../providers/submit-claim-service/su
     InAppBrowser,
     Keyboard,
     TermsconsServiceProvider,
-    SubmitClaimServiceProvider
+    SubmitClaimServiceProvider,
+    ScreenOrientation,
     
   ]
 })
