@@ -33,6 +33,7 @@
 					<ion-item no-lines style="padding:0px 0px">
 						<ion-datetime class="has-calendar dateTime" displayFormat="MM/DD/YYYY" pickerFormat="MMM DD YYYY" name="toDate" formControlName='toDate'></ion-datetime>
                     </ion-item>
+
 				</div>
 			</div><br/>
 			<h3 class="text-xs-uppercase">Provider/Clinic Information</h3>
@@ -41,7 +42,7 @@
 				<div class="input-field">
 					<select name="select_providerName" formControlName="select_providerName">
 						<option value=" disabled">Select</option>
-						<option value="{{provider.Code}}" *ngFor="let provider of providers">{{provider.Name}}</option>
+						<option [value]="i" *ngFor="let provider of providers; let i = index">{{provider.Name}}</option>
 					</select>
 				</div>
 			</div>
@@ -50,10 +51,9 @@
 					<div class="form-group">
 						<div class="label">Claim Type</div>
 						<div class="input-field">
-							<select name="select_claimType" formControlName="select_claimType">
+							<select name="select_claimType" formControlName="select_claimType" (change)="onChangeClaimType()">
 								<option value="" disabled>Select</option>
-								<option value="{{type.ClaimTypeDescription}}" *ngFor="let type of claimTypes">{{type.ClaimTypeDescription}}</option>
-								
+								<option [value]="id" *ngFor="let type of claimTypes;let id = index">{{type.ClaimTypeDescription}}</option>
 							</select>
 						</div>
 					</div>
@@ -69,96 +69,144 @@
 						</div>
 					</div>
 				</div>
-			</div><br/>
+			</div>
+			<br/>
+			<h3 class="text-xs-uppercase" *ngIf="showReferral">XRay/Lab Referring Clinic Information</h3>
+			<div class="form-group" *ngIf="showReferral">
+				<div class="label">Referral Clinic Name</div>
+				<div class="input-field">
+					<input type="text" name="ref_clinic" formControlName="ref_clinic" />
+				</div>
+			</div>
+			<div class="form-group" *ngIf="showReferral">
+				<div class="label">Clinic Type</div>
+				<div class="input-field">
+					<select name="select_ref_clinicType" formControlName="select_ref_clinicType">
+						<option value=" disabled">Select</option>
+						<option value="SP">SPECIALIST</option>
+						<option value="GP">GENERAL PRACTITIONER</option>
+					</select>
+				</div>
+			</div>
+
+			<br/>
 			<h3 class="text-xs-uppercase">Diagnosis</h3>
 			<div class="gray-title">Acute Diagnosis</div>
 			<div class="form-group" #diagnosis1 id="diagnosis1" *ngIf="acute1">
 				<div class="label">Diagnosis 1</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
-						<option value="" disabled>Select</option>
-						<option [value]="ad.ID" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-				<i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding"><i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i></div>
 				</div>
 			</div>
 			<div class="form-group" #diagnosis2 id="diagnosis2" *ngIf="acute2">
 				<div class="label">Diagnosis 2</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="addAcute('ad_3')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeAcute('ad_2')" class="fa fa-minus" aria-hidden="true"></i>
-
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">
+						<i (click)="addAcute('ad_3')" class="fa fa-plus" aria-hidden="true"></i>
+						<i (click)="removeAcute('ad_2')" class="fa fa-minus remove-icon" aria-hidden="true" ></i>
+					</div>
 				</div>
 			</div>
 
 			<div class="form-group" #diagnosis3 id="diagnosis3" *ngIf="acute3">
 				<div class="label">Diagnosis 3</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="addAcute('ad_4')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeAcute('ad_3')" class="fa fa-minus" aria-hidden="true"></i>
-
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+						</select>
+					</div>	
+					<div class="icon row middle-xs end-xs icon-padding">
+						<i (click)="addAcute('ad_4')" class="fa fa-plus" aria-hidden="true"></i>
+						<i (click)="removeAcute('ad_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+					</div>
 				</div>
 			</div>
 			<div class="form-group" *ngIf="acute4">
 				<div class="label">Diagnosis 4</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="removeAcute('ad_4')" class="fa fa-minus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">
+						<i (click)="removeAcute('ad_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+					</div>
 				</div>
 			</div><br/>
 
 			<div class="gray-title">Chronic Diagnosis</div>
 			<div class="form-group" *ngIf="chronic1">
 				<div class="label">Diagnosis 1</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_2')" class="fa fa-plus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">	
+						<i (click)="addChronic('cd_2')" class="fa fa-plus" aria-hidden="true"></i>
+					</div>	
 				</div>
 			</div>
 			<div class="form-group" *ngIf="chronic2">
 				<div class="label">Diagnosis 2</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_3')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeChronic('cd_2')" class="fa fa-minus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">	
+						<i (click)="addChronic('cd_3')" class="fa fa-plus" aria-hidden="true"></i>
+						<i (click)="removeChronic('cd_2')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+					</div>	
 				</div>
 			</div>
 			<div class="form-group" *ngIf="chronic3">
 				<div class="label">Diagnosis 3</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_4')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeChronic('cd_3')" class="fa fa-minus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">	
+						<i (click)="addChronic('cd_4')" class="fa fa-plus" aria-hidden="true"></i>
+						<i (click)="removeChronic('cd_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+					</div>	
 				</div>
 			</div>
 			<div class="form-group" *ngIf="chronic4">
 				<div class="label">Diagnosis 4</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="removeChronic('cd_4')" class="fa fa-minus" aria-hidden="true"></i>
+				<div class="input-field row middle-xs">
+					<div class="col-xs-auto select-padding" >
+						<select name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4">
+							<option value="" disabled>Select</option>
+							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+						</select>
+					</div>
+					<div class="icon row middle-xs end-xs icon-padding">	
+						<i (click)="removeChronic('cd_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+					</div>	
 				</div>
 			</div><br/>
 			<div class="form-group">
@@ -196,7 +244,7 @@
 			<div class="row">
 				<div class="col-xs-6 has-padR">
 					<div class="form-group">
-						<div class="label">Total Amount</div>
+						<div class="label">Total Amount (SGD)</div>
 						<div class="input-field">
 							<input type="number" name="total_amount" formControlName="total_amount" />
 						</div>
@@ -204,7 +252,7 @@
 				</div>
 				<div class="col-xs-6 has-padL">
 					<div class="form-group">
-						<div class="label">Total GST Amount</div>
+						<div class="label">Total GST Amount (SGD)</div>
 						<div class="input-field">
 							<input type="number" name="total_amount_gst" formControlName="total_amount_gst"/>
 						</div>

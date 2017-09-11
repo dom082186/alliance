@@ -32,6 +32,7 @@ page-home {
 					left: 0;
 					width: 100%;
 
+
 					.icon {
 						-ms-flex-preferred-size: 50%;
 						flex-basis: 50%;
@@ -50,6 +51,10 @@ page-home {
 						color: #27417d;
 						font-weight: bold;
 					}
+				}
+
+				&:nth-last-child(2):not(:nth-child(odd)) {
+					border-bottom: 1px solid #f9f9f9;
 				}
 			}
 		}

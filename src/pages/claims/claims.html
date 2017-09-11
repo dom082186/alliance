@@ -29,7 +29,7 @@
                     <div class="input-field">
                         <select  name="claimName" [(ngModel)]="claimForm.claimName">
                             <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
-                            <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option>                             -->
+                            <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option>   -->
                         </select>
                     </div>
                 </div>

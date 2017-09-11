@@ -185,10 +185,10 @@ export class LoginNonmedinetPage {
 				this.showLoader();
 				
 				//====== TEST
-				 this.loginCredentials = "usernric=S8124356A&network=ntuc&membertype=member";
+				this.loginCredentials = "usernric=S8124356A&network=ntuc&membertype=member";
 				
 				//====== LIVE	
-				//this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
+				// this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
 					console.log(this.loginCredentials);
 
 				this.loginService.login(this.loginCredentials).then((result) => {

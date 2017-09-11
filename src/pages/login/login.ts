@@ -123,7 +123,7 @@ export class LoginPage {
 			    }, (err) => {
 			      this.loading.dismiss();
 		    });
-		//}
+		// }
 
 	}
 

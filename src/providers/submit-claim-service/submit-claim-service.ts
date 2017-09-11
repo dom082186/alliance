@@ -167,4 +167,88 @@ export class SubmitClaimServiceProvider {
 	}
 
 
+	generateClaimID (params){
+
+		if (this.data) {
+		    // already loaded data
+		    return Promise.resolve(this.data);
+		}
+		
+		return new Promise((resolve, reject) => {
+			var headers1 = new Headers({'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'});
+		    
+		    var link = apiUrl + "tpaclaim/generateclaimid";
+		    console.log(link);
+		    var opts = new RequestOptions({headers:headers1});
+		    this.http
+			    .post(link, params, opts)
+			    .map(response => response.json())
+			    .subscribe(data => {
+			        resolve(data);
+			    }, e => {
+			        console.log(e);
+			        let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					        	return;
+					          //navigator['app'].exitApp();
+					      }
+					    }]
+					});
+					alert.present();
+			        reject(e);
+			});
+		})
+	}
+
+
+
+	submitClaimAPI (params){
+		
+		if(this.data) {
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' });
+			var opts = new RequestOptions({ headers: header });
+			var link = apiUrl + "tpaclaim/submitclaim";
+			var str = [];
+
+			for(let key in params) {
+				str.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+			}
+
+			this.http
+				.post(link, str.join('&'), opts)
+				.map(response => response.json())
+				.subscribe(data => {
+					this.data = data;
+					resolve(data);
+				}, e => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(e);
+				});
+		});
+
+
+	}
+
+
 }

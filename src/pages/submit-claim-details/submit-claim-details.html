@@ -1,0 +1,56 @@
+
+<div class="modal-area row center-xs middle-xs" (customevent)="modalClose()">
+    <div class="content-modal">
+        <div class="close-modal row middle-xs end-xs" (click)="modalClose()">
+            <div class="text">Close</div>
+            <div class="icon"><i class="fa fa-close"></i></div>
+        </div> <!-- end of .close-modal -->
+        
+
+    <div class="claimDetails-content">
+        <div class="bg-white">
+            <div class="claim-details">
+                <div class="title row between-xs">
+					<div class="label">Available Amount:</div>
+                    <div class="details">[SGD]1.00</div>
+                </div>
+                <div class="info row between-xs">
+                    <div class="label">Total Fee</div>
+                    <div class="details">{{totalFee}}</div>
+                </div>
+                <div class="info row between-xs">
+                    <div class="label">GST (@0.00%)</div>
+                    <div class="details">0.00</div>
+                </div>
+                <div class="info row between-xs">
+                    <div class="label">Total Fee(+GST)</div>
+                    <div class="details">{{totalGST}}</div>
+                </div>
+                <div class="info row between-xs">
+                    <div class="label">Patient Co-Payment</div>
+                    <div class="details">Cash Collected</div>
+                </div>
+                <div class="info row between-xs">
+                    <div class="label">This Visit's Claim</div>
+                    <div class="details">30.00</div>
+                </div>
+                <p class="disclosure-link" style="text-decoration: none!important">Patient's Consent for Disclosure of Medical Information</p>
+                <div class="accept-terms">
+
+                    <ion-checkbox color="blue" style="width: 30px;height: 17px;" [(ngModel)]="isCheckTM" (click)="addValue($event)"  name="isCheckTM"></ion-checkbox>
+                    <div style="display:inline-block;" (click)="gotoTermsCons('claims')">I accept the <span class="terms-link" >Terms and Conditions</span></div>
+                    
+                </div>
+                <div class="btn-panel row middle-xs between-xs">
+                    <a class="btn btn-yellow" (click)="submitClaimInfo()" >Save</a>
+                    <a class="btn btn-gray" (click)="backButtonClick()">Cancel</a>
+                    <!-- (click)="editClaim()" -->
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+
+    </div>
+</div>

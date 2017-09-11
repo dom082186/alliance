@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
+
+import { SubmitClaimDetailsPage } from '../submit-claim-details/submit-claim-details';
 
 
 @IonicPage()
@@ -17,6 +19,7 @@ import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service
 export class SubmitclaimsPage {
 
   loading: any;
+  dateToday: any;
   claimEditDetails: any;
   memberInfo: any;
   memberClaimInfo: any;
@@ -39,10 +42,11 @@ export class SubmitclaimsPage {
   chronic3: boolean = false
   chronic4: boolean = false
 
+  showReferral: boolean = false
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage,
     public submitClaimService: SubmitClaimServiceProvider,private alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,public formBuilder: FormBuilder,) {
+    public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimForm['select_acuteDiagnosis1'] = "";
@@ -53,7 +57,9 @@ export class SubmitclaimsPage {
             toDate: ['',Validators.compose([Validators.required])],
             select_providerName: ['',Validators.compose([Validators.required])],
             select_claimType: ['',Validators.compose([Validators.required])],
-            referral: ['',Validators.compose([Validators.required])],
+            referral: [''],
+            ref_clinic: [''],
+            select_ref_clinicType: [''],
             select_acuteDiagnosis1: ['',Validators.compose([Validators.required])],
             select_acuteDiagnosis2: [''],
             select_acuteDiagnosis3: [''],
@@ -73,6 +79,7 @@ export class SubmitclaimsPage {
   ionViewDidLoad() {
       //console.log('ionViewDidLoad SubmitclaimsPage');
       //this.memberInfo = this.getFromStorageAsync();
+      this.dateToday = new Date();
       this.getNetwork();
   }
 
@@ -196,6 +203,18 @@ export class SubmitclaimsPage {
     });
   }
 
+  onChangeClaimType(){
+    console.log(this.claimFormGroup.controls['select_claimType'].value);
+
+    var claimType = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].RefColumnName;
+
+    if( claimType.toLowerCase() == "xray_p" || claimType.toLowerCase() == "lab_p"){
+      this.showReferral = true     
+    }else{
+      this.showReferral = false
+    }
+  }
+
 
   getAcuteDiagnosis(){
     var parameters = "network="  + this.memberNetwork + "&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
@@ -224,8 +243,6 @@ export class SubmitclaimsPage {
     }, (err) => {
       this.loading.dismiss();
     });
-
-
   }
 
 
@@ -256,11 +273,7 @@ export class SubmitclaimsPage {
     }, (err) => {
       this.loading.dismiss();
     });
-
-
   }
-
-  
 
 
   addAcute(selectID){
@@ -302,9 +315,9 @@ export class SubmitclaimsPage {
   removeAcute(selectID){
     console.log(selectID);
     var varClaimForm = this.claimFormGroup;
-    if(selectID == 'ad_2'){this.acute2 = false; varClaimForm.controls['select_acuteDiagnosis2'].setValue();}
-    if(selectID == 'ad_3'){this.acute3 = false; varClaimForm.controls['select_acuteDiagnosis3'].setValue();}
-    if(selectID == 'ad_4'){this.acute4 = false; varClaimForm.controls['select_acuteDiagnosis4'].setValue();}
+    if(selectID == 'ad_2'){this.acute2 = false; varClaimForm.controls['select_acuteDiagnosis2'].setValue("");}
+    if(selectID == 'ad_3'){this.acute3 = false; varClaimForm.controls['select_acuteDiagnosis3'].setValue("");}
+    if(selectID == 'ad_4'){this.acute4 = false; varClaimForm.controls['select_acuteDiagnosis4'].setValue("");}
   }
 
   addChronic(selectID){
@@ -351,10 +364,12 @@ export class SubmitclaimsPage {
 
 
   submitClaim(){
+    this.showLoader();
     console.log(this.claimFormGroup.valid)
     console.log(this.claimFormGroup)
 
     if(!this.claimFormGroup.valid){
+      this.loading.dismiss();
       let alert = this.alertCtrl.create({
           title: 'Alert',
           message: 'Please complete all the needed fields',
@@ -369,10 +384,75 @@ export class SubmitclaimsPage {
         });
         alert.present()
     }else{
-      console.log('success');
-    }
 
+      console.log('success');
+      var params = "";
+      var varClaimForm = this.claimFormGroup;
+      var secondarydiagnosisInfo = {}
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+
+      this.submitClaimService.generateClaimID(params).then((response) => {
+
+          this.loading.dismiss();
+
+          var submitclaimsDetails = {
+                  network: this.memberNetwork,
+                  id: response.id,
+                  membercompanyid: this.memberClaimInfo.MemberCompanyID,
+                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],
+                  memberid: this.memberClaimInfo.MemberID,
+                  clinicid: this.providers[varClaimForm.controls['select_providerName'].value].Code,
+                  clinicname: this.providers[varClaimForm.controls['select_providerName'].value].Name,
+                  claimtype: this.claimTypes[varClaimForm.controls['select_claimType'].value].RefColumnName,
+                  claimtypedesc: this.claimTypes[varClaimForm.controls['select_claimType'].value].ClaimTypeDescription,
+                  receiptno: "",
+                  isreferralletter: varClaimForm.controls['referral'].value,
+                  referralclinictype: "",
+                  mcreason: "",
+                  primarydiagnosisid: this.acuteDiagnosisList[varClaimForm.controls['select_acuteDiagnosis1'].value].ID,
+                  primarydiagnosisdesc: this.acuteDiagnosisList[varClaimForm.controls['select_acuteDiagnosis1'].value].Description,
+                  primarychronicdiagnosisid: this.chronicDiagnosisList[varClaimForm.controls['select_chronicDiagnosis1'].value].ID,
+                  primarychronicdiagnosisdesc: this.chronicDiagnosisList[varClaimForm.controls['select_chronicDiagnosis1'].value].Description,
+                  isspecialclaim: "",
+                  remarks: varClaimForm.controls['remarks'].value,
+                  allowexceedclaimlimit: "",
+                  isspecializedprocedure: "",
+                  totalamount: varClaimForm.controls['total_amount'].value,
+                  totalgstamount: varClaimForm.controls['total_amount_gst'].value,
+                  treatmentdate: varClaimForm.controls['toDate'].value,
+                  submissionDate: today
+          }
+
+          if(varClaimForm.controls['ref_clinic'].value != ""){
+              submitclaimsDetails['referralclinicname'] = varClaimForm.controls['ref_clinic'].value;
+              submitclaimsDetails['referralclinictype'] = varClaimForm.controls['select_ref_clinicType'].value;
+          }
+
+          
+          if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
+              submitclaimsDetails['secondarydiagnosisid'] = this.acuteDiagnosisList[varClaimForm.controls['select_acuteDiagnosis2'].value].ID;
+              submitclaimsDetails['secondarydiagnosisdesc'] = this.acuteDiagnosisList[varClaimForm.controls['select_acuteDiagnosis2'].value].Description;
+          }
+          if(varClaimForm.controls['select_chronicDiagnosis2'].value != ""){
+              submitclaimsDetails['secondarychronicdiagnosisid'] = this.acuteDiagnosisList[varClaimForm.controls['select_chronicDiagnosis2'].value].ID;
+              submitclaimsDetails['secondarychronicdiagnosisdesc'] = this.acuteDiagnosisList[varClaimForm.controls['select_chronicDiagnosis2'].value].Description;
+          }
+
+          console.log(submitclaimsDetails);
+
+          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails});
+          claimModal.present();
+
+      }, (err) => {
+          this.loading.dismiss();
+      });
+    }
   }
+
 
 
 

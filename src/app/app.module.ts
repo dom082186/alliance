@@ -30,6 +30,7 @@ import { ContactusPage } from '../pages/contactus/contactus';
 import { TermsconditionsPage } from '../pages/termsconditions/termsconditions';
 import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet';
 import { ClinicnearbyPage } from '../pages/clinicnearby/clinicnearby';
+import { SubmitClaimDetailsPage } from '../pages/submit-claim-details/submit-claim-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -46,6 +47,7 @@ import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
 import { KeyPipe } from '../pipes/key/key';
 import { TermsconsServiceProvider } from '../providers/termscons-service/termscons-service';
 import { SubmitClaimServiceProvider } from '../providers/submit-claim-service/submit-claim-service';
+
 
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
@@ -73,7 +75,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
         LoginNonmedinetPage,
         ClinicnearbyPage,
         ClaimdetailsPage,
-    KeyPipe
+        SubmitClaimDetailsPage,
+        KeyPipe
     ],
     imports: [
         BrowserModule,
@@ -103,7 +106,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
         TermsconditionsPage,
         LoginNonmedinetPage,
         ClinicnearbyPage,
-        ClaimdetailsPage
+        ClaimdetailsPage,
+        SubmitClaimDetailsPage
     ],
   providers: [
     StatusBar,

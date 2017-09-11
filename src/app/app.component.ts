@@ -82,23 +82,24 @@ export class MyApp {
 
 
           events.subscribe('user:created', (user, network) => {
-            // user and time are the same arguments passed in `events.publish(user, time)`
-            console.log(user.length);
+            // user and time are the same arguments passed in `events.publish(user, time)
             console.log(network);
             if(user.length > 0){
                 this.appMemInfo = user;
                 this.appMemNetwork = network;
                               
                 if(network.toLowerCase() != "aviva"){
-                  this.pages[5].icon = './assets/img/icons/appointment-black.png';
-                  this.pages[5].class = 'text-color';
-                  this.pages[5].close = 'false';
+                  // this.pages[5].icon = './assets/img/icons/appointment-black.png';
+                  // this.pages[5].class = 'text-color';
+                  // this.pages[5].close = 'false';
+                  this.pages.splice( 5, 1 );
                 }
 
                 if(user[0].UserName == ""){
-                  this.pages[4].icon = './assets/img/icons/claims-black.png';
-                  this.pages[4].class = 'text-color';
-                  this.pages[4].close = 'false';
+                  //this.pages[4].icon = './assets/img/icons/claims-black.png';
+                  //this.pages[4].class = 'text-color';
+                  //this.pages[4].close = 'false';
+                  this.pages.splice( 4, 1 );
                 }
 
 

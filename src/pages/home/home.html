@@ -66,14 +66,14 @@
                         </a>
                     </li>
 
-                    <li class="col-xs-6"  *ngIf="isAccountHasClaims == false">
+                   <!--  <li class="col-xs-6"  *ngIf="isAccountHasClaims == false">
                         <a (click)="gotoClaims()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/claims-black1.png" />
                             </span>
                             <span class="text row center-xs top-xs" style="color: #808080 !important">Claims</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="col-xs-6" *ngIf="isAccountAviva">
                         <a (click)="openWithInAppBrowser('https://ars.alliancehealthcare.com.sg/#/registration')" class="row direction-column-xs center-xs middle-xs">
@@ -83,14 +83,14 @@
                             <span class="text row center-xs top-xs">Appointment</span>
                         </a>
                     </li>
-                     <li class="col-xs-6" *ngIf="!isAccountAviva">
+                    <!--  <li class="col-xs-6" *ngIf="!isAccountAviva">
                         <a class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
                                 <img src="./assets/img/home/appointment-black.png" />
                             </span>
                             <span class="text row center-xs top-xs" style="color: #808080 !important">Appointment</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="col-xs-6">
                         <a (click)="gotoAboutUs()" class="row direction-column-xs center-xs middle-xs">
                             <span class="icon row center-xs bottom-xs">
