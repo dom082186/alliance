@@ -26,6 +26,8 @@ export class CheckbalancePage {
   loading: any;
   names: any;
   dependentsParam: any;
+  TotalAnnualLimit: any;
+  TotalFamilyLimit: any;
   balance ={}
   toDate: String = new Date().toISOString();
   hasDependents: boolean = false;
@@ -115,6 +117,9 @@ export class CheckbalancePage {
             }else{
               this.balanceRemarks = this.getCheckInfoFromAsync(result)
               this.annualLimitDetails = result.AnnualLimitDetails[0];
+              this.TotalFamilyLimit = this.annualLimitDetails.TotalFamilyLimit;
+              this.TotalAnnualLimit = this.annualLimitDetails.TotalAnnualLimit;
+              
             }
           
       }, (err) => {

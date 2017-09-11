@@ -44,10 +44,12 @@
             </div> <!-- end of .section-details -->
             <div class="section-details">
                 <div class="title">Annual Limit Details</div>
-                <div class="info row between-xs" *ngFor="let thisKey of annualLimitDetails | key">
-                    <div class="label col-xs-6 keyLabel">{{thisKey.key}}</div>
-                    <div class="details col-xs-6 text-xs-right" >{{thisKey.value}}</div>
-                    <!-- S$ 157.50 -->
+                <!--  *ngFor="let thisKey of annualLimitDetails | key" {{thisKey.key}}-->
+                <div class="info row between-xs">
+                    <div class="label col-xs-6 " >TotalAnnualLimit</div>
+                    <div class="details col-xs-6 text-xs-right" >{{TotalAnnualLimit}}</div>
+                    <div class="label col-xs-6 " >TotalFamilyLimit</div>
+                    <div class="details col-xs-6 text-xs-right" >{{TotalFamilyLimit}}</div>
                 </div>
             </div>
             <div class="section-details">

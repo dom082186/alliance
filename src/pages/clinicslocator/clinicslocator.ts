@@ -62,6 +62,7 @@ export class ClinicslocatorPage {
 	}
 
 	loadMap(){
+		
 		this.showLoader();
 		var posOptions = { timeout: 20000, enableHighAccuracy: true };
 		
@@ -71,8 +72,8 @@ export class ClinicslocatorPage {
 
 			this.currentLat = position.coords.latitude;
 			this.currentLong = position.coords.longitude;
-			//this.currentLat = "1.3011873";
-			//this.currentLong = "103.8495055";
+			// this.currentLat = "1.3011873";
+			// this.currentLong = "103.8495055";
 
 			let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
 			let mapOptions = {
@@ -266,9 +267,15 @@ export class ClinicslocatorPage {
 	    
 	    if(searchStr == undefined || searchStr ==""){
 	    	//this.allClinics = this.allClinics1;
-	    	this.filterNearData();
+	    	//this.filterNearData();
 	    }else{
-	    	this.allClinics = this.resultClinics;
+	    	
+	    	if(this.resultClinics != undefined){
+	    		this.allClinics = this.resultClinics;
+	    	}else{
+	    		this.allClinics = this.allClinics1;
+	    	}
+	    	
 			this.allClinics = this.allClinics.filter((clinic) => {
 				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
 			});
@@ -285,10 +292,17 @@ export class ClinicslocatorPage {
 	searchClinic(searchStr){
 		
 		if(searchStr != undefined || searchStr != ""){
-			this.allClinics = this.allClinics1;
+			
+			if(this.resultClinics != undefined){
+	    		this.allClinics = this.resultClinics;
+	    	}else{
+	    		this.allClinics = this.allClinics1;
+	    	}
+
 			this.allClinics = this.allClinics.filter((clinic) => {			
 				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;				
 			});
+
 			if(this.allClinics.length == 0){
 				this.noClinics = true;
 			}else{

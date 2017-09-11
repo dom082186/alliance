@@ -72,26 +72,26 @@ export class LoginPage {
 
 	doLogin() {	
 
-		if(this.login['password'] == "" || this.login['password'] == undefined){
-			let alert = this.alertCtrl.create({
-				title: 'Alert',
-				message: 'Password is required',
-				buttons: [{
-			        text: 'OK',
-			        role: 'cancel',
-			        handler: () => {
-			          console.log('Cancel clicked');
-			      }
-			    }]
-			});
-			alert.present();
-			return;
+		// if(this.login['password'] == "" || this.login['password'] == undefined){
+		// 	let alert = this.alertCtrl.create({
+		// 		title: 'Alert',
+		// 		message: 'Password is required',
+		// 		buttons: [{
+		// 	        text: 'OK',
+		// 	        role: 'cancel',
+		// 	        handler: () => {
+		// 	          console.log('Cancel clicked');
+		// 	      }
+		// 	    }]
+		// 	});
+		// 	alert.present();
+		// 	return;
 
-		}else{
+		// }else{
 
 			this.showLoader();
 			var sha512 = require('sha512')
-			var hash = sha512(this.login['password'])//sha512('P@ssw0rd');//
+			var hash = sha512('P@ssw0rd');//sha512(this.login['password'])//
 
 			//this.loginCredentials = "usernric=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
 			this.loginCredentials = "usernric=" + this.memberInfo[0].MemberNRIC + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');
@@ -123,7 +123,7 @@ export class LoginPage {
 			    }, (err) => {
 			      this.loading.dismiss();
 		    });
-		}
+		//}
 
 	}
 
