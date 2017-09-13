@@ -295,6 +295,19 @@ ion-alert {
 	.label {
 		font: 12px/1.45 $medium;
 		margin: 0 0 3px;
+
+		&.required {
+			position: relative;
+			padding: 0 0 0 8px;
+			
+			&:before {
+				content: '*';
+				color: red;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
 	}
 
 	select {

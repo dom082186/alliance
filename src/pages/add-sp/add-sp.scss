@@ -1,3 +1,31 @@
 page-add-sp {
+	.modal-area {
+		.content-modal {
+			background: #fff;
+			width: calc( 100% - 30px );
 
+			.close-modal {
+				padding: 10px;
+
+				.icon {
+					color: #ddd;
+				}
+			}
+
+			.claimDetails-content {
+				padding: 10px 15px;
+
+				h3 {
+					font: 14px/1.45 $bold;
+					margin: 0 0 15px;
+				}
+
+				.btn-panel {
+					button {
+						width: calc( 50% - 5px );
+					}
+				}
+			}
+		}
+	}
 }
