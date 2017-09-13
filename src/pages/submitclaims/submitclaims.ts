@@ -37,8 +37,8 @@ export class SubmitclaimsPage {
   claimTypes: any;
   claimForm = {};
   claimFormGroup: any;
-  attachedFilesArr: any;
-  attachedFilesArr2: any;
+  addFilesArr: any;
+  saveFilesArr: any;
   tpaClaimID: any;
   imgSrc: any;
   imgArr: any;
@@ -484,7 +484,7 @@ export class SubmitclaimsPage {
 
           console.log(submitclaimsDetails);
 
-          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.attachedFilesArr});
+          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.saveFilesArr});
           claimModal.present();
 
       // }, (err) => {
@@ -550,13 +550,14 @@ export class SubmitclaimsPage {
             var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
             var substr = content.substring(0,4)
             if(substr == '/9j/'){
-              this.isFromDevice = true
+              // this.isFromDevice = true
               this.base64ImageBefore = "data:image/jpeg;base64," + content;  
             }else{
-              this.isFromDevice = false
+              this.base64ImageBefore = "data:image/jpeg;base64," + content;
+              // this.isFromDevice = false
             }
 
-            this.attachedFilesArr = {
+            this.addFilesArr = {
                network: this.memberNetwork,
                membername: this.memberClaimInfo.MemberName,
                internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
@@ -633,15 +634,15 @@ export class SubmitclaimsPage {
             var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
             var substr = content.substring(0,4)
             if(substr == '/9j/'){
-              this.isFromDevice = true
+              // this.isFromDevice = true
               this.base64ImageBefore = "data:image/jpeg;base64," + content;  
             }else{
-              this.imgSrc = "./assets/img/pdf-icon.png";
-              this.isFromDevice = false
+              this.base64ImageBefore = "./assets/img/pdf-icon.png";
+              // this.isFromDevice = false
             }
             console.log(content);
 
-            this.attachedFilesArr = {
+            this.addFilesArr = {
                network: this.memberNetwork,
                membername: this.memberClaimInfo.MemberName,
                internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
@@ -650,6 +651,7 @@ export class SubmitclaimsPage {
                filecontent: content
             }
             
+
         }, (err) => {
             console.log(err);
         });
@@ -729,7 +731,7 @@ export class SubmitclaimsPage {
     var new_item = {};
    
     
-    this.submitClaimService.uploadFile(this.attachedFilesArr).then((result) => {
+    this.submitClaimService.addFile(this.addFilesArr).then((result) => {
       this.showLoader()
 
       if(result.Status == "Failed"){
@@ -750,13 +752,26 @@ export class SubmitclaimsPage {
             }else{
                 
                 this.imageName = this.imageNameBefore
-                this.base64Image = this.base64ImageBefore
                 new_item['imageName'] = this.imageNameBefore;
                 new_item['image'] = this.base64ImageBefore
+                var isPDF = this.imageName.includes(".pdf");
+                if(isPDF){ 
+                  this.isFromDevice = false
+                }else{
+                  this.isFromDevice = true
+                }
                 this.imgArray.push(new_item);
 
                 console.log('success file attachment')
                 console.log(result)
+
+                //======= SAVE FILES ARR
+                this.saveFilesArr = {
+                  membername: this.memberClaimInfo.MemberName,
+                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
+                  tpaclaimid: this.tpaClaimID
+                }
+
             }
           this.loading.dismiss();  
 
@@ -772,13 +787,12 @@ export class SubmitclaimsPage {
 
   removeImage(i) {
     console.log(i)
-    if(i == 2){
-      this.showImageContainer = false
-      this.hideImageContainer = true
-    }else{
-      this.showImageContainer = true
-      this.hideImageContainer = false
-    }
+
+    for(var x=0; x<this.imgArray.length;x++ )
+     { 
+        if(this.imgArray[x]==i)
+            this.imgArray.splice(i,1); 
+      } 
     
   }
 

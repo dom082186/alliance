@@ -233,40 +233,15 @@
 						</div>
 					</div>
 				</div> 
-				<div class="img-container row middle-xs between-xs" >
+				<div class="img-container row middle-xs between-xs" *ngFor="let img of imgArray; let i = index">
 					<div class="img row middle-xs">
-						<img src="{{imgSrc}}" *ngIf="isFromDevice == false"/>
-						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="isFromDevice == true"/>
-						<div class="file-name">{{imageName}}</div>
+						<img src="{{img.image}}" *ngIf="isFromDevice == false"/>
+						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(img.image)" *ngIf="isFromDevice == true"/>
+						<div class="file-name">{{img.imageName}}</div>
 					</div>
-					<div class="delete" (click)="removeImage()"><i class="fa fa-times" aria-hidden="true" ></i></div>
+					<div class="delete" (click)="removeImage(i)"><i class="fa fa-times" aria-hidden="true" ></i></div>
 				</div>
 			</div>
-
-			<!-- <div class="upload-container" *ngIf="showImageContainer2">
-				<div class="actions row middle-xs">
-					<div class="label"><input type="text" value="{{imageNameBefore}}" style="background-color: transparent " disabled /></div>
-					<div class="btn-actions">
-						<div class="row middle-xs">
-							<div class="col-xs-6 has-padR browse-container">
-								
-								<div class="btn-browse btn btn-gray" style="padding: 5px;" (click)="browseFile()">Browse</div>
-							</div>
-							<div class="col-xs-6 has-padL">
-								<div class="add-upload btn btn-gray" style="padding: 5px;" (click)="addImage()">Add</div>
-							</div>
-						</div>
-					</div>
-				</div> 
-				<div class="img-container row middle-xs between-xs" >
-					<div class="img row middle-xs">
-						<img src="{{imgSrc}}" *ngIf="isFromDevice == false"/>
-						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="isFromDevice == true"/>
-						<div class="file-name">{{imageName}}</div>
-					</div>
-					<div class="delete" (click)="removeImage('2')"><i class="fa fa-times" aria-hidden="true" ></i></div>
-				</div>
-			</div> -->
 
 
 			<br/>

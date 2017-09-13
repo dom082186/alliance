@@ -66,35 +66,37 @@ export class SubmitClaimDetailsPage {
 		console.log(this.submitClaimDetails)
 		
 		if(this.isCheckTM == true){
-			this.submitClaimService.submitClaimAPI(this.submitClaimDetails).then((result) => {
+			if(this.submitAttachedFile !=undefined){
+				this.submitClaimService.saveFiles(this.submitAttachedFile).then((result) => {
 
-				if(result.Status == "Failed"){
-	              let alert = this.alertCtrl.create({
-	                title: 'Alert',
-	                message: result.ValidateMessage,
-	                enableBackdropDismiss: false,
-	                buttons: [{
-	                      text: 'OK',
-	                      role: 'Cancel',
-	                      handler: () => {
-	                        
-	                    }
-	                  }]
-	              });
-	              alert.present();
-	              
-	            }else{
-	                console.log('success')
-		        	console.log(result)
+					if(result.Status == "Failed"){
+		              let alert = this.alertCtrl.create({
+		                title: 'Alert',
+		                message: result.ValidateMessage,
+		                enableBackdropDismiss: false,
+		                buttons: [{
+		                      text: 'OK',
+		                      role: 'Cancel',
+		                      handler: () => {
+		                        
+		                    }
+		                  }]
+		              });
+		              alert.present();
+		              
+		            }else{
+		                console.log('success file attachment')
+			        	console.log(result)
+			        	this.submitClaimInfo_cont();
 
-	            }
-		        
-		        this.loading.dismiss();
-
-		    }, (err) => {
-		    	console.log(err)
-		        this.loading.dismiss();
-		    });
+		            }
+		        }, (err) => {
+			    	console.log(err)
+			        this.loading.dismiss();
+			    });
+			}else{
+				this.submitClaimInfo_cont();
+			}
 			
 
 		}else{
@@ -127,8 +129,6 @@ export class SubmitClaimDetailsPage {
     	this.navCtrl.pop();  // remember to put this to add the back button behavior
 	}
 
-
-	/*
 
 	submitClaimInfo_cont(){
 		this.submitClaimService.submitClaimAPI(this.submitClaimDetails).then((result) => {
@@ -164,37 +164,6 @@ export class SubmitClaimDetailsPage {
 
 
 	
-	if(this.submitAttachedFile !=undefined){
-		this.submitClaimService.uploadFile(this.submitAttachedFile).then((result) => {
-
-			if(result.Status == "Failed"){
-              let alert = this.alertCtrl.create({
-                title: 'Alert',
-                message: result.ValidateMessage,
-                enableBackdropDismiss: false,
-                buttons: [{
-                      text: 'OK',
-                      role: 'Cancel',
-                      handler: () => {
-                        
-                    }
-                  }]
-              });
-              alert.present();
-              
-            }else{
-                console.log('success file attachment')
-	        	console.log(result)
-	        	this.submitClaimInfo_cont();
-
-            }
-        }, (err) => {
-	    	console.log(err)
-	        this.loading.dismiss();
-	    });
-	}else{
-		this.submitClaimInfo_cont();
-	}
-	*/
+	
 
 }

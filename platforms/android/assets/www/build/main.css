@@ -33792,7 +33792,7 @@ page-home .home-content .home-menu {
 
 page-home .home-content .home-menu li {
   border: 1px solid #faf9f9;
-  border-bottom: 0;
+  border-top: 0;
   position: relative;
 }
 
@@ -33805,8 +33805,8 @@ page-home .home-content .home-menu li:nth-child(even) {
   border-left: 0;
 }
 
-page-home .home-content .home-menu li:first-child, page-home .home-content .home-menu li:nth-child(2) {
-  border-top: 0;
+page-home .home-content .home-menu li:last-child, page-home .home-content .home-menu li:nth-last-child(2) {
+  border-bottom: 0;
 }
 
 page-home .home-content .home-menu li a {
@@ -34152,6 +34152,10 @@ page-submitclaims .icon-padding {
 
 page-submitclaims .remove-icon {
   margin: 0 0 0 5px;
+}
+
+page-submitclaims h3 {
+  color: #eea52e;
 }
 
 page-termsconditions .header-ios .title-ios {
