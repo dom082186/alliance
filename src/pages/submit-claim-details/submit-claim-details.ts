@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ViewController, LoadingController,
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
 
 import { TermsconditionsPage } from '../termsconditions/termsconditions';
+import { ClaimsPage } from '../claims/claims';
 
 
 @IonicPage()
@@ -15,6 +16,7 @@ import { TermsconditionsPage } from '../termsconditions/termsconditions';
 export class SubmitClaimDetailsPage {
 
 	submitClaimDetails: any;
+	submitAttachedFile: any;
 	loading: any;
 	isCheckTM : boolean = false;
 	totalFee: any;
@@ -25,9 +27,11 @@ export class SubmitClaimDetailsPage {
 		 	private alertCtrl: AlertController, ) {
 		
 			this.submitClaimDetails = this.navParams.get('details');
+			this.submitAttachedFile = this.navParams.get('files');
 			this.totalFee = this.submitClaimDetails.totalamount;
 			this.totalGST = this.submitClaimDetails.totalgstamount;
 			console.log(this.submitClaimDetails)
+			console.log(this.submitAttachedFile)
 	}
 
 	ionViewDidLoad() {
@@ -64,15 +68,37 @@ export class SubmitClaimDetailsPage {
 		if(this.isCheckTM == true){
 			this.submitClaimService.submitClaimAPI(this.submitClaimDetails).then((result) => {
 
-		        console.log('success')
-		        console.log(result)
+				if(result.Status == "Failed"){
+	              let alert = this.alertCtrl.create({
+	                title: 'Alert',
+	                message: result.ValidateMessage,
+	                enableBackdropDismiss: false,
+	                buttons: [{
+	                      text: 'OK',
+	                      role: 'Cancel',
+	                      handler: () => {
+	                        
+	                    }
+	                  }]
+	              });
+	              alert.present();
+	              
+	            }else{
+	                console.log('success')
+		        	console.log(result)
 
+	            }
+		        
 		        this.loading.dismiss();
 
 		    }, (err) => {
+		    	console.log(err)
 		        this.loading.dismiss();
 		    });
+			
+
 		}else{
+			this.loading.dismiss();
 			let alert = this.alertCtrl.create({
 				title: 'Alert',
 				message: 'Please confirm that you have agreed on our Terms and Condition.',
@@ -85,10 +111,10 @@ export class SubmitClaimDetailsPage {
 			    }]
 			});
 			alert.present();
+
 			return;
 		}    
 	}
-
 
 	gotoTermsCons(page)
 	{
@@ -96,5 +122,79 @@ export class SubmitClaimDetailsPage {
 	}
 
 
+	backButtonClick()
+	{
+    	this.navCtrl.pop();  // remember to put this to add the back button behavior
+	}
+
+
+	/*
+
+	submitClaimInfo_cont(){
+		this.submitClaimService.submitClaimAPI(this.submitClaimDetails).then((result) => {
+
+			if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+                console.log('success')
+	        	console.log(result)
+
+            }
+	        
+	        this.loading.dismiss();
+
+	    }, (err) => {
+	    	console.log(err)
+	        this.loading.dismiss();
+	    });
+	}
+
+
+	
+	if(this.submitAttachedFile !=undefined){
+		this.submitClaimService.uploadFile(this.submitAttachedFile).then((result) => {
+
+			if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+                console.log('success file attachment')
+	        	console.log(result)
+	        	this.submitClaimInfo_cont();
+
+            }
+        }, (err) => {
+	    	console.log(err)
+	        this.loading.dismiss();
+	    });
+	}else{
+		this.submitClaimInfo_cont();
+	}
+	*/
 
 }

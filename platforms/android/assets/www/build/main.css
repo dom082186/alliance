@@ -33043,6 +33043,26 @@ page-claims .dateTime {
   background-color: transparent;
 }
 
+page-claims table {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table thead {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table thead tr th {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table tbody {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table tbody tr td {
+  border: 1px solid #e6e6e6;
+}
+
 page-clinicdetails .header .toolbar .toolbar-background {
   border: 0;
 }
@@ -33822,6 +33842,10 @@ page-home .home-content .home-menu li a .text {
   font-weight: bold;
 }
 
+page-home .home-content .home-menu li:nth-last-child(2):not(:nth-child(odd)) {
+  border-bottom: 1px solid #f9f9f9;
+}
+
 page-login .login-content .logo-container {
   margin: 0 0 15px;
 }
@@ -34002,12 +34026,132 @@ page-register .register-content h1 {
   color: #1e2f6a;
 }
 
+page-submit-claim-details .form-navigator {
+  position: relative;
+}
+
+page-submit-claim-details .form-navigator .navigator-item {
+  position: relative;
+  z-index: 2;
+}
+
+page-submit-claim-details .form-navigator .navigator-item .icon-container {
+  margin: 0 0 5px;
+}
+
+page-submit-claim-details .form-navigator .form-navigator-line {
+  background: #eff3f3;
+  height: 3px;
+  width: 65%;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+page-submit-claim-details .form-navigator .form-navigator-line .form-navigator-progress {
+  height: 3px;
+}
+
+page-submit-claim-details .bg-gray {
+  margin: 0 -30px;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .title {
+  font: 14px/1.45 "Helvetica-Bold";
+  margin: 0 0 20px;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .title .label {
+  font: 12px/1.45 "Helvetica-Medium";
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .info {
+  margin: 0 0 5px;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .info .label {
+  font: 12px/1.45 "Helvetica-Medium";
+  width: 90px;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .info .details {
+  font: 12px/1.45 "Helvetica-Light";
+  width: calc( 100% - 90px);
+  text-align: right;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .disclosure-link {
+  text-decoration: underline;
+  margin: 15px 0 10px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .accept-terms label {
+  position: relative;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .accept-terms label input[type=checkbox] {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .accept-terms label input[type=checkbox]:checked + .checkbox:before {
+  content: '\f046';
+  color: #f3a121;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .accept-terms label .checkbox {
+  position: relative;
+  padding: 0 0 0 20px;
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .accept-terms label .checkbox:before {
+  content: '\f096';
+  font: 14px/1.45 'FontAwesome';
+  position: absolute;
+  top: -2px;
+  left: 0;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .terms-link {
+  text-decoration: underline;
+  font: 12px/1.45 "Helvetica-Bold";
+  color: #f3a121;
+}
+
+page-submit-claim-details .claimDetails-content .claim-details .btn-panel .btn {
+  width: calc( 50% - 5px);
+}
+
+page-submitclaims h3 {
+  color: #f3a121;
+}
+
 page-submitclaims .dateTime {
   width: 100%;
   padding: 7px 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: transparent;
+}
+
+page-submitclaims .select-padding {
+  padding: 0 10px 0 0;
+}
+
+page-submitclaims .icon-padding {
+  width: 30px;
+}
+
+page-submitclaims .remove-icon {
+  margin: 0 0 0 5px;
 }
 
 page-termsconditions .header-ios .title-ios {

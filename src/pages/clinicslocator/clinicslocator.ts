@@ -38,6 +38,7 @@ export class ClinicslocatorPage {
 	allClinics: any;
 	allClinics1: any;
 	resultClinics: any;
+	resultNearClinics: any;
 	currentLat: any;
 	currentLong: any;
 	noClinics: boolean = false;
@@ -197,6 +198,7 @@ export class ClinicslocatorPage {
 
 	getAllClinics(){
 		this.showLoader();
+		this.ngClinic['searchList'] = "";
 		var empType = "";
 		if(this.memberInfo[0]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
 
@@ -266,12 +268,16 @@ export class ClinicslocatorPage {
 	onInputChange(searchStr) {
 	    
 	    if(searchStr == undefined || searchStr ==""){
-	    	//this.allClinics = this.allClinics1;
-	    	//this.filterNearData();
+	    	if(this.resultNearClinics != undefined){
+	    		this.allClinics = this.resultNearClinics;
+	    	}else{
+	    		this.allClinics = this.allClinics1;	
+	    	}
+	    
 	    }else{
 	    	
-	    	if(this.resultClinics != undefined){
-	    		this.allClinics = this.resultClinics;
+	    	if(this.resultNearClinics != undefined){
+	    		this.allClinics = this.resultNearClinics;
 	    	}else{
 	    		this.allClinics = this.allClinics1;
 	    	}
@@ -293,8 +299,8 @@ export class ClinicslocatorPage {
 		
 		if(searchStr != undefined || searchStr != ""){
 			
-			if(this.resultClinics != undefined){
-	    		this.allClinics = this.resultClinics;
+			if(this.resultNearClinics != undefined){
+	    		this.allClinics = this.resultNearClinics;
 	    	}else{
 	    		this.allClinics = this.allClinics1;
 	    	}
@@ -401,6 +407,7 @@ export class ClinicslocatorPage {
 		});
 
 		this.resultClinics = this.allClinics;
+		this.resultNearClinics = this.allClinics;
 
 		this.resultClinics.sort((a, b) => {
 	      if (a.Distance < b.Distance) return -1;
@@ -419,7 +426,8 @@ export class ClinicslocatorPage {
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');
 		this.rd.addClass(this.allElement.nativeElement, 'active');
-		
+		this.ngClinic['searchList'] = "";
+		this.resultNearClinics = undefined;
 		console.log('all');
 
 		this.allClinics = this.allClinics1;

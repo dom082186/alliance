@@ -4,7 +4,6 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { OnboardPage } from '../onboard/onboard';
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
-import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { ClaimsPage } from '../claims/claims';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';

@@ -7,7 +7,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
-// import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import {Camera} from '@ionic-native/camera';
 
 
 import { MyApp } from './app.component';
@@ -50,7 +50,9 @@ import { SubmitClaimServiceProvider } from '../providers/submit-claim-service/su
 
 
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Base64 } from '@ionic-native/base64';
+import { File } from '@ionic-native/file';
 
 @NgModule({
     declarations: [
@@ -125,6 +127,10 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
     TermsconsServiceProvider,
     SubmitClaimServiceProvider,
     ScreenOrientation,
+    FileChooser,
+    Camera,
+    Base64,
+    File,
     
   ]
 })

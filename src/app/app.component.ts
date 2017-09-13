@@ -16,9 +16,6 @@ import { AboutusPage } from '../pages/aboutus/aboutus';
 import { ContactusPage } from '../pages/contactus/contactus';
 import { TermsconditionsPage } from '../pages/termsconditions/termsconditions';
 import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet';
-import { SubmitclaimsPage } from '../pages/submitclaims/submitclaims';
-import { ClaimdetailsPage } from '../pages/claimdetails/claimdetails';
-import { BenefitsPage } from '../pages/benefits/benefits';
 
 import { Storage } from '@ionic/storage';
 
@@ -95,7 +92,7 @@ export class MyApp {
                   this.pages.splice( 5, 1 );
                 }
 
-                if(user[0].UserName == ""){
+                if(user[0].MemberNRIC == "" || user[0].IsDependant == true){
                   //this.pages[4].icon = './assets/img/icons/claims-black.png';
                   //this.pages[4].class = 'text-color';
                   //this.pages[4].close = 'false';

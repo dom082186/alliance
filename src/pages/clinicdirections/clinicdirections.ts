@@ -181,20 +181,6 @@ export class ClinicdirectionsPage {
 	}
 
 
-	addMarker(){
-		let latLng = new google.maps.LatLng(this.currentLat, this.currentLong);
-		let marker = new google.maps.Marker({
-			map: this.map,
-			animation: google.maps.Animation.DROP,
-			position: latLng
-		});
-
-		let content = "<p>Information</p>";  
-
-		//this.addInfoWindow(marker, content,distanceMode);
-
-	}
-
 	addInfoWindow(marker, content, distanceMode){
 
 		let infoWindow = new google.maps.InfoWindow({
