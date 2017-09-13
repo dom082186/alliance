@@ -182,15 +182,16 @@ export class LoginNonmedinetPage {
 		// }else{
 
 		// 	if(this.isCheckTM == true){
-				this.showLoader();
 				
-				//====== TEST
+				//****************** TEST
 				this.loginCredentials = "usernric=S8124356A&network=ntuc&membertype=member";
 				
-				//====== LIVE	
+				//****************** LIVE	
 				// this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
-					console.log(this.loginCredentials);
+				
 
+				this.showLoader();
+				console.log(this.loginCredentials);
 				this.loginService.login(this.loginCredentials).then((result) => {
 				    this.loading.dismiss();
 		
@@ -216,13 +217,13 @@ export class LoginNonmedinetPage {
 					    	this.navCtrl.setRoot( HomePage );	
 
 							//====== LIVE
-		  					//this.events.publish('user:created', result, this.login['network']);  
+		  					// this.events.publish('user:created', result, this.login['network']);  
 
 		  					//====== TEST
 		  					this.events.publish('user:created', result, 'ntuc'); 
 
 		  					//====== LIVE
-							//this.storage.set('memNetwork', this.login['network']); //set localstorage for network
+							// this.storage.set('memNetwork', this.login['network']); //set localstorage for network
 							
 							//====== TEST
 							this.storage.set('memNetwork', 'ntuc');

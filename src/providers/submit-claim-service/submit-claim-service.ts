@@ -246,9 +246,50 @@ export class SubmitClaimServiceProvider {
 					reject(e);
 				});
 		});
+	}
 
+
+	uploadFile(params){
+		if(this.data) {
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' });
+			var opts = new RequestOptions({ headers: header });
+			var link = apiUrl + "tpaupload/add";
+			var str = [];
+
+			for(let key in params) {
+				str.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+			}
+
+			this.http
+				.post(link, str.join('&'), opts)
+				.map(response => response.json())
+				.subscribe(data => {
+					this.data = data;
+					resolve(data);
+				}, e => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(e);
+				});
+		});
 
 	}
+
 
 
 }

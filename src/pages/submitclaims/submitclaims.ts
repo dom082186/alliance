@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, Platform, } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Camera } from '@ionic-native/camera';
+import { Base64 } from '@ionic-native/base64';
+import { DomSanitizer } from '@angular/platform-browser';
+import { File } from '@ionic-native/file';
+
 
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
-
 import { SubmitClaimDetailsPage } from '../submit-claim-details/submit-claim-details';
+
+
 
 
 @IonicPage()
@@ -31,6 +37,13 @@ export class SubmitclaimsPage {
   claimTypes: any;
   claimForm = {};
   claimFormGroup: any;
+  attachedFilesArr: any;
+  attachedFilesArr2: any;
+  tpaClaimID: any;
+  imgSrc: any;
+  imgArr: any;
+  imgArray=[];
+  
 
   acute1: boolean = true
   acute2: boolean = false
@@ -43,10 +56,29 @@ export class SubmitclaimsPage {
   chronic4: boolean = false
 
   showReferral: boolean = false
+  isFromDevice: boolean = false
+
+  showImageContainer: boolean = false;
+  showBrowseButton: boolean = false;
+  hideImageContainer: boolean = true;
+
+  showImageContainer2: boolean = false;
+  showBrowseButton2: boolean = false;
+  hideImageContainer2: boolean = true;
+
+
+
+  base64ImageBefore: string;
+  imageNameBefore: string;
+  base64Image: string;
+  imageName: string;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage,
     public submitClaimService: SubmitClaimServiceProvider,private alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,) {
+    public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,
+    private camera: Camera, private base64: Base64, public platform: Platform,public _DomSanitizer: DomSanitizer,
+    private file: File) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimForm['select_acuteDiagnosis1'] = "";
@@ -71,7 +103,7 @@ export class SubmitclaimsPage {
             remarks: ['',Validators.compose([Validators.required])],
             total_amount: ['',Validators.compose([Validators.required])],
             total_amount_gst: ['',Validators.compose([Validators.required])]
-        });
+      });
       
      
   }
@@ -79,8 +111,11 @@ export class SubmitclaimsPage {
   ionViewDidLoad() {
       //console.log('ionViewDidLoad SubmitclaimsPage');
       //this.memberInfo = this.getFromStorageAsync();
+      this.imageNameBefore = "Select File";
+      this.imgArr = 0;
       this.dateToday = new Date();
       this.getNetwork();
+
   }
 
   showLoader(){
@@ -131,7 +166,6 @@ export class SubmitclaimsPage {
         });
     });
 
-     
   }
 
   /// *******************   GET FROM LOGIN API ***************
@@ -161,7 +195,7 @@ export class SubmitclaimsPage {
         alert.present();
       }else{
         this.claimTypes = result;
-        console.log(result)
+        //console.log(result)
         this.getProvider();
         
       }
@@ -169,9 +203,8 @@ export class SubmitclaimsPage {
       this.loading.dismiss();
       console.log(err)
     });
+  
   }
-
-
 
   getProvider(){
     
@@ -194,13 +227,14 @@ export class SubmitclaimsPage {
         alert.present();
       }else{
         this.providers = result;
-        console.log(result)
+        //console.log(result)
         this.getAcuteDiagnosis();
       }
       
     }, (err) => {
       this.loading.dismiss();
     });
+  
   }
 
   onChangeClaimType(){
@@ -236,7 +270,7 @@ export class SubmitclaimsPage {
         alert.present();
       }else{
         this.acuteDiagnosisList = result;
-        console.log(result)
+        //console.log(result)
         this.getChronicDiagnosis();  
       }
       
@@ -267,11 +301,20 @@ export class SubmitclaimsPage {
       }else{
         this.chronicDiagnosisList = result;
         console.log(result)
-        
+        this.generateClaimID("");
       }
-      this.loading.dismiss();
+      
     }, (err) => {
       this.loading.dismiss();
+    });
+  }
+
+  generateClaimID(params){
+    this.submitClaimService.generateClaimID(params).then((response) => {
+        this.tpaClaimID = response.id;
+        this.loading.dismiss();
+    }, (err) => {
+          this.loading.dismiss();
     });
   }
 
@@ -386,22 +429,20 @@ export class SubmitclaimsPage {
     }else{
 
       console.log('success');
-      var params = "";
       var varClaimForm = this.claimFormGroup;
-      var secondarydiagnosisInfo = {}
       var now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
 
-      this.submitClaimService.generateClaimID(params).then((response) => {
+      //this.submitClaimService.generateClaimID(params).then((response) => {
 
           this.loading.dismiss();
 
           var submitclaimsDetails = {
                   network: this.memberNetwork,
-                  id: response.id,
+                  id: this.tpaClaimID,
                   membercompanyid: this.memberClaimInfo.MemberCompanyID,
                   internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],
                   memberid: this.memberClaimInfo.MemberID,
@@ -421,8 +462,8 @@ export class SubmitclaimsPage {
                   remarks: varClaimForm.controls['remarks'].value,
                   allowexceedclaimlimit: "",
                   isspecializedprocedure: "",
-                  totalamount: varClaimForm.controls['total_amount'].value,
-                  totalgstamount: varClaimForm.controls['total_amount_gst'].value,
+                  totalamount: parseFloat(varClaimForm.controls['total_amount'].value),
+                  totalgstamount: parseFloat(varClaimForm.controls['total_amount_gst'].value),
                   treatmentdate: varClaimForm.controls['toDate'].value,
                   submissionDate: today
           }
@@ -431,7 +472,6 @@ export class SubmitclaimsPage {
               submitclaimsDetails['referralclinicname'] = varClaimForm.controls['ref_clinic'].value;
               submitclaimsDetails['referralclinictype'] = varClaimForm.controls['select_ref_clinicType'].value;
           }
-
           
           if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
               submitclaimsDetails['secondarydiagnosisid'] = this.acuteDiagnosisList[varClaimForm.controls['select_acuteDiagnosis2'].value].ID;
@@ -444,21 +484,311 @@ export class SubmitclaimsPage {
 
           console.log(submitclaimsDetails);
 
-          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails});
+          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.attachedFilesArr});
           claimModal.present();
 
-      }, (err) => {
-          this.loading.dismiss();
-      });
+      // }, (err) => {
+      //     this.loading.dismiss();
+      // });
     }
   }
-
-
-
 
   backButtonClick()
 	{
     	this.navCtrl.pop();  // remember to put this to add the back button behavior
 	}
 
+  browseFile(){
+
+      let alert = this.alertCtrl.create({
+          title: 'Select Files from',
+          buttons: [
+            {
+              text: 'Camera',
+              role: 'cancel',
+              handler: () => {
+                console.log('camera clicked');
+                this.useCamera();
+
+              }
+            },
+            {
+              text: 'Gallery',
+              handler: () => {
+                console.log('Gallery clicked');
+                this.useGallery();
+              }
+            }
+          ]
+      });
+    alert.present();
+  }
+
+
+  useCamera(){
+    this.camera.getPicture({
+        destinationType: this.camera.DestinationType.FILE_URI,
+        targetWidth: 1000,
+        targetHeight: 1000,
+        saveToPhotoAlbum: false
+    }).then((imageData) => {
+      // this.base64Image = "data:image/jpeg;base64," + imageData;
+      var fileName = imageData.substring(imageData.lastIndexOf('/')+1);
+        this.imageNameBefore = fileName;
+        let filePath: string = '';
+
+        if (this.platform.is('android')) {
+          filePath = imageData;
+        }else{
+          filePath = imageData
+        }
+
+        console.log(filePath);
+        
+        this.base64.encodeFile(filePath).then((base64File: string) => {
+            
+            var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
+            var substr = content.substring(0,4)
+            if(substr == '/9j/'){
+              this.isFromDevice = true
+              this.base64ImageBefore = "data:image/jpeg;base64," + content;  
+            }else{
+              this.isFromDevice = false
+            }
+
+            this.attachedFilesArr = {
+               network: this.memberNetwork,
+               membername: this.memberClaimInfo.MemberName,
+               internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
+               tpaclaimid: this.tpaClaimID,
+               filename: this.imageNameBefore,
+               filecontent: content
+            }
+           
+        }, (err) => {
+            console.log(err);
+        });
+
+
+        //*****************|  GET FILE NAME AND FILE SIZE  |***************
+
+        (<any>window).resolveLocalFileSystemURL(filePath, (res) => {
+            res.file((resFile) => {
+                //**************|  CONDITION FILE SIZE  |**************
+                if(resFile.size > 5000000){
+                    let alert = this.alertCtrl.create({
+                          title: 'Alert',
+                          message: 'File size reached the limit',
+                          buttons: [{
+                                text: 'OK',
+                                role: 'cancel',
+                                handler: () => {
+                                  console.log('Cancel clicked');
+                                  return;
+                              }
+                            }]
+                        });
+                    alert.present();
+                }
+                //**************|  END CONDITION FILE SIZE  |**************
+            })
+        })
+
+
+    }, (err) => {
+        console.log(err);
+    });
+
+  }
+
+  useGallery(){
+    this.camera.getPicture({
+        destinationType: this.camera.DestinationType.FILE_URI,
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: this.camera.MediaType.ALLMEDIA,
+        encodingType: this.camera.EncodingType.JPEG,
+        targetWidth: 1000,
+        targetHeight: 1000,
+        saveToPhotoAlbum: false
+    }).then((imageData) => {
+
+      //this.currentImage base64
+        
+        var fileName = imageData.substring(imageData.lastIndexOf('/')+1);
+        this.imageNameBefore = fileName;
+        let filePath: string = '';
+
+        if (this.platform.is('android')) {
+          filePath = "file://" + imageData;
+        }else{
+          filePath = imageData
+        }
+        console.log(filePath);
+        
+        
+        //*********** IMAGE CONVERSION TO BASE64 *********
+
+        this.base64.encodeFile(filePath).then((base64File: string) => {
+            
+            var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
+            var substr = content.substring(0,4)
+            if(substr == '/9j/'){
+              this.isFromDevice = true
+              this.base64ImageBefore = "data:image/jpeg;base64," + content;  
+            }else{
+              this.imgSrc = "./assets/img/pdf-icon.png";
+              this.isFromDevice = false
+            }
+            console.log(content);
+
+            this.attachedFilesArr = {
+               network: this.memberNetwork,
+               membername: this.memberClaimInfo.MemberName,
+               internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
+               tpaclaimid: this.tpaClaimID,
+               filename: this.imageNameBefore,
+               filecontent: content
+            }
+            
+        }, (err) => {
+            console.log(err);
+        });
+
+        
+        //*********** GET FILE NAME AND FILE SIZE *********
+
+        (<any>window).resolveLocalFileSystemURL(filePath, (res) => {
+            res.file((resFile) => {
+                console.log(resFile)
+                var res = resFile.name.split(".");
+
+                //**************** CONDITION FILE TYPE ********
+                if(res.length > 2){
+                    if(res[2] != "jpg" && res[2] != "JPG" && res[2] != "png" && res[2] != "PNG" && res[2] != "pdf" && res[2] != "PDF" && res[2] != "jpeg" && res[2] != "JPEG"){
+                       let alert = this.alertCtrl.create({
+                            title: 'Alert',
+                            message: 'File not allowed',
+                            buttons: [{
+                                  text: 'OK',
+                                  role: 'cancel',
+                                  handler: () => {
+                                    console.log('Cancel clicked');
+                                    return;
+                                }
+                              }]
+                          });
+                          alert.present();
+                    }
+                }else{
+                    if(res[1] != "jpg" && res[1] != "JPG" && res[1] != "png" && res[1] != "PNG" && res[1] != "pdf" && res[1] != "PDF" && res[1] != "jpeg" && res[1] != "JPEG"){
+                        let alert = this.alertCtrl.create({
+                            title: 'Alert',
+                            message: 'File not allowed',
+                            buttons: [{
+                                  text: 'OK',
+                                  role: 'cancel',
+                                  handler: () => {
+                                    console.log('Cancel clicked');
+                                    return;
+                                }
+                              }]
+                          });
+                          alert.present();
+                    }
+                }
+                //************** END CONDITION FILE TYPE **************
+
+                //************** CONDITION FILE SIZE **************
+                if(resFile.size > 5000000){
+                    let alert = this.alertCtrl.create({
+                          title: 'Alert',
+                          message: 'File size reached the limit',
+                          buttons: [{
+                                text: 'OK',
+                                role: 'cancel',
+                                handler: () => {
+                                  console.log('Cancel clicked');
+                                  return;
+                              }
+                            }]
+                        });
+                    alert.present();
+                    
+                }
+                //************** END CONDITION FILE SIZE **************
+            })
+        })
+
+    }, (err) => {
+        console.log(err);
+    });
+
+  }
+
+  addImage() {
+    var new_item = {};
+   
+    
+    this.submitClaimService.uploadFile(this.attachedFilesArr).then((result) => {
+      this.showLoader()
+
+      if(result.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+                
+                this.imageName = this.imageNameBefore
+                this.base64Image = this.base64ImageBefore
+                new_item['imageName'] = this.imageNameBefore;
+                new_item['image'] = this.base64ImageBefore
+                this.imgArray.push(new_item);
+
+                console.log('success file attachment')
+                console.log(result)
+            }
+          this.loading.dismiss();  
+
+        }, (err) => {
+          console.log(err)
+          this.loading.dismiss();
+      });
+
+    console.log(this.imgArray);
+    console.log('this.imgArr');
+  }
+
+
+  removeImage(i) {
+    console.log(i)
+    if(i == 2){
+      this.showImageContainer = false
+      this.hideImageContainer = true
+    }else{
+      this.showImageContainer = true
+      this.hideImageContainer = false
+    }
+    
+  }
+
+
+
+
+
+
+    
 }
+
+
+

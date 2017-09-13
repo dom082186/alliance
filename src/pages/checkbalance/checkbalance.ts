@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';

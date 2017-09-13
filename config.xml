@@ -119,4 +119,10 @@
     <allow-navigation href="http://192.168.8.114:8100" />
     <allow-navigation href="http://192.168.8.105:8100" />
     <allow-navigation href="http://192.168.1.15:8100" />
+    <plugin name="cordova-plugin-camera" spec="~2.4.1">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="com-badrit-base64" spec="~0.2.0" />
+    <plugin name="cordova-plugin-file" spec="~4.3.3" />
 </widget>

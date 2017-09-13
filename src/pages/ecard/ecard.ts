@@ -2,9 +2,8 @@ import { Component,Renderer2, ViewChild,ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-
-import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
@@ -15,7 +14,7 @@ let apiUrl = 'http://118.201.197.142';
 @Component({
   selector: 'page-ecard',
   templateUrl: 'ecard.html',
-  providers: [EcardServiceProvider]
+  providers: [EcardServiceProvider],
 })
 export class EcardPage {
 
@@ -47,9 +46,9 @@ export class EcardPage {
 		public storage: Storage, 
 		public loadingCtrl: LoadingController,
 		private alertCtrl: AlertController,
-		public ecardService: EcardServiceProvider,
 		private rd: Renderer2,
-		private screenOrientation: ScreenOrientation) {
+		private screenOrientation: ScreenOrientation,
+		public ecardService: EcardServiceProvider,) {
 
 		//this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);	
 

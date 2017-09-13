@@ -219,27 +219,56 @@
 			<h3 class="text-xs-uppercase">Upload Attachment</h3>
 			<div class="upload-container">
 				<div class="actions row middle-xs">
-					<div class="label">Select File</div>
-					<div class="btn-actions">
+					<div class="label"><input type="text" value="{{imageNameBefore}}" style="background-color: transparent " disabled /></div>
+					<div class="btn-actions" >
 						<div class="row middle-xs">
 							<div class="col-xs-6 has-padR browse-container">
-								<input type="file" />
-								<div class="btn-browse btn btn-gray" style="padding: 5px;">Browse</div>
+								
+								<div class="btn-browse btn btn-gray" style="padding: 5px;" (click)="browseFile()">Browse</div>
 							</div>
 							<div class="col-xs-6 has-padL">
-								<div class="add-upload btn btn-gray" style="padding: 5px;">Add</div>
+								<div class="add-upload btn btn-gray" style="padding: 5px;" (click)="addImage()">Add</div>
 							</div>
 						</div>
 					</div>
 				</div> 
-				<div class="img-container row middle-xs between-xs">
+				<div class="img-container row middle-xs between-xs" >
 					<div class="img row middle-xs">
-						<img src="./assets/img/clinic.png" />
-						<div class="file-name">Image-01.jpg</div>
+						<img src="{{imgSrc}}" *ngIf="isFromDevice == false"/>
+						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="isFromDevice == true"/>
+						<div class="file-name">{{imageName}}</div>
 					</div>
-					<div class="delete"><i class="fa fa-times" aria-hidden="true"></i></div>
+					<div class="delete" (click)="removeImage('1')"><i class="fa fa-times" aria-hidden="true" ></i></div>
 				</div>
-			</div><br/>
+			</div>
+
+			<!-- <div class="upload-container" *ngIf="showImageContainer2">
+				<div class="actions row middle-xs">
+					<div class="label"><input type="text" value="{{imageNameBefore}}" style="background-color: transparent " disabled /></div>
+					<div class="btn-actions">
+						<div class="row middle-xs">
+							<div class="col-xs-6 has-padR browse-container">
+								
+								<div class="btn-browse btn btn-gray" style="padding: 5px;" (click)="browseFile()">Browse</div>
+							</div>
+							<div class="col-xs-6 has-padL">
+								<div class="add-upload btn btn-gray" style="padding: 5px;" (click)="addImage()">Add</div>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="img-container row middle-xs between-xs" >
+					<div class="img row middle-xs">
+						<img src="{{imgSrc}}" *ngIf="isFromDevice == false"/>
+						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="isFromDevice == true"/>
+						<div class="file-name">{{imageName}}</div>
+					</div>
+					<div class="delete" (click)="removeImage('2')"><i class="fa fa-times" aria-hidden="true" ></i></div>
+				</div>
+			</div> -->
+
+
+			<br/>
 			<h3 class="text-xs-uppercase">Payment Details</h3>
 			<div class="row">
 				<div class="col-xs-6 has-padR">
@@ -273,189 +302,3 @@
 <ion-footer>
 	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
 </ion-footer>
-
-
-<!--
-			<div class="form-group">
-				<div class="label">Visit Date</div>
-				<div class="input-field">
-					<ion-item no-lines style="padding:0px 0px">
-						<ion-datetime class="has-calendar dateTime" displayFormat="MM/DD/YYYY" pickerFormat="MMM DD YYYY" name="toDate" [(ngModel)]="claimForm.toDate"></ion-datetime>
-                    </ion-item>
-				</div>
-			</div><br/>
-			<h3 class="text-xs-uppercase">Provider/Clinic Information</h3>
-			<div class="form-group">
-				<div class="label">Provider Name</div>
-				<div class="input-field">
-					<select name="select_providerName" [(ngModel)]="claimForm.select_providerName">
-						<option value=" disabled">Select</option>
-						<option value="{{provider.Code}}" *ngFor="let provider of providers">{{provider.Name}}</option>
-						
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6 has-padR">
-					<div class="form-group">
-						<div class="label">Claim Type</div>
-						<div class="input-field">
-							<select name="select_claimType" [(ngModel)]="claimForm.select_claimType">
-								<option value="" disabled>Select</option>
-								<option value="{{type.ClaimTypeDescription}}" *ngFor="let type of claimTypes">{{type.ClaimTypeDescription}}</option>
-								
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 has-padL">
-					<div class="form-group">
-						<div class="label">Referral Letter</div>
-						<div class="input-field">
-							<label class="checkbox-field">
-								<input type="checkbox" name="referral" [(ngModel)]="claimForm.referral"/>
-								<span>(Check to indicate 'Yes')</span>
-							</label>
-						</div>
-					</div>
-				</div>
-			</div><br/>
-			<h3 class="text-xs-uppercase">Diagnosis</h3>
-			<div class="gray-title">Acute Diagnosis</div>
-			<div class="form-group" #diagnosis1 id="diagnosis1" *ngIf="acute1">
-				<div class="label">Diagnosis 1</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis1" [(ngModel)]="claimForm.select_acuteDiagnosis1">
-						<option value="" disabled>Select</option>
-						<option [value]="ad.ID" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-				<i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="form-group" #diagnosis2 id="diagnosis2" *ngIf="acute2">
-				<div class="label">Diagnosis 2</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis2" [(ngModel)]="claimForm.select_acuteDiagnosis2">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="addAcute('ad_3')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeAcute('ad_2')" class="fa fa-minus" aria-hidden="true"></i>
-
-				</div>
-			</div>
-			<div class="form-group" #diagnosis3 id="diagnosis3" *ngIf="acute3">
-				<div class="label">Diagnosis 3</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis3" [(ngModel)]="claimForm.select_acuteDiagnosis3">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="addAcute('ad_4')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeAcute('ad_3')" class="fa fa-minus" aria-hidden="true"></i>
-
-				</div>
-			</div>
-			<div class="form-group" *ngIf="acute4">
-				<div class="label">Diagnosis 4</div>
-				<div class="input-field">
-					<select name="select_acuteDiagnosis4" [(ngModel)]="claimForm.select_acuteDiagnosis4">
-						<option value="" disabled>Select</option>
-						<option value="{{ad.ID}}" *ngFor="let ad of acuteDiagnosisList">{{ad.Description}}</option>
-					</select>
-					<i (click)="removeAcute('ad_4')" class="fa fa-minus" aria-hidden="true"></i>
-				</div>
-			</div><br/>
-
-			<div class="gray-title">Chronic Diagnosis</div>
-			<div class="form-group" *ngIf="chronic1">
-				<div class="label">Diagnosis 1</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis1" [(ngModel)]="claimForm.select_chronicDiagnosis1">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_2')" class="fa fa-plus" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic2">
-				<div class="label">Diagnosis 2</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis2" [(ngModel)]="claimForm.select_chronicDiagnosis2">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_3')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeChronic('cd_2')" class="fa fa-minus" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic3">
-				<div class="label">Diagnosis 3</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis3" [(ngModel)]="claimForm.select_chronicDiagnosis3">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="addChronic('cd_4')" class="fa fa-plus" aria-hidden="true"></i>
-					<i (click)="removeChronic('cd_3')" class="fa fa-minus" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic4">
-				<div class="label">Diagnosis 4</div>
-				<div class="input-field">
-					<select name="select_chronicDiagnosis4" [(ngModel)]="claimForm.select_chronicDiagnosis4">
-						<option value="" disabled>Select</option>
-						<option [value]="cd.ID" *ngFor="let cd of chronicDiagnosisList">{{cd.Description}}</option>
-					</select>
-					<i (click)="removeChronic('cd_4')" class="fa fa-minus" aria-hidden="true"></i>
-				</div>
-			</div><br/>
-			<div class="form-group">
-				<div class="label">Claim Remarks</div>
-				<div class="input-field">
-					<textarea [(ngModel)]="claimForm.remarks" name="remarks"></textarea>
-				</div>
-			</div><br/>
-			<h3 class="text-xs-uppercase">Upload Attachment</h3>
-			<div class="upload-container">
-				<div class="actions row middle-xs">
-					<div class="label">Select File</div>
-					<div class="btn-actions">
-						<div class="row middle-xs">
-							<div class="col-xs-6 has-padR browse-container">
-								<input type="file" />
-								<div class="btn-browse btn btn-gray" style="padding: 5px;">Browse</div>
-							</div>
-							<div class="col-xs-6 has-padL">
-								<div class="add-upload btn btn-gray" style="padding: 5px;">Add</div>
-							</div>
-						</div>
-					</div>
-				</div> 
-				<div class="img-container row middle-xs between-xs">
-					<div class="img row middle-xs">
-						<img src="./assets/img/clinic.png" />
-						<div class="file-name">Image-01.jpg</div>
-					</div>
-					<div class="delete"><i class="fa fa-times" aria-hidden="true"></i></div>
-				</div>
-			</div><br/>
-			<h3 class="text-xs-uppercase">Payment Details</h3>
-			<div class="row">
-				<div class="col-xs-6 has-padR">
-					<div class="form-group">
-						<div class="label">Total Amount</div>
-						<div class="input-field">
-							<input type="number" name="total_amount" [(ngModel)]="claimForm.total_amount" />
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 has-padL">
-					<div class="form-group">
-						<div class="label">Total GST Amount</div>
-						<div class="input-field">
-							<input type="number" name="total_amount_gst" [(ngModel)]="claimForm.total_amount_gst"/>
-						</div>
-					</div>
-				</div>
-			</div> -->

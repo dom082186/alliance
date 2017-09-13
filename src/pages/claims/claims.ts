@@ -1,13 +1,11 @@
 import { Component,Renderer2, ViewChild,ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams,LoadingController, AlertController, ModalController } from 'ionic-angular';
-import { DatePicker } from '@ionic-native/date-picker';
 import { Storage } from '@ionic/storage';
 
 //import { BenefitsPage } from '../benefits/benefits';
 import { SubmitclaimsPage } from '../submitclaims/submitclaims';
 import { ClaimdetailsPage } from '../claimdetails/claimdetails';
 
-import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
 
 @IonicPage()
@@ -175,8 +173,8 @@ export class ClaimsPage {
       }else{
        
         //===========  LIVE 
-        //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
-        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
+        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
+        //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
 
         //===========  TEST FROM LOGIN NONMEDINET
         //this.params = "network="  + "ntuc" + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + "2000-09-02 00:00:00.000" + "&visitdateto=" + "2017-09-02 00:00:00.000" +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];

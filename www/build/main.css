@@ -33043,6 +33043,26 @@ page-claims .dateTime {
   background-color: transparent;
 }
 
+page-claims table {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table thead {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table thead tr th {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table tbody {
+  border: 1px solid #e6e6e6;
+}
+
+page-claims table tbody tr td {
+  border: 1px solid #e6e6e6;
+}
+
 page-clinicdetails .header .toolbar .toolbar-background {
   border: 0;
 }
@@ -34108,6 +34128,10 @@ page-submit-claim-details .claimDetails-content .claim-details .terms-link {
 
 page-submit-claim-details .claimDetails-content .claim-details .btn-panel .btn {
   width: calc( 50% - 5px);
+}
+
+page-submitclaims h3 {
+  color: #f3a121;
 }
 
 page-submitclaims .dateTime {

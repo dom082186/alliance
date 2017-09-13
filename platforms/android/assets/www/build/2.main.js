@@ -1,14 +1,14 @@
 webpackJsonp([2],{
 
-/***/ 324:
+/***/ 330:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register__ = __webpack_require__(65);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterPageModule", function() { return RegisterPageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__submit_claim_details__ = __webpack_require__(129);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SubmitClaimDetailsPageModule", function() { return SubmitClaimDetailsPageModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,26 +18,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var RegisterPageModule = (function () {
-    function RegisterPageModule() {
+var SubmitClaimDetailsPageModule = (function () {
+    function SubmitClaimDetailsPageModule() {
     }
-    return RegisterPageModule;
+    return SubmitClaimDetailsPageModule;
 }());
-RegisterPageModule = __decorate([
+SubmitClaimDetailsPageModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__register__["a" /* RegisterPage */],
+            __WEBPACK_IMPORTED_MODULE_2__submit_claim_details__["a" /* SubmitClaimDetailsPage */],
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__register__["a" /* RegisterPage */]),
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__submit_claim_details__["a" /* SubmitClaimDetailsPage */]),
         ],
         exports: [
-            __WEBPACK_IMPORTED_MODULE_2__register__["a" /* RegisterPage */]
+            __WEBPACK_IMPORTED_MODULE_2__submit_claim_details__["a" /* SubmitClaimDetailsPage */]
         ]
     })
-], RegisterPageModule);
+], SubmitClaimDetailsPageModule);
 
-//# sourceMappingURL=register.module.js.map
+//# sourceMappingURL=submit-claim-details.module.js.map
 
 /***/ })
 
