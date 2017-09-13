@@ -96,10 +96,16 @@
 				<div class="label">Diagnosis 1</div>
 				<div class="input-field row middle-xs">
 					<div class="col-xs-auto select-padding" >
-						<select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
+						<!-- <select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
 							<option value="" disabled>Select</option>
 							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
-						</select>
+						</select> -->
+						<input type="text" (ionInput)="getItems($event)">
+						  <ion-list *ngIf="showList">
+						    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index">
+						      {{ ad.Description }}
+						    </ion-item>
+						  </ion-list>
 					</div>
 					<div class="icon row middle-xs end-xs icon-padding"><i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i></div>
 				</div>

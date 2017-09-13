@@ -32528,7 +32528,7 @@ ion-alert .alert-wrapper .alert-head .alert-title {
 }
 
 .bg-white h3 {
-  font: 16px/1.45 "Helvetica-Bold";
+  font: 14px/1.45 "Helvetica-Bold";
   margin: 0 0 10px;
 }
 
@@ -32553,16 +32553,18 @@ ion-alert .alert-wrapper .alert-head .alert-title {
   -moz-appearance: none;
   appearance: none;
   width: 100%;
+  height: 36px;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 7px 10px;
   background: url("../assets/img/icons/dropdown.png") no-repeat right 10px center transparent;
-  background-size: 15px;
+  background-size: 12px;
 }
 
 .form-group input[type=text], .form-group textarea, .form-group input[type=email],
 .form-group input[type=number] {
   width: 100%;
+  height: 36px;
   padding: 7px 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -32620,6 +32622,10 @@ ion-alert .alert-wrapper .alert-head .alert-title {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.form-group .item .item-inner {
+  padding: 0;
 }
 
 .upload-container {
@@ -34140,6 +34146,7 @@ page-submitclaims .dateTime {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: transparent;
+  height: 36px;
 }
 
 page-submitclaims .select-padding {
@@ -34156,6 +34163,38 @@ page-submitclaims .remove-icon {
 
 page-submitclaims h3 {
   color: #eea52e;
+}
+
+page-submitclaims .totals .total-section {
+  border: 1px solid #ddd;
+  margin: 0 0 -1px;
+}
+
+page-submitclaims .totals .total-section .label {
+  font: 12px/1.45 "Helvetica-Light";
+  border-right: 1px solid #ddd;
+  padding: 5px;
+}
+
+page-submitclaims .totals .total-section .price {
+  padding: 5px;
+}
+
+page-submitclaims .totals .total-section .price input[type=number] {
+  width: 100%;
+  display: block;
+  background: #fff;
+  padding: 5px 10px 5px 0;
+}
+
+page-submitclaims .totals .total-section .price .currency {
+  font: 12px/1.45 "Helvetica-Light";
+}
+
+page-submitclaims .add-specialized {
+  font: 12px/1.45 "Helvetica-Light";
+  margin: 0;
+  height: 36px;
 }
 
 page-termsconditions .header-ios .title-ios {

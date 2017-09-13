@@ -58,14 +58,7 @@ export class SubmitclaimsPage {
   showReferral: boolean = false
   isFromDevice: boolean = false
 
-  showImageContainer: boolean = false;
-  showBrowseButton: boolean = false;
-  hideImageContainer: boolean = true;
-
-  showImageContainer2: boolean = false;
-  showBrowseButton2: boolean = false;
-  hideImageContainer2: boolean = true;
-
+  showList: boolean = false;
 
 
   base64ImageBefore: string;
@@ -793,6 +786,31 @@ export class SubmitclaimsPage {
     console.log(i)
     this.imgArray.splice(i,1); 
     
+  }
+
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    //this.initializeItems();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+    console.log(this.acuteDiagnosisList);
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      
+      // Filter the items
+      this.acuteDiagnosisList = this.acuteDiagnosisList.filter((item) => {
+        return (item.Description.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+      
+      // Show the results
+      this.showList = true;
+    } else {
+      
+      // hide the results when the query is empty
+      this.showList = false;
+    }
   }
 
 
