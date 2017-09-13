@@ -211,6 +211,49 @@
 			</div><br/>
 			<h3 class="text-xs-uppercase">Specialized Procedure</h3>
 			<div class="form-group">
+				<div class="label">Specialized Procedure</div>
+				<div class="input-field">
+					<select name="specialized_procedure">
+						<option value="">Select</option>
+						<option value="ecg">ECG ( Resting Recording/Reporting)</option>
+						<option value="treadmill">Treadmill</option>
+					</select>
+				</div>
+			</div>
+			<div class="totals">
+				<div class="total-section row">
+					<div class="label col-xs-6 row middle-xs">Total Specialized Procedure to Pay</div>
+					<div class="price col-xs-6 row middle-xs">
+						<div class="col-xs-auto">
+							<input type="number" />
+						</div>
+						<div class="currency">[SGD]</div>
+					</div>
+				</div>
+				<div class="total-section row">
+					<div class="label col-xs-6 row middle-xs">Total Specialized Procedure Fee</div>
+					<div class="price col-xs-6 row middle-xs">
+						<div class="col-xs-auto">
+							<input type="number" />
+						</div>
+						<div class="currency">[SGD]</div>
+					</div>
+				</div>
+			</div><br/>
+			<div class="form-group">
+				<div class="row bottom-xs">
+					<div class="col-xs-4">
+						<div class="label">Price</div>
+						<div class="input-field">
+							<input type="number" />
+						</div>
+					</div>
+					<div class="col-xs-8" style="padding: 0 0 0 10px;">
+						<button class="btn btn-yellow add-specialized">Add Specialized Procedure</button>
+					</div>
+				</div>
+			</div><br/>
+			<div class="form-group">
 				<div class="label">Claim Remarks</div>
 				<div class="input-field">
 					<textarea formControlName="remarks" name="remarks"></textarea>
@@ -246,7 +289,7 @@
 
 			<br/>
 			<h3 class="text-xs-uppercase">Payment Details</h3>
-			<div class="row">
+			<div class="row bottom-xs">
 				<div class="col-xs-6 has-padR">
 					<div class="form-group">
 						<div class="label">Total Amount (SGD)</div>
