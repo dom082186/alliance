@@ -277,7 +277,7 @@ ion-alert {
 	background: #fff;
 
 	h3 {
-		font: 16px/1.45 $bold;
+		font: 14px/1.45 $bold;
 		margin: 0 0 10px;
 	}
 
@@ -302,16 +302,18 @@ ion-alert {
 		-moz-appearance: none;
 		appearance: none;
 		width: 100%;
+		height: 36px;
 		border: 1px solid #ddd;
 		border-radius: 5px;
 		padding: 7px 10px;
 		background: url( '../assets/img/icons/dropdown.png' ) no-repeat right 10px center transparent;
-		background-size: 15px;
+		background-size: 12px;
 	}
 
 	input[type=text], textarea, input[type=email],
 	input[type=number] {
 		width: 100%;
+		height: 36px;
 		padding: 7px 10px;
 		border: 1px solid #ddd;
 		border-radius: 5px;
@@ -371,6 +373,12 @@ ion-alert {
 				top: 0;
 				left: 0;
 			}
+		}
+	}
+
+	.item {
+		.item-inner {
+			padding: 0;
 		}
 	}
 }

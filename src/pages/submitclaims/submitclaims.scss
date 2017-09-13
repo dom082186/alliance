@@ -8,6 +8,7 @@ page-submitclaims {
 	    border: 1px solid #ddd;
 	    border-radius: 5px;
 	    background-color: transparent;
+	    height: 36px;
 	}
 
 	.select-padding {
@@ -23,5 +24,39 @@ page-submitclaims {
 
 	h3 {
 		color: $gold;
+	}
+
+	.totals {
+		.total-section {
+			border: 1px solid #ddd;
+			margin: 0 0 -1px;
+
+			.label {
+				font: 12px/1.45 $light;
+				border-right: 1px solid #ddd;
+				padding: 5px;
+			}
+
+			.price {
+				padding: 5px;
+
+				input[type=number] {
+					width: 100%;
+					display: block;
+					background: #fff;
+					padding: 5px 10px 5px 0;
+				}
+
+				.currency {
+					font: 12px/1.45 $light;
+				}
+			}
+		}
+	}
+
+	.add-specialized {
+		font: 12px/1.45 $light;
+		margin: 0;
+		height: 36px;
 	}
 }
