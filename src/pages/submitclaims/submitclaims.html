@@ -217,7 +217,7 @@
 			</div><br/>
 			
 			<h3 class="text-xs-uppercase">Upload Attachment</h3>
-			<div class="upload-container">
+			<div class="upload-container ">
 				<div class="actions row middle-xs">
 					<div class="label"><input type="text" value="{{imageNameBefore}}" style="background-color: transparent " disabled /></div>
 					<div class="btn-actions" >
@@ -238,7 +238,7 @@
 						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="isFromDevice == true"/>
 						<div class="file-name">{{imageName}}</div>
 					</div>
-					<div class="delete" (click)="removeImage('1')"><i class="fa fa-times" aria-hidden="true" ></i></div>
+					<div class="delete" (click)="removeImage()"><i class="fa fa-times" aria-hidden="true" ></i></div>
 				</div>
 			</div>
 
