@@ -31,6 +31,7 @@ import { TermsconditionsPage } from '../pages/termsconditions/termsconditions';
 import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet';
 import { ClinicnearbyPage } from '../pages/clinicnearby/clinicnearby';
 import { SubmitClaimDetailsPage } from '../pages/submit-claim-details/submit-claim-details';
+import { AddSpPage } from '../pages/add-sp/add-sp';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -78,6 +79,7 @@ import { File } from '@ionic-native/file';
         ClinicnearbyPage,
         ClaimdetailsPage,
         SubmitClaimDetailsPage,
+        AddSpPage,
         KeyPipe
     ],
     imports: [
@@ -109,7 +111,8 @@ import { File } from '@ionic-native/file';
         LoginNonmedinetPage,
         ClinicnearbyPage,
         ClaimdetailsPage,
-        SubmitClaimDetailsPage
+        SubmitClaimDetailsPage,
+        AddSpPage
     ],
   providers: [
     StatusBar,

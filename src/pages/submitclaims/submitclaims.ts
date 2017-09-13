@@ -11,7 +11,7 @@ import { File } from '@ionic-native/file';
 
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
 import { SubmitClaimDetailsPage } from '../submit-claim-details/submit-claim-details';
-
+import { AddSpPage } from '../add-sp/add-sp';
 
 
 
@@ -316,6 +316,12 @@ export class SubmitclaimsPage {
     }, (err) => {
           this.loading.dismiss();
     });
+  }
+
+  openAddSP(index){
+    console.log(index);
+    let contactModal = this.modalCtrl.create(AddSpPage,);
+    contactModal.present();
   }
 
 
@@ -729,8 +735,6 @@ export class SubmitclaimsPage {
 
   addImage() {
     var new_item = {};
-   
-    
     this.submitClaimService.addFile(this.addFilesArr).then((result) => {
       this.showLoader()
 
@@ -787,12 +791,7 @@ export class SubmitclaimsPage {
 
   removeImage(i) {
     console.log(i)
-
-    for(var x=0; x<this.imgArray.length;x++ )
-     { 
-        if(this.imgArray[x]==i)
-            this.imgArray.splice(i,1); 
-      } 
+    this.imgArray.splice(i,1); 
     
   }
 
