@@ -31,7 +31,7 @@ export class SubmitClaimDetailsPage {
 			this.totalFee = this.submitClaimDetails.totalamount;
 			this.totalGST = this.submitClaimDetails.totalgstamount;
 			console.log(this.submitClaimDetails)
-			console.log(this.submitAttachedFile)
+			//console.log(this.submitAttachedFile)
 	}
 
 	ionViewDidLoad() {
@@ -149,8 +149,23 @@ export class SubmitClaimDetailsPage {
               alert.present();
               
             }else{
-                console.log('success')
+                console.log('success submit claim')
 	        	console.log(result)
+	        	this.viewCtrl.dismiss();
+
+				let alert = this.alertCtrl.create({
+					title: 'Success',
+					message: 'Claim successfully submitted',
+					buttons: [{
+				        text: 'OK',
+				        role: 'cancel',
+				        handler: () => {
+				        	this.navCtrl.push(ClaimsPage);
+				        	this.loading.dismiss();
+				      }
+				    }]
+				});
+				alert.present();
 
             }
 	        

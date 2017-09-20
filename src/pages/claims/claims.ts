@@ -28,7 +28,8 @@ export class ClaimsPage {
   memberNRIC: any;
   sessionID: any;
   params: any;
-  claimHistoryList: any;
+  panelClaimList: any;
+  tpaClaimList: any;
   benefitPeriod: any;
   selectedBenefitPeriod: any;
   selectedBenefitID: any;
@@ -50,7 +51,7 @@ export class ClaimsPage {
 
 
   ionViewDidLoad(){
-    
+    this.showLoader();
     this.getData();
     //this.memberInfo = this.getFromStorageAsync();
     //this.getNetwork();
@@ -90,7 +91,8 @@ export class ClaimsPage {
 
         this.storage.get('claimMemInfo').then((val1) => {
             this.memberClaimInfo = val1;
-            this.getSession();
+            this.loadAllClaims();
+            //this.getSession();
         });
     });
 
@@ -106,6 +108,72 @@ export class ClaimsPage {
 
   async getBenefitsFromSync(val){
     return await val;
+  }
+
+
+  loadAllClaims(){
+    
+        //===========  LIVE 
+        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + "null" + "&visitdateto=" + "null" +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+        //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
+
+        //===========  TEST FROM LOGIN NONMEDINET
+        //this.params = "network="  + "ntuc" + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + "2000-09-02 00:00:00.000" + "&visitdateto=" + "2017-09-02 00:00:00.000" +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+
+        //===========  TEST FROM LOGIN
+        //this.params = "network="  + "ntuc" + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + "2000-09-02 00:00:00.000" + "&visitdateto=" + "2017-09-02 00:00:00.000" +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+
+
+        console.log(this.params);
+
+          this.claimService.getClaimsAPI(this.params).then((result) => {
+              this.loading.dismiss();
+              console.log(result);
+
+              if(result.Status == "Failed"){
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          
+                      }
+                    }]
+                });
+                alert.present();
+                
+              }else{
+                
+                  this.panelClaimList = result.panelclaims;
+                  this.tpaClaimList = result.tpaclaims;
+
+                  if(result.length == 0){
+                    this.noRecordsFound = true;
+                  }else{
+                    this.noRecordsFound = false;
+                    this.hideExportButton = true;
+                  }
+
+                  this.panelClaimList.sort((a, b) => {
+                    if (a._Treatmentdate < b._Treatmentdate) return -1;
+                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
+                    else return 0;
+                  });
+
+                  this.tpaClaimList.sort((a, b) => {
+                    if (a._Treatmentdate < b._Treatmentdate) return -1;
+                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
+                    else return 0;
+                  });
+              }
+            
+          }, (err) => {
+            console.log(err)
+              this.loading.dismiss();
+          }); 
   }
 
   gotoClaim(){
@@ -173,7 +241,7 @@ export class ClaimsPage {
       }else{
        
         //===========  LIVE 
-        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
+        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
         //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
 
         //===========  TEST FROM LOGIN NONMEDINET
@@ -205,7 +273,9 @@ export class ClaimsPage {
                 alert.present();
                 
               }else{
-                  this.claimHistoryList = result;
+                
+                  this.panelClaimList = result.panelclaims;
+                  this.tpaClaimList = result.tpaclaims;
 
                   if(result.length == 0){
                     this.noRecordsFound = true;
@@ -213,6 +283,18 @@ export class ClaimsPage {
                     this.noRecordsFound = false;
                     this.hideExportButton = true;
                   }
+                  
+                  this.panelClaimList.sort((a, b) => {
+                    if (a._Treatmentdate < b._Treatmentdate) return -1;
+                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
+                    else return 0;
+                  });
+
+                  this.tpaClaimList.sort((a, b) => {
+                    if (a._Treatmentdate < b._Treatmentdate) return -1;
+                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
+                    else return 0;
+                  });
               }
             
           }, (err) => {
@@ -223,10 +305,17 @@ export class ClaimsPage {
   }
 
 
-  openClaim(index){
+  openClaim(index, mode){
     console.log(index);
-    let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index],index: index});
-    contactModal.present();
+    console.log(mode);
+    if(mode == 'panel'){
+      let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.panelClaimList[index],index: index,mode:mode});
+      contactModal.present();
+    }else{
+      let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.tpaClaimList[index],index: index, mode:mode});
+      contactModal.present();
+    }
+    
   }
 
 
@@ -264,10 +353,10 @@ export class ClaimsPage {
                 alert.present();
                 
               }else{
+
                  this.benefitPeriod = result;
                  this.benefitsForm['select_benefitPeriod'] = 0
                  this.onChange(0);
-
               }
         
       }, (err) => {
@@ -301,7 +390,6 @@ export class ClaimsPage {
                       text: 'OK',
                       role: 'Cancel',
                       handler: () => {
-                        
                     }
                   }]
               });

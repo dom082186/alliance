@@ -31,6 +31,10 @@ export class CheckbalancePage {
   toDate: String = new Date().toISOString();
   hasDependents: boolean = false;
   params: any;
+  dateModified: any;
+  annualLimitValue: any;
+  independentAnnualDetails: any;
+  independentAnnualValue: any;
 
 
 
@@ -116,6 +120,24 @@ export class CheckbalancePage {
             }else{
               this.balanceRemarks = this.getCheckInfoFromAsync(result)
               this.annualLimitDetails = result.AnnualLimitDetails[0];
+              this.independentAnnualDetails = result.IndependentAnnualLimit[0];
+              var annualVal = [];
+              var independentVal = [];
+               console.log(result)
+
+              for (let key in this.annualLimitDetails) {
+                  if(this.annualLimitDetails[key].toLowerCase() != 'unlimited' && this.annualLimitDetails[key].toLowerCase() != 'na' ){
+                    annualVal.push({key: key, value: this.annualLimitDetails[key]} )
+                  }
+              }
+              for (let key in this.independentAnnualDetails) {
+                  if(this.independentAnnualDetails[key].toLowerCase() != 'unlimited' &&   this.independentAnnualDetails[key].toLowerCase() != 'na'){
+                    independentVal.push({key: key, value: this.independentAnnualDetails[key]} )
+                  }
+              }
+              this.annualLimitValue = annualVal;
+              this.independentAnnualValue = independentVal;
+
               this.TotalFamilyLimit = this.annualLimitDetails.TotalFamilyLimit;
               this.TotalAnnualLimit = this.annualLimitDetails.TotalAnnualLimit;
               
@@ -128,6 +150,63 @@ export class CheckbalancePage {
 
   onChange(value) {
     this.memberInfo = this.getInfoFromAsync(value);
+    this.showLoader();
+    var empType = "";
+      if(this.memberInfo1[value]['IsEmployee']){ empType = "employee"; }else{ empType = "dependent"; }
+      this.params = "network="  + this.memberNetwork + "&nric=" + this.memberInfo1[value]['MemberNRIC'] + "&empType=" + empType + "&internal_LoggedInUserRegisterID="+ this.memberInfo1[0]['Internal_LoggedInUserRegisterID'];
+
+      this.claimService.getCheckBalanceAPI(this.params).then((result) => {
+            this.loading.dismiss();
+            
+            if(result.Status == "Failed"){
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }else{
+                            this.navCtrl.pop();
+                          }
+                           
+                      }
+                    }]
+                });
+                alert.present();
+              
+            }else{
+              this.balanceRemarks = this.getCheckInfoFromAsync(result)
+              this.annualLimitDetails = result.AnnualLimitDetails[0];
+              this.independentAnnualDetails = result.IndependentAnnualLimit[0];
+              var annualVal = [];
+              var independentVal = [];
+               console.log(result)
+
+              for (let key in this.annualLimitDetails) {
+                  if(this.annualLimitDetails[key].toLowerCase() != 'unlimited' && this.annualLimitDetails[key].toLowerCase() != 'na' ){
+                    annualVal.push({key: key, value: this.annualLimitDetails[key]} )
+                  }
+              }
+              for (let key in this.independentAnnualDetails) {
+                  if(this.independentAnnualDetails[key].toLowerCase() != 'unlimited' &&   this.independentAnnualDetails[key].toLowerCase() != 'na'){
+                    independentVal.push({key: key, value: this.independentAnnualDetails[key]} )
+                  }
+              }
+              this.annualLimitValue = annualVal;
+              this.independentAnnualValue = independentVal;
+
+              this.TotalFamilyLimit = this.annualLimitDetails.TotalFamilyLimit;
+              this.TotalAnnualLimit = this.annualLimitDetails.TotalAnnualLimit;
+              
+            }
+          
+      }, (err) => {
+            this.loading.dismiss();
+      });
   }
 
   async getInfoFromAsync(val){

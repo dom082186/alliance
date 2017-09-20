@@ -87,7 +87,7 @@ export class HomePage {
 	getNetwork(){
 		this.storage.get('memNetwork').then((val1) => {
 		    this.memberNetwork = val1;
-		    if(val1.toLowerCase() == "aviva"){
+		    if(val1.toLowerCase() == "ahc"){
 		    	this.isAccountAviva = true;
 		    }
 		});	
@@ -133,9 +133,11 @@ export class HomePage {
 	public openWithInAppBrowser(url : string){
 
 
-		if(this.memberNetwork.toLowerCase() == "aviva"){
-			let target = "_blank";
-	    	this.theInAppBrowser.create(url,target,this.options);
+		if(this.memberNetwork.toLowerCase() == "ahc"){
+			//let target = "_blank";
+			//let target = "_system";
+			
+	    	this.theInAppBrowser.create(url,'_system',this.options);
 		}else{
 			let alert = this.alertCtrl.create({
 				title: 'Alert',

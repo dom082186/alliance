@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http,RequestOptions,Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AlertController } from 'ionic-angular';
-
+import { Observable } from 'rxjs/Observable';
 
 let apiUrl = 'http://118.201.197.142/api/';
 
@@ -287,7 +287,6 @@ export class SubmitClaimServiceProvider {
 					reject(e);
 				});
 		});
-
 	}
 
 
@@ -329,9 +328,39 @@ export class SubmitClaimServiceProvider {
 					reject(e);
 				});
 		});
-
 	}
 
 
+	deleteClaimAPI(url){
+		if (this.data) {
+		    return Promise.resolve(this.data);
+		}
+		
+		return new Promise((resolve,reject) => {
+		    this.http.get(url)
+		      .map(res => res.json())
+		      .subscribe(
+		      	data => {
+		        	resolve(data); 	
+		        }, error => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(error);
+		      });
+		});
+
+	}
+		
 
 }

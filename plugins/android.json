@@ -39,6 +39,9 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.skubbs.mah"
         }
     },
     "dependent_plugins": {

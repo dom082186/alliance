@@ -14,16 +14,16 @@ export class ClaimdetailsPage {
 
 	claimDetails: any;
 	claimIndex: any;
+	mode: any;
 	isCheckTM : boolean = true
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController) {
 			this.claimDetails = this.navParams.get('details');
 			this.claimIndex = this.navParams.get('index');
-			
+			this.mode = this.navParams.get('mode');
 	}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad ClaimdetailsPage');
 	}
 
 	modalClose() {
@@ -46,10 +46,10 @@ export class ClaimdetailsPage {
 
 	editClaim(){
 
-		if(this.claimDetails.ClaimStatus != null){
-			if(this.claimDetails.ClaimStatus.toLowerCase() == "paid" || this.claimDetails.ClaimStatus.toLowerCase() == "pending"){
+		if(this.claimDetails._ClaimStatus != null ){
+			if(this.claimDetails._ClaimStatus.toLowerCase() == "paid" || this.claimDetails._ClaimStatus.toLowerCase() == "pending" || this.claimDetails._ClaimStatus == ""){
 			}else{
-				this.navCtrl.push( SubmitclaimsPage );
+				this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'} );
 			}	
 		}else{
 			//this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails} );

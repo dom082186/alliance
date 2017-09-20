@@ -275,13 +275,14 @@ export class ClinicslocatorPage {
 	    	}
 	    
 	    }else{
-	    	
+
 	    	if(this.resultNearClinics != undefined){
 	    		this.allClinics = this.resultNearClinics;
 	    	}else{
 	    		this.allClinics = this.allClinics1;
 	    	}
-	    	
+
+	    	console.log(this.allClinics)
 			this.allClinics = this.allClinics.filter((clinic) => {
 				return clinic.Name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
 			});

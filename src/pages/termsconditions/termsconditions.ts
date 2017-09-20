@@ -72,7 +72,7 @@ export class TermsconditionsPage {
   getTerms(params) {
       
       this.loginService.loadTerms(params).then((result) => {
-        this.loading.dismiss();
+        
 
         if(result.ValidateMessage != undefined){
           let alert = this.alertCtrl.create({
@@ -93,7 +93,7 @@ export class TermsconditionsPage {
           this.termsBody = result.content;
             
         }
-
+        this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();
       });

@@ -39,17 +39,25 @@
                 </div>
                 <div class="info row between-xs">
                     <div class="label col-xs-6">Last Modified Date</div>
-                    <div class="details col-xs-6 text-xs-right">{{toDate | date: 'MM/dd/yyyy'}}</div>
+                    <!-- <div class="details col-xs-6 text-xs-right">{{dateModified | date: 'MM/dd/yyyy'}}</div> -->
+                    <div class="details col-xs-6 text-xs-right">{{(balanceRemarks | async)?.BenefitModifiedDate}} </div>
                 </div>
             </div> <!-- end of .section-details -->
             <div class="section-details">
                 <div class="title">Annual Limit Details</div>
                 <!--  *ngFor="let thisKey of annualLimitDetails | key" {{thisKey.key}}-->
-                <div class="info row between-xs">
-                    <div class="label col-xs-6 " >TotalAnnualLimit</div>
-                    <div class="details col-xs-6 text-xs-right" >{{TotalAnnualLimit}}</div>
-                    <div class="label col-xs-6 " >TotalFamilyLimit</div>
-                    <div class="details col-xs-6 text-xs-right" >{{TotalFamilyLimit}}</div>
+                <div class="info row between-xs" *ngFor="let annual of annualLimitValue">
+                    <div class="label col-xs-6 keyLabel" >{{annual.key}}</div>
+                    <div class="details col-xs-6 text-xs-right" >{{annual.value}}</div>
+                </div>
+            </div>
+
+            <div class="section-details">
+                <div class="title">Independent Annual Limit Details</div>
+                <!--  *ngFor="let thisKey of annualLimitDetails | key" {{thisKey.key}}-->
+                <div class="info row between-xs" *ngFor="let independent of independentAnnualValue">
+                    <div class="label col-xs-6 keyLabel" >{{independent.key}}</div>
+                    <div class="details col-xs-6 text-xs-right" >{{independent.value}}</div>
                 </div>
             </div>
             <div class="section-details">
