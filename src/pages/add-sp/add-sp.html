@@ -1,31 +1,58 @@
-
 <div class="modal-area row center-xs middle-xs" (customevent)="modalClose()">
     <div class="content-modal">
-        <div class="close-modal row middle-xs end-xs" (click)="modalClose()">
-            <div class="text">Close</div>
-            <div class="icon"><i class="fa fa-close"></i></div>
-        </div> <!-- end of .close-modal -->
-        
-
-    <div class="claimDetails-content">
-        <div class="bg-white">
-            <div class="claim-details">
-                <div class="title"><span>sfdga</span>: <span>rerwer</span></div>
-                <div class="info row between-xs">
-                    <div class="label">Claim Code</div>
-                    <div class="details">adgsdfg</div>
-                </div>
-                
-                <div class="btn-panel row middle-xs between-xs">
-                    <a class="btn btn-yellow" (click)="backButtonClick()">OK</a>
-                    <a class="btn btn-gray" >Edit</a>
-                    <!-- (click)="editClaim()" -->
+        <div class="content-details">
+            <div class="close-modal row middle-xs end-xs" (click)="modalClose()">
+                <div class="icon"><i class="fa fa-close"></i></div>
+            </div> <!-- end of .close-modal -->
+            <h3 class="text-xs-uppercase">Add/Edit Procedure<br/>- ECG ( Resting ) Recording / Reporting</h3>
+            <div class="form-group">
+                <div class="label required">Code</div>
+                <div class="input-field">
+                    <input type="text" />
                 </div>
             </div>
-        </div>
-    </div> 
-
-
-
+            <div class="form-group">
+                <div class="label required">Procedure Description</div>
+                <div class="input-field">
+                    <input type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label required">Price</div>
+                <input type="number" />
+            </div>
+            <div class="form-group">
+                <div class="input-field">
+                    <label class="checkbox-field-square">
+                        <input type="checkbox" name="specialized_procedure" />
+                        <span>Is Specialized Procedure</span>
+                    </label>
+                    <label class="checkbox-field-square">
+                        <input type="checkbox" name="do_not_list_gp_clinic" />
+                        <span>Do Not List in GP Clinic</span>
+                    </label>
+                    <label class="checkbox-field-square">
+                        <input type="checkbox" name="allow_price_change" />
+                        <span>Allow Price Change</span>
+                    </label>
+                    <label class="checkbox-field-square">
+                        <input type="checkbox" name="do_not_list_sp_clinic" />
+                        <span>Do Not List SPIX for SP Clinic</span>
+                    </label>
+                    <label class="checkbox-field-square">
+                        <input type="checkbox" name="do_not_list_xray_clinic" />
+                        <span>Do Not List SPIX for Xray Clinic</span>
+                    </label>
+                </div>
+            </div>
+            <div class="btn-panel row middle-xs between-xs">
+                <div class="col-xs-6 has-padR">
+                    <button class="btn btn-gray">Cancel</button>
+                </div>
+                <div class="col-xs-6 has-padL">
+                    <button class="btn btn-yellow">Save</button>
+                </div>
+            </div>
+        </div> <!-- end of .claimDetails-content -->
     </div>
 </div>
