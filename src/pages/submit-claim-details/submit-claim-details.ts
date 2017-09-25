@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController,AlertController, } from 'ionic-angular';
 
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
+import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
 
 import { TermsconditionsPage } from '../termsconditions/termsconditions';
 import { ClaimsPage } from '../claims/claims';
+import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
 
 @IonicPage()
 @Component({
   selector: 'page-submit-claim-details',
   templateUrl: 'submit-claim-details.html',
-  providers: [SubmitClaimServiceProvider],
+  providers: [SubmitClaimServiceProvider, ClaimServiceProvider],
 })
 export class SubmitClaimDetailsPage {
 
@@ -24,13 +26,13 @@ export class SubmitClaimDetailsPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,
 		 	public submitClaimService: SubmitClaimServiceProvider,public loadingCtrl: LoadingController,
-		 	private alertCtrl: AlertController, ) {
+		 	private alertCtrl: AlertController, public claimService: ClaimServiceProvider) {
 		
 			this.submitClaimDetails = this.navParams.get('details');
 			this.submitAttachedFile = this.navParams.get('files');
 			this.totalFee = this.submitClaimDetails.totalamount;
 			this.totalGST = this.submitClaimDetails.totalgstamount;
-			console.log(this.submitClaimDetails)
+			
 			//console.log(this.submitAttachedFile)
 	}
 
@@ -52,7 +54,7 @@ export class SubmitClaimDetailsPage {
 
 	addValue(e): void {
 	    //var isChecked = e.currentTarget.checked;
-	    console.log(e)
+	    //console.log(e)
 	}
 
 	submitClaimInfo(){
@@ -78,7 +80,9 @@ export class SubmitClaimDetailsPage {
 		                      text: 'OK',
 		                      role: 'Cancel',
 		                      handler: () => {
-		                        
+	                        	if(result.ValidateMessage.toLowerCase() != "records not found."){
+		                          this.navCtrl.setRoot(LoginNonmedinetPage);
+		                        }
 		                    }
 		                  }]
 		              });
@@ -87,15 +91,29 @@ export class SubmitClaimDetailsPage {
 		            }else{
 		                console.log('success file attachment')
 			        	console.log(result)
-			        	this.submitClaimInfo_cont();
-
+			        	if(result[0] != undefined){
+			        		this.submitClaimInfo_cont();
+			        	}
 		            }
 		        }, (err) => {
 			    	console.log(err)
 			        this.loading.dismiss();
 			    });
 			}else{
-				this.submitClaimInfo_cont();
+				this.loading.dismiss();
+				let alert = this.alertCtrl.create({
+	                title: 'Alert',
+	                message: 'File attachement is required',
+	                enableBackdropDismiss: false,
+	                buttons: [{
+	                      text: 'OK',
+	                      role: 'Cancel',
+	                      handler: () => {
+                        	return;
+	                    }
+	                  }]
+	              });
+	              alert.present();
 			}
 			
 
@@ -131,26 +149,33 @@ export class SubmitClaimDetailsPage {
 
 
 	submitClaimInfo_cont(){
-		this.submitClaimService.submitClaimAPI(this.submitClaimDetails).then((result) => {
 
-			if(result.Status == "Failed"){
+		this.claimService.addClaimAPI(this.submitClaimDetails).then((result1) => {
+			
+			console.log(result1)
+
+			if(result1.Status == "Failed"){
               let alert = this.alertCtrl.create({
                 title: 'Alert',
-                message: result.ValidateMessage,
+                message: result1.ValidateMessage,
                 enableBackdropDismiss: false,
                 buttons: [{
                       text: 'OK',
                       role: 'Cancel',
                       handler: () => {
-                        
+                        if(result1.ValidateMessage.toLowerCase().contains('active session')){
+                          this.navCtrl.setRoot(LoginNonmedinetPage);
+                        }else{
+                        	return;
+                        }
                     }
                   }]
               });
               alert.present();
               
             }else{
+
                 console.log('success submit claim')
-	        	console.log(result)
 	        	this.viewCtrl.dismiss();
 
 				let alert = this.alertCtrl.create({
@@ -160,7 +185,11 @@ export class SubmitClaimDetailsPage {
 				        text: 'OK',
 				        role: 'cancel',
 				        handler: () => {
-				        	this.navCtrl.push(ClaimsPage);
+				        	this.viewCtrl.dismiss();
+                        	this.navCtrl.push(ClaimsPage).then(() => {
+                            	const index = this.navCtrl.getActive().index;
+                            	this.navCtrl.remove(index);
+                          	});
 				        	this.loading.dismiss();
 				      }
 				    }]
@@ -168,7 +197,7 @@ export class SubmitClaimDetailsPage {
 				alert.present();
 
             }
-	        
+
 	        this.loading.dismiss();
 
 	    }, (err) => {

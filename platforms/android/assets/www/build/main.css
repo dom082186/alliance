@@ -32548,6 +32548,19 @@ ion-alert .alert-wrapper .alert-head .alert-title {
   margin: 0 0 3px;
 }
 
+.form-group .label.required {
+  position: relative;
+  padding: 0 0 0 8px;
+}
+
+.form-group .label.required:before {
+  content: '*';
+  color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .form-group select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -32622,6 +32635,50 @@ ion-alert .alert-wrapper .alert-head .alert-title {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.form-group .checkbox-field-square {
+  position: relative;
+  display: block;
+  margin: 0 0 10px;
+}
+
+.form-group .checkbox-field-square input[type=checkbox] {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.form-group .checkbox-field-square input[type=checkbox]:checked + span:after {
+  opacity: 1;
+}
+
+.form-group .checkbox-field-square span {
+  position: relative;
+  padding: 0 0 0 25px;
+  display: block;
+}
+
+.form-group .checkbox-field-square span:before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  display: block;
+  border: 1px solid #ddd;
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+
+.form-group .checkbox-field-square span:after {
+  content: '\f00c';
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font: 12px/1.45 'FontAwesome';
+  opacity: 0;
+  transition: .3s;
 }
 
 .form-group .item .item-inner {
@@ -32771,6 +32828,33 @@ page-aboutus .aboutUs-content .bg-white {
   position: relative;
   z-index: 3;
   top: -35px;
+}
+
+page-add-sp .modal-area .content-modal {
+  width: 100%;
+  height: 100vh;
+  padding: 20px 15px;
+  overflow-y: auto;
+}
+
+page-add-sp .modal-area .content-modal .content-details {
+  background: #fff;
+  width: 100%;
+  padding: 0 20px;
+}
+
+page-add-sp .modal-area .content-modal .content-details .close-modal {
+  padding: 10px;
+  margin: 0 -20px;
+}
+
+page-add-sp .modal-area .content-modal .content-details .close-modal .icon {
+  color: #ddd;
+}
+
+page-add-sp .modal-area .content-modal .content-details h3 {
+  font: 14px/1.45 "Helvetica-Bold";
+  margin: 0 0 15px;
 }
 
 page-benefits .tabs-menu {

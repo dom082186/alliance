@@ -170,6 +170,41 @@ export class ClaimServiceProvider {
 
 	}
 
+	addClaimAPI (params){
+		
+		if(this.data) {
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var header = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+			var opts = new RequestOptions({ headers: header });
+			var link = apiUrl + "tpaclaim/submitclaim";
+
+			this.http
+				.post(link, params, opts)
+				.map(response => response.json())
+				.subscribe(data => {
+					this.data = data;
+					resolve(data);
+				}, e => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(e);
+				});
+		});
+	}
 
 
 }

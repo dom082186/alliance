@@ -73,10 +73,10 @@
             </div>
             
             <div class="claims-list">
-                <div class="claim-item" *ngFor = "let tpa of tpaClaimList; let id = index" (click)="openClaim(id,'tpa')">
+                <div class="claim-item" *ngFor = "let tpa of claimHistoryList; let id = index" (click)="openClaim(id,'panel')">
                     <div class="row">
                         <div class="label">Claim Code</div>
-                        <div class="text">{{tpa._TPAClaimCode}}</div>
+                        <div class="text">{{tpa._ClaimCode}}</div>
                     </div>
                     <div class="row">
                         <div class="label">Visit Date</div>
@@ -95,31 +95,6 @@
                         <div class="text">{{tpa._ClaimStatus}}</div>
                     </div>
                 </div>
-                <div class="claim-item" *ngFor = "let panel of panelClaimList; let id = index" (click)="openClaim(id,'panel')">
-                    <div class="row">
-                        <div class="label">Claim Code</div>
-                        <div class="text">{{panel._ClaimCode}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Visit Date</div>
-                        <div class="text">{{panel._Treatmentdate | date: 'MM/dd/yyyy'}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Clinic Name</div>
-                        <div class="text">{{panel._providername}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Claim Amount</div>
-                        <div class="text">{{panel._TotalDeductAmount}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Claim Status</div>
-                        <div class="text">{{panel._ClaimStatus}}</div>
-                    </div>
-                </div>
-
-                
-
             </div>
             <!-- <div class="btn-panel" *ngIf="hideExportButton">
                 <div class="row">

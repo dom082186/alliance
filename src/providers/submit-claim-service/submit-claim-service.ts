@@ -207,7 +207,7 @@ export class SubmitClaimServiceProvider {
 
 
 
-	submitClaimAPI (params){
+	addClaimAPI1 (params){
 		
 		if(this.data) {
 			return Promise.resolve(this.data);
@@ -219,6 +219,8 @@ export class SubmitClaimServiceProvider {
 			var link = apiUrl + "tpaclaim/submitclaim";
 			var str = [];
 
+			console.log(link)
+
 			for(let key in params) {
 				str.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
 			}
@@ -228,6 +230,7 @@ export class SubmitClaimServiceProvider {
 				.map(response => response.json())
 				.subscribe(data => {
 					this.data = data;
+					console.log(data)
 					resolve(data);
 				}, e => {
 					let alert = this.alertCtrl.create({
@@ -298,7 +301,59 @@ export class SubmitClaimServiceProvider {
 		return new Promise((resolve, reject) => {
 			var header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' });
 			var opts = new RequestOptions({ headers: header });
-			var link = apiUrl + "tpaupload/save";
+			var link1 = apiUrl + "tpaupload/save";
+			var str = [];
+
+			for(let key in params) {
+				str.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+			}
+
+			this.http
+				.post(link1, str.join('&'), opts)
+				.map(response => response.json())
+				.subscribe(data => {
+					this.data = data;
+					resolve(data);
+				}, e => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(e);
+				});
+		});
+	}
+
+
+	deleteClaimAPI(url){
+	 	return new Promise(resolve => {
+	      this.http.get(url)
+	      .subscribe(data => {
+	        resolve(data.json());
+	      });
+	    });
+
+	}
+
+	getFilePerClaimAPI (params){		
+
+		if(this.data) {
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' });
+			var opts = new RequestOptions({ headers: header });
+			var link = apiUrl + "tpaupload/list";
 			var str = [];
 
 			for(let key in params) {
@@ -328,38 +383,6 @@ export class SubmitClaimServiceProvider {
 					reject(e);
 				});
 		});
-	}
-
-
-	deleteClaimAPI(url){
-		if (this.data) {
-		    return Promise.resolve(this.data);
-		}
-		
-		return new Promise((resolve,reject) => {
-		    this.http.get(url)
-		      .map(res => res.json())
-		      .subscribe(
-		      	data => {
-		        	resolve(data); 	
-		        }, error => {
-					let alert = this.alertCtrl.create({
-						title: 'Alert',
-						message: "Error loading requests",
-						buttons: [{
-					        text: 'OK',
-					        role: 'cancel',
-					        handler: () => {
-					          //navigator['app'].exitApp();
-					          return;
-					      }
-					    }]
-					});
-					alert.present();
-					reject(error);
-		      });
-		});
-
 	}
 		
 

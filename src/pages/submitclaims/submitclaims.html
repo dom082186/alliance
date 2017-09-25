@@ -48,7 +48,7 @@
 				<div class="label">Provider Name</div>
 				<div class="input-field">
 					<select name="select_providerName" formControlName="select_providerName">
-						<option value=" disabled">Select</option>
+						<option value="" disabled>Select</option>
 						<option [value]="i" *ngFor="let provider of providers; let i = index">{{provider.Name}}</option>
 					</select>
 				</div>

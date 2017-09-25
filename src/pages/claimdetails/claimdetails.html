@@ -13,8 +13,7 @@
                 <div class="title"><span>{{claimDetails._PatientNRIC}}</span>: <span>{{claimDetails._PatientName}}</span></div>
                 <div class="info row between-xs">
                     <div class="label">Claim Code</div>
-                    <div class="details" *ngIf="mode == 'panel'">{{claimDetails.ClaimCode}}</div>
-                    <div class="details" *ngIf="mode == 'tpa'">{{claimDetails._TPAClaimCode}}</div>
+                    <div class="details" *ngIf="mode == 'panel'">{{claimDetails._ClaimCode}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Visit Date</div>

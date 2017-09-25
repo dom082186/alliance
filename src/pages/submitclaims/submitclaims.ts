@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, Platform, } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, Platform, ViewController,} from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -13,6 +13,10 @@ import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service
 import { SubmitClaimDetailsPage } from '../submit-claim-details/submit-claim-details';
 import { ClaimsPage } from '../claims/claims';
 import { AddSpPage } from '../add-sp/add-sp';
+import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
+
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 
 
@@ -90,7 +94,7 @@ export class SubmitclaimsPage {
     public submitClaimService: SubmitClaimServiceProvider,private alertCtrl: AlertController,
     public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,
     private camera: Camera, private base64: Base64, public platform: Platform,public _DomSanitizer: DomSanitizer,
-    private file: File) {
+    private file: File, public http: Http, public viewCtrl: ViewController) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimMode = this.navParams.get('mode');
@@ -201,6 +205,7 @@ export class SubmitclaimsPage {
     var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID']  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
     
     this.submitClaimService.loadClaimTypeAPI(params).then((result) => {
+      console.log(result);
       if(result.ValidateMessage != undefined){
         let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -293,7 +298,7 @@ export class SubmitclaimsPage {
       }else{
         this.acuteDiagnosisList = result;
         this.acuteDiagnosisList1 = result;
-        //console.log(result)
+        console.log(result)
         this.getChronicDiagnosis();  
       }
       
@@ -326,10 +331,10 @@ export class SubmitclaimsPage {
       }else{
         this.chronicDiagnosisList = result;
         this.chronicDiagnosisList1 = result;
-        console.log(result)
+        //console.log(result)
         
         if(this.claimEditDetails != undefined ){
-          this.displayEditClaims();
+          this.getFileList();
         }else{
           this.generateClaimID("");
         }
@@ -346,7 +351,7 @@ export class SubmitclaimsPage {
       console.log(this.chronicDiagnosisList1)
      
       var varClaimForm = this.claimFormGroup;
-      this.tpaClaimID = this.chronicDiagnosisList1._ID
+      this.tpaClaimID = this.claimEditDetails._ID
 
       if(this.claimMode != undefined){
         if(this.claimMode == 'edit'){
@@ -364,55 +369,64 @@ export class SubmitclaimsPage {
             }
           }
 
+          ///======= CHRONIC
           for(var i=0; i<this.chronicDiagnosisList1.length; i++){ 
 
-            var indexOF =  this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1)
-              console.log(this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1))
-              console.log(this.chronicDiagnosisList1[indexOF].ID)
-
             if(this.claimEditDetails._ChronicDiagnosis1 == this.chronicDiagnosisList1[i].ID){
+              var index1 = this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1)
                varClaimForm.controls['select_chronicDiagnosis1'].setValue(this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1));
-               varClaimForm.controls['select_chronicDiagnosis1x'].setValue(this.chronicDiagnosisList1[i].Description.indexOf(this.claimEditDetails._ChronicDiagnosis1));
+               varClaimForm.controls['select_chronicDiagnosis1x'].setValue(this.chronicDiagnosisList1[index1].Description);
             }
-            if(this.claimEditDetails._ChronicDiagnosis2 != undefined){
-              this.acute1 = true;
+            if(this.claimEditDetails._ChronicDiagnosis2 != "00000000-0000-0000-0000-000000000000"){
+              this.chronic2 = true;
             }
             if(this.claimEditDetails._ChronicDiagnosis2 == this.chronicDiagnosisList1[i].ID){
                varClaimForm.controls['select_chronicDiagnosis2'].setValue(this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis2));
-               varClaimForm.controls['select_chronicDiagnosis2x'].setValue(this.chronicDiagnosisList1[i].Description.indexOf(this.claimEditDetails._ChronicDiagnosis2));
+               varClaimForm.controls['select_chronicDiagnosis2x'].setValue(this.chronicDiagnosisList1[i].Description);
+            }
+            if(this.claimEditDetails._ChronicDiagnosis3 != "00000000-0000-0000-0000-000000000000"){
+              this.chronic3 = true;
             }
             if(this.claimEditDetails._ChronicDiagnosis3 == this.chronicDiagnosisList1[i].ID){
                varClaimForm.controls['select_chronicDiagnosis3'].setValue(this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis3));
-               varClaimForm.controls['select_chronicDiagnosis3x'].setValue(this.chronicDiagnosisList1[i].Description.indexOf(this.claimEditDetails._ChronicDiagnosis3));
+               varClaimForm.controls['select_chronicDiagnosis3x'].setValue(this.chronicDiagnosisList1[i].Description);
+            }
+            if(this.claimEditDetails._ChronicDiagnosis4 != "00000000-0000-0000-0000-000000000000"){
+              this.chronic4 = true;
             }
             if(this.claimEditDetails._ChronicDiagnosis4 == this.chronicDiagnosisList1[i].ID){
                varClaimForm.controls['select_chronicDiagnosis4'].setValue(this.chronicDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis4));
-               varClaimForm.controls['select_chronicDiagnosis4x'].setValue(this.chronicDiagnosisList1[i].Description.indexOf(this.claimEditDetails._ChronicDiagnosis4));
+               varClaimForm.controls['select_chronicDiagnosis4x'].setValue(this.chronicDiagnosisList1[i].Description);
             }
 
           }
 
+          ///======= ACUTE
           for(var i=0; i<this.acuteDiagnosisList1.length; i++){ 
-            var indexOF =  this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1)
-              console.log(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._ChronicDiagnosis1))
-              console.log(this.acuteDiagnosisList1[indexOF].ID)
 
-            if(this.claimEditDetails._ChronicDiagnosis1 == this.acuteDiagnosisList1[i].ID){
-               varClaimForm.controls['select_acuteDiagnosis1'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis1));
-               varClaimForm.controls['select_acuteDiagnosis1x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis1));
+            if(this.claimEditDetails._PrimaryDiagnosis.toLowerCase() == this.acuteDiagnosisList1[i].Description.toLowerCase()){
+              var index1 =  this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._PrimaryDiagnosis)
+               varClaimForm.controls['select_acuteDiagnosis1'].setValue(this.acuteDiagnosisList1[index1].ID);
+               varClaimForm.controls['select_acuteDiagnosis1x'].setValue(this.claimEditDetails._PrimaryDiagnosis);
             }
-            if(this.claimEditDetails._ChronicDiagnosis2 == this.acuteDiagnosisList1[i].ID){
-               varClaimForm.controls['select_acuteDiagnosis2'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis2));
-               varClaimForm.controls['select_acuteDiagnosis2x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis2));
+            if(this.claimEditDetails._SecondaryDiagnosis != "00000000-0000-0000-0000-000000000000"){
+              this.acute2 = true;
             }
-            if(this.claimEditDetails._ChronicDiagnosis3 == this.acuteDiagnosisList1[i].ID){
-               varClaimForm.controls['select_acuteDiagnosis3'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis3));
-               varClaimForm.controls['select_acuteDiagnosis3x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis3));
+            if(this.claimEditDetails._SecondaryDiagnosis.toLowerCase() == this.acuteDiagnosisList1[i].Description.toLowerCase()){
+              console.log(this.claimEditDetails._SecondaryDiagnosis)
+              console.log(this.claimEditDetails._SecondaryDiagnosis)
+              var index2 =  this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._SecondaryDiagnosis)
+               varClaimForm.controls['select_acuteDiagnosis2'].setValue(this.acuteDiagnosisList1[index2].ID);
+               varClaimForm.controls['select_acuteDiagnosis2x'].setValue(this.claimEditDetails._SecondaryDiagnosis);
             }
-            if(this.claimEditDetails._ChronicDiagnosis4 == this.acuteDiagnosisList1[i].ID){
-               varClaimForm.controls['select_acuteDiagnosis4'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis4));
-               varClaimForm.controls['select_acuteDiagnosis4x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis4));
-            }
+          //   if(this.claimEditDetails._ChronicDiagnosis3 == this.acuteDiagnosisList1[i].ID){
+          //      varClaimForm.controls['select_acuteDiagnosis3'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis3));
+          //      varClaimForm.controls['select_acuteDiagnosis3x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis3));
+          //   }
+          //   if(this.claimEditDetails._ChronicDiagnosis4 == this.acuteDiagnosisList1[i].ID){
+          //      varClaimForm.controls['select_acuteDiagnosis4'].setValue(this.acuteDiagnosisList1[i].ID.indexOf(this.claimEditDetails._AcuteDiagnosis4));
+          //      varClaimForm.controls['select_acuteDiagnosis4x'].setValue(this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._AcuteDiagnosis4));
+          //   }
 
           }
 
@@ -432,6 +446,45 @@ export class SubmitclaimsPage {
         this.isEdit = false;
       }
   }
+
+
+  getFileList(){
+    this.tpaClaimID = this.claimEditDetails._ID
+    var params = {
+            network: this.memberNetwork,
+            tpaclaimid: this.tpaClaimID,
+            internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],
+    }
+
+    this.submitClaimService.getFilePerClaimAPI(params).then((result) => {
+      console.log(result);
+      if(result.ValidateMessage != undefined){
+        let alert = this.alertCtrl.create({
+          title: 'Alert',
+          message: result.ValidateMessage,
+          buttons: [{
+                text: 'OK',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                  return;
+              }
+            }]
+        });
+        alert.present();
+      }else{
+        console.log(result);
+        this.displayEditClaims();
+      }
+    }, (err) => {
+      this.loading.dismiss();
+      console.log(err)
+    });
+
+
+  }
+
+
 
 
   generateClaimID(params){
@@ -903,7 +956,7 @@ export class SubmitclaimsPage {
 
                 //*********** IMAGE CONVERSION TO BASE64 *********
                 this.base64.encodeFile(filePath).then((base64File: string) => {
-                console.log(filetype)    
+                //console.log(filetype)    
                     var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
                     //var substr = content.substring(0,4)
                     if (this.platform.is('android')) {
@@ -965,7 +1018,9 @@ export class SubmitclaimsPage {
                       text: 'OK',
                       role: 'Cancel',
                       handler: () => {
-                        
+                        if(result.ValidateMessage.toLowerCase() != "records not found."){
+                          this.navCtrl.setRoot(LoginNonmedinetPage);
+                        }
                     }
                   }]
               });
@@ -980,8 +1035,8 @@ export class SubmitclaimsPage {
               
                 this.imgArray.push(new_item);
 
-                console.log('success file attachment')
-                console.log(result)
+                //console.log('success file attachment')
+                //console.log(result)
 
                 //======= SAVE FILES ARR
                 this.saveFilesArr = {
@@ -997,9 +1052,9 @@ export class SubmitclaimsPage {
           console.log(err)
           this.loading.dismiss();
       });
-
+    console.log('this.imgArr=');
     console.log(this.imgArray);
-    console.log('this.imgArr');
+    
   }
 
 
@@ -1188,31 +1243,88 @@ export class SubmitclaimsPage {
 
   deleteClaim(){
     
-    var url = "http://118.201.197.142/api/tpaclaim/delete?network="+ this.memberNetwork + "&claimid=" + this.tpaClaimID + "&internal_LoggedInUserRegisterID=" + this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
-    this.submitClaimService.deleteClaimAPI(url).then((result) => {
-      if(result.ValidateMessage != undefined){
-        let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: result.ValidateMessage,
-          buttons: [{
-                text: 'OK',
+      let alert = this.alertCtrl.create({
+            title: 'Are you sure you want to delete this claim?',
+            buttons: [
+              {
+                text: 'YES',
+                handler: () => {
+                  this.confirmDelete();
+                }
+              },
+              {
+                text: 'NO',
                 role: 'cancel',
                 handler: () => {
-                  console.log('Cancel clicked');
+                  return;
+                }
               }
-            }]
+            ]
         });
-        alert.present();
-      }else{
-        //this.networks = result;
-        console.log(result)
-        
-      }
+      alert.present();
 
-    }, (err) => {
-      //this.loading.dismiss();
-    });
   }
+
+
+  confirmDelete (){
+
+    var url = "http://118.201.197.142/api/tpaclaim/delete?network="+ this.memberNetwork + "&claimid=" + this.tpaClaimID + "&internal_LoggedInUserRegisterID=" + this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+    this.showLoader();
+
+    this.http.get(url).map(res => res.json()).subscribe(data => {
+        console.log(data)
+        this.loading.dismiss();
+        if(data.Status == "Failed"){
+              let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: data.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        if(data.ValidateMessage.toLowerCase().indexOf("active session") >= 0){
+                          this.navCtrl.setRoot(LoginNonmedinetPage);
+                        }else{
+                          return;
+                        }
+                    }
+                  }]
+              });
+              alert.present();
+              
+            }else{
+
+                console.log('success delete claim')
+                let alert = this.alertCtrl.create({
+                  title: 'Success',
+                  message: 'Claim successfully deleted',
+                  buttons: [{
+                        text: 'OK',
+                        role: 'cancel',
+                        handler: () => {
+                          this.navCtrl.push(ClaimsPage).then(() => {
+                            //const index = this.navCtrl.getActive().index;
+                            this.navCtrl.remove(0, 5);
+                          });
+                          this.loading.dismiss();
+                      }
+                    }]
+                });
+                alert.present();
+
+        }
+
+
+    },
+    err => {
+        console.log(err)
+        console.log("Oops!");
+    }
+
+    );
+  }
+
 
   showBenefits(){
     // this.benefitsForm['employee_nric'] =  this.memberClaimInfo['MemberNRIC']; 

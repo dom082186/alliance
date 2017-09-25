@@ -5,8 +5,12 @@ import { Storage } from '@ionic/storage';
 //import { BenefitsPage } from '../benefits/benefits';
 import { SubmitclaimsPage } from '../submitclaims/submitclaims';
 import { ClaimdetailsPage } from '../claimdetails/claimdetails';
+import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
+import { LoginPage } from '../login/login';
+
+
 
 @IonicPage()
 @Component({
@@ -30,6 +34,7 @@ export class ClaimsPage {
   params: any;
   panelClaimList: any;
   tpaClaimList: any;
+  claimHistoryList: any;
   benefitPeriod: any;
   selectedBenefitPeriod: any;
   selectedBenefitID: any;
@@ -43,16 +48,21 @@ export class ClaimsPage {
   noRecordsFound: boolean = false;
   hideExportButton: boolean = false;
 
+  pageFrom: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private rd: Renderer2,
     public storage: Storage,public claimService: ClaimServiceProvider,public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,public modalCtrl: ModalController,) {
-  
+
+    this.pageFrom = this.navParams.get('pageFrom');
+    
+    this.getData();
   }
 
 
   ionViewDidLoad(){
-    this.showLoader();
-    this.getData();
+    
+    //this.getData();
     //this.memberInfo = this.getFromStorageAsync();
     //this.getNetwork();
   }
@@ -74,6 +84,7 @@ export class ClaimsPage {
 
   /// *******************   GET FROM LOGINNONMEDINET API ***************
   getData(){
+    this.showLoader();
     this.storage.get('memInfo').then((val) => {
         this.memberInfo = val;
         this.claimForm['claimName'] = 0;
@@ -139,14 +150,16 @@ export class ClaimsPage {
                         text: 'OK',
                         role: 'Cancel',
                         handler: () => {
-                          
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }
                       }
                     }]
                 });
                 alert.present();
                 
               }else{
-                
+                  
                   this.panelClaimList = result.panelclaims;
                   this.tpaClaimList = result.tpaclaims;
 
@@ -157,17 +170,21 @@ export class ClaimsPage {
                     this.hideExportButton = true;
                   }
 
-                  this.panelClaimList.sort((a, b) => {
-                    if (a._Treatmentdate < b._Treatmentdate) return -1;
-                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
-                    else return 0;
+                  this.claimHistoryList = this.panelClaimList.concat(this.tpaClaimList);
+
+                  this.claimHistoryList.sort((a, b) => {
+                    let date1 = new Date(a._Treatmentdate);
+                    let date2 = new Date(b._Treatmentdate);
+
+                    if (date2 > date1) {
+                        return 1;
+                    } else if (date2 < date1) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
                   });
 
-                  this.tpaClaimList.sort((a, b) => {
-                    if (a._Treatmentdate < b._Treatmentdate) return -1;
-                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
-                    else return 0;
-                  });
               }
             
           }, (err) => {
@@ -181,6 +198,7 @@ export class ClaimsPage {
     this.showClaimsPage = true;
     this.rd.addClass(this.claimsBtnElem.nativeElement, 'active');
     this.rd.removeClass(this.benefitsBtnElem.nativeElement, 'active');
+    this.getData();
   }
 
   searchClaim() {
@@ -266,7 +284,9 @@ export class ClaimsPage {
                         text: 'OK',
                         role: 'Cancel',
                         handler: () => {
-                          
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }
                       }
                     }]
                 });
@@ -308,6 +328,10 @@ export class ClaimsPage {
   openClaim(index, mode){
     console.log(index);
     console.log(mode);
+    let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
+    contactModal.present();
+    
+    /*
     if(mode == 'panel'){
       let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.panelClaimList[index],index: index,mode:mode});
       contactModal.present();
@@ -315,7 +339,7 @@ export class ClaimsPage {
       let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.tpaClaimList[index],index: index, mode:mode});
       contactModal.present();
     }
-    
+    */
   }
 
 
@@ -346,7 +370,9 @@ export class ClaimsPage {
                         text: 'OK',
                         role: 'Cancel',
                         handler: () => {
-                          
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }
                       }
                     }]
                 });
@@ -390,6 +416,9 @@ export class ClaimsPage {
                       text: 'OK',
                       role: 'Cancel',
                       handler: () => {
+                        if(result.ValidateMessage.toLowerCase() != "records not found."){
+                          this.navCtrl.setRoot(LoginNonmedinetPage);
+                        }
                     }
                   }]
               });
@@ -411,7 +440,12 @@ export class ClaimsPage {
 
   backButtonClick()
 	{
+    
+    // if(this.pageFrom != undefined){
     	this.navCtrl.pop({});  // remember to put this to add the back button behavior
+    // }else{
+      //this.navCtrl.popTo(LoginPage);
+    // }
 	}
 
   gotoSubmitClaims(){

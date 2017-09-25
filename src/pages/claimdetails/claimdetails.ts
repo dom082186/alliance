@@ -21,6 +21,8 @@ export class ClaimdetailsPage {
 			this.claimDetails = this.navParams.get('details');
 			this.claimIndex = this.navParams.get('index');
 			this.mode = this.navParams.get('mode');
+
+			console.log(this.claimDetails);
 	}
 
 	ionViewDidLoad() {
