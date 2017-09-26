@@ -59,4 +59,32 @@ page-submitclaims {
 		margin: 0;
 		height: 36px;
 	}
+
+	.error-message {
+		border: 1px solid #c93a26;
+		background: #fadcdb;
+		padding: 10px;
+		border-radius: 3px;
+		position: relative;
+
+		.icon {
+			margin: 0 10px 0 0;
+			color: #c93a26;
+		}
+
+		.close-message {
+			color: #d89793;
+			position: absolute;
+			top: 0;
+			right: 5px;
+		}
+
+		.message {
+			font: 0.857em/1.45 $light;
+
+			strong {
+				font: 1em/1.45 $bold;
+			}
+		}
+	}
 }
