@@ -16,7 +16,6 @@ export class ClaimServiceProvider {
 		
 	}
 
-
 	getClaimsAPI(parameters){
 		if (this.data) {
 			// already loaded data
@@ -205,6 +204,9 @@ export class ClaimServiceProvider {
 				});
 		});
 	}
+
+
+	
 
 
 }

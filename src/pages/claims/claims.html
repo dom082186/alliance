@@ -7,7 +7,7 @@
             <div class="bar-title text-xs-center">Claims &amp; Benefits</div>
         </ion-title>
         <ion-buttons end>
-            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            <div class="btn-back row middle-xs end-xs" *ngIf="hideMunaBackButton" (click)="backButtonClick()">
             	<img src="./assets/img/icons/back.png" />
             </div>
         </ion-buttons>

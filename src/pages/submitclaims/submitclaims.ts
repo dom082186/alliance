@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, Platform, ViewController,} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController, Platform, ViewController, MenuController} from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import * as moment from 'moment';
 
 
 @IonicPage()
@@ -38,6 +38,7 @@ export class SubmitclaimsPage {
   memberNetwork: any;
   memberNRIC: any;
   providers: any;
+  providers1: any;
   acuteDiagnosisList: any;
   acuteDiagnosisList1: any;
   chronicDiagnosisList: any;
@@ -80,26 +81,31 @@ export class SubmitclaimsPage {
   showCD3: boolean = false;
   showCD4: boolean = false;
 
+  showProv: boolean = false;
 
   base64ImageBefore: string;
   imageNameBefore: string;
   base64Image: string;
   imageName: string;
 
-
-
+  successSubmit: any;
+  hideCalculateClaim: boolean = false;
+  maxDate: any;
+  maxDateStr: any;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage,
     public submitClaimService: SubmitClaimServiceProvider,private alertCtrl: AlertController,
     public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,
     private camera: Camera, private base64: Base64, public platform: Platform,public _DomSanitizer: DomSanitizer,
-    private file: File, public http: Http, public viewCtrl: ViewController) {
+    private file: File, public http: Http, public viewCtrl: ViewController,public menuCtrl: MenuController,) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimMode = this.navParams.get('mode');
       this.claimForm['select_acuteDiagnosis1'] = "";
       this.claimForm['select_chronicDiagnosis1'] = "";
+
+      this.successSubmit = this.navParams.get('successSubmit');
 
       this.claimFormGroup = formBuilder.group({
             claimName: ['',Validators.compose([Validators.required])],
@@ -109,7 +115,7 @@ export class SubmitclaimsPage {
             referral: [''],
             ref_clinic: [''],
             select_ref_clinicType: [''],
-            select_acuteDiagnosis1: ['',Validators.compose([Validators.required])],
+            select_acuteDiagnosis1: [''],
             select_acuteDiagnosis1x: [''],
             select_acuteDiagnosis2: [''],
             select_acuteDiagnosis2x: [''],
@@ -117,7 +123,8 @@ export class SubmitclaimsPage {
             select_acuteDiagnosis3x: [''],
             select_acuteDiagnosis4: [''],
             select_acuteDiagnosis4x: [''],
-            select_chronicDiagnosis1: ['',Validators.compose([Validators.required])],
+            //select_chronicDiagnosis1: ['',Validators.compose([Validators.required])],
+            select_chronicDiagnosis1: [''],
             select_chronicDiagnosis1x: ['',],
             select_chronicDiagnosis2: [''],
             select_chronicDiagnosis2x: [''],
@@ -125,12 +132,12 @@ export class SubmitclaimsPage {
             select_chronicDiagnosis3x: [''],
             select_chronicDiagnosis4: [''],
             select_chronicDiagnosis4x: [''],
-            remarks: ['',Validators.compose([Validators.required])],
+            remarks: [''],
             total_amount: ['',Validators.compose([Validators.required])],
             total_amount_gst: ['',Validators.compose([Validators.required])]
       });
 
-
+       
      
   }
 
@@ -139,7 +146,17 @@ export class SubmitclaimsPage {
       this.imageNameBefore = "Select File";
       this.imgArr = 0;
       this.dateToday = new Date();
-      this.getNetwork();
+      this.maxDate = new Date().toJSON().split('T')[0];
+      this.claimFormGroup.controls['toDate'].setValue(new Date().toISOString());
+
+
+       if(this.successSubmit !=undefined){
+          //this.deleteSubmitClaimpage();
+          this.hideCalculateClaim = true;
+        }else{
+          this.getNetwork();    
+        }
+      
 
   }
 
@@ -157,7 +174,7 @@ export class SubmitclaimsPage {
   }
 
   getNetwork(){
-    
+    this.showLoader();
     console.log(this.claimEditDetails)
     this.storage.get('memNetwork').then((val1) => {
         this.memberNetwork = val1;
@@ -201,11 +218,11 @@ export class SubmitclaimsPage {
   /// *******************   END  ***************
 
   getClaimTypes(){
-    this.showLoader();
+    
     var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID']  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
     
     this.submitClaimService.loadClaimTypeAPI(params).then((result) => {
-      console.log(result);
+      
       if(result.ValidateMessage != undefined){
         let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -230,7 +247,6 @@ export class SubmitclaimsPage {
       this.loading.dismiss();
       console.log(err)
     });
-  
   }
 
   getProvider(){
@@ -254,6 +270,7 @@ export class SubmitclaimsPage {
         alert.present();
       }else{
         this.providers = result;
+        this.providers1 = result;
         //console.log(result)
         this.getAcuteDiagnosis();
       }
@@ -298,7 +315,7 @@ export class SubmitclaimsPage {
       }else{
         this.acuteDiagnosisList = result;
         this.acuteDiagnosisList1 = result;
-        console.log(result)
+        
         this.getChronicDiagnosis();  
       }
       
@@ -348,7 +365,6 @@ export class SubmitclaimsPage {
 
   displayEditClaims(){
       this.loading.dismiss();
-      console.log(this.chronicDiagnosisList1)
      
       var varClaimForm = this.claimFormGroup;
       this.tpaClaimID = this.claimEditDetails._ID
@@ -413,8 +429,6 @@ export class SubmitclaimsPage {
               this.acute2 = true;
             }
             if(this.claimEditDetails._SecondaryDiagnosis.toLowerCase() == this.acuteDiagnosisList1[i].Description.toLowerCase()){
-              console.log(this.claimEditDetails._SecondaryDiagnosis)
-              console.log(this.claimEditDetails._SecondaryDiagnosis)
               var index2 =  this.acuteDiagnosisList1[i].Description.indexOf(this.claimEditDetails._SecondaryDiagnosis)
                varClaimForm.controls['select_acuteDiagnosis2'].setValue(this.acuteDiagnosisList1[index2].ID);
                varClaimForm.controls['select_acuteDiagnosis2x'].setValue(this.claimEditDetails._SecondaryDiagnosis);
@@ -457,7 +471,7 @@ export class SubmitclaimsPage {
     }
 
     this.submitClaimService.getFilePerClaimAPI(params).then((result) => {
-      console.log(result);
+      
       if(result.ValidateMessage != undefined){
         let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -474,17 +488,14 @@ export class SubmitclaimsPage {
         alert.present();
       }else{
         console.log(result);
+        this.imgArray = result;
         this.displayEditClaims();
       }
     }, (err) => {
       this.loading.dismiss();
       console.log(err)
     });
-
-
   }
-
-
 
 
   generateClaimID(params){
@@ -497,14 +508,12 @@ export class SubmitclaimsPage {
   }
 
   openAddSP(index){
-    console.log(index);
     let contactModal = this.modalCtrl.create(AddSpPage,);
     contactModal.present();
   }
 
 
   addAcute(selectID){
-      console.log(selectID);
 
       let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -540,7 +549,7 @@ export class SubmitclaimsPage {
 
 
   removeAcute(selectID){
-    console.log(selectID);
+    
     var varClaimForm = this.claimFormGroup;
     if(selectID == 'ad_2'){this.acute2 = false; varClaimForm.controls['select_acuteDiagnosis2x'].setValue("");}
     if(selectID == 'ad_3'){this.acute3 = false; varClaimForm.controls['select_acuteDiagnosis3x'].setValue("");}
@@ -548,7 +557,6 @@ export class SubmitclaimsPage {
   }
 
   addChronic(selectID){
-      console.log(selectID);
 
       let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -592,7 +600,6 @@ export class SubmitclaimsPage {
 
   submitClaim(){
     this.showLoader();
-    console.log(this.claimFormGroup.valid)
     console.log(this.claimFormGroup)
 
     if(!this.claimFormGroup.valid){
@@ -666,13 +673,13 @@ export class SubmitclaimsPage {
               submitclaimsDetails['primarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
           }
 
-          if(varClaimForm.controls['select_chronicDiagnosis1'].value != "" || varClaimForm.controls['select_chronicDiagnosis1'].value !=undefined){
-              submitclaimsDetails['primarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis1'].value;
-              submitclaimsDetails['primarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis1x'].value;
-          }else{
+          //if(varClaimForm.controls['select_chronicDiagnosis1'].value != "" || varClaimForm.controls['select_chronicDiagnosis1'].value !=undefined){
+            //  submitclaimsDetails['primarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis1'].value;
+             // submitclaimsDetails['primarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis1x'].value;
+          //}else{
               submitclaimsDetails['primarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
               submitclaimsDetails['primarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
-          }
+          //}
           
           if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
               submitclaimsDetails['secondarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis2'].value;
@@ -689,11 +696,19 @@ export class SubmitclaimsPage {
               submitclaimsDetails['secondarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000"; 
           }
 
-          console.log('submit claim')
-          console.log(submitclaimsDetails);
-          console.log('attached files')
-          console.log(this.saveFilesArr)
-          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.saveFilesArr});
+          var isEdit = "";
+          if(this.claimEditDetails != undefined){ 
+            isEdit = "yes"
+            //======= SAVE FILES ARR
+            this.saveFilesArr = {
+              network: this.memberNetwork,
+              internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],  
+              tpaclaimid: this.tpaClaimID,
+            }
+          }
+
+          let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.saveFilesArr, isEdit: isEdit, network: this.memberNetwork});
+          
           claimModal.present();
 
       // }, (err) => {
@@ -1029,10 +1044,10 @@ export class SubmitclaimsPage {
             }else{
                 
                 this.imageName = this.imageNameBefore
-                new_item['imageName'] = this.imageNameBefore;
-                new_item['image'] = this.base64ImageBefore;
-                new_item['type'] = this.imgType;
-              
+                new_item['_AcutalFileName'] = this.imageNameBefore;
+                new_item['_FilePathUrl'] = this.base64ImageBefore;
+                new_item['_FileType'] = this.imgType;
+
                 this.imgArray.push(new_item);
 
                 //console.log('success file attachment')
@@ -1067,6 +1082,28 @@ export class SubmitclaimsPage {
   initializeItems(){
     this.acuteDiagnosisList = this.acuteDiagnosisList1;
     this.chronicDiagnosisList = this.chronicDiagnosisList1;
+    this.providers = this.providers1;
+  }
+
+  onInputChangeProvider(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.providers = this.providers.filter((item) => {
+        return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+      this.showProv = true;
+    } else {
+      this.showProv = false;
+    }
+  }
+
+  selectedProv(item){
+    this.showProv = false;
+    this.claimFormGroup.controls['select_providerName'].setValue(this.providers[item].Name);
   }
 
 
@@ -1340,6 +1377,22 @@ export class SubmitclaimsPage {
 
     //this.navCtrl.push( ClaimsPage, {details: "", } );
   }
+
+  
+  deleteSubmitClaimpage(){
+    this.navCtrl.push(ClaimsPage).then(() => {
+    //     const index = this.navCtrl.getActive().index;
+        this.navCtrl.pop();
+        this.navCtrl.remove(0,1);
+        
+        
+    });
+  }
+
+  clickOpen(){
+    this.menuCtrl.open();
+  }
+
 
     
 }

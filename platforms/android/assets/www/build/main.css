@@ -34220,6 +34220,34 @@ page-submit-claim-details .claimDetails-content .claim-details .btn-panel .btn {
   width: calc( 50% - 5px);
 }
 
+page-submit-claim-details .error-message {
+  border: 1px solid #c93a26;
+  background: #fadcdb;
+  padding: 10px;
+  border-radius: 3px;
+  position: relative;
+}
+
+page-submit-claim-details .error-message .icon {
+  margin: 0 10px 0 0;
+  color: #c93a26;
+}
+
+page-submit-claim-details .error-message .close-message {
+  color: #d89793;
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+page-submit-claim-details .error-message .message {
+  font: 0.857em/1.45 "Helvetica-Light";
+}
+
+page-submit-claim-details .error-message .message strong {
+  font: 1em/1.45 "Helvetica-Bold";
+}
+
 page-submitclaims h3 {
   color: #f3a121;
 }

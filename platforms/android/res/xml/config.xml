@@ -39,6 +39,9 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
+    <feature name="OneSignalPush">
+        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
+    </feature>
     <name>Alliance Healthcare</name>
     <description>Alliance Healthcare</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -57,6 +60,7 @@
     <allow-navigation href="http://192.168.8.114:8100" />
     <allow-navigation href="http://192.168.8.105:8100" />
     <allow-navigation href="http://192.168.1.15:8100" />
+    <allow-navigation href="http://192.168.8.104:8100" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />

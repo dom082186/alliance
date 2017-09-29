@@ -16,23 +16,23 @@
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Total Fee</div>
-                    <div class="details">{{totalFee}}</div>
+                    <div class="details">{{(calculatedClaim | async)?.TotalFeeBeforeGST}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">GST (@0.00%)</div>
-                    <div class="details">0.00</div>
+                    <div class="details">{{(calculatedClaim | async)?.TotalFeeGST}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Total Fee(+GST)</div>
-                    <div class="details">{{totalGST}}</div>
+                    <div class="details">{{(calculatedClaim | async)?.TotalFeeAfterGST}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Patient Co-Payment</div>
-                    <div class="details">Cash Collected</div>
+                    <div class="details">{{(calculatedClaim | async)?.CopayBeforeGST}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">This Visit's Claim</div>
-                    <div class="details"></div>
+                    <div class="details"> {{(calculatedClaim | async)?.TotalDeductAmount}}</div>
                 </div>
                 <p class="disclosure-link" style="text-decoration: none!important">Patient's Consent for Disclosure of Medical Information</p>
                 <div class="accept-terms">
@@ -41,16 +41,24 @@
                     <div style="display:inline-block;" (click)="gotoTermsCons('claims')">I accept the <span class="terms-link" >Terms and Conditions</span></div>
                     
                 </div>
-                <div class="btn-panel row middle-xs between-xs">
+                <div class="btn-panel row middle-xs between-xs" *ngIf="claimsExceedSaveBtnDisplay">
+                    <a class="btn btn-gray" >Save</a>
+                    <a class="btn btn-gray" (click)="backButtonClick()">Cancel</a>
+                    <!-- (click)="editClaim()" -->
+                </div>
+                <div class="btn-panel row middle-xs between-xs" *ngIf="!claimsExceedSaveBtnDisplay">
                     <a class="btn btn-yellow" (click)="submitClaimInfo()" >Save</a>
                     <a class="btn btn-gray" (click)="backButtonClick()">Cancel</a>
                     <!-- (click)="editClaim()" -->
                 </div>
+
+                <div class="error-message row middle-xs" *ngIf="claimsExceedShow">
+			    	<div class="close-message" (click)="claimsExceedClose()"><i class="fa fa-times" aria-hidden="true"></i></div>
+			       	<div class="icon"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></div>
+			       	<div class="message"><strong>Error:</strong> You have exceeded your claims.</div>
+			   </div>
             </div>
         </div>
     </div> 
-
-
-
     </div>
 </div>

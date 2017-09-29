@@ -7,10 +7,31 @@
         "files": {}
     },
     "installed_plugins": {
+        "com-badrit-base64": {
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-camera": {
+            "CAMERA_USAGE_DESCRIPTION": " ",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.skubbs.mah"
         },
         "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-geolocation": {
+            "GEOLOCATION_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-nativegeocoder": {
             "PACKAGE_NAME": "com.skubbs.mah"
         },
         "cordova-plugin-splashscreen": {
@@ -25,33 +46,15 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.skubbs.mah"
         },
-        "cordova-plugin-geolocation": {
-            "GEOLOCATION_USAGE_DESCRIPTION": " ",
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-nativegeocoder": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-camera": {
-            "CAMERA_USAGE_DESCRIPTION": " ",
-            "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "com-badrit-base64": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-inappbrowser": {
+        "onesignal-cordova-plugin": {
             "PACKAGE_NAME": "com.skubbs.mah"
         }
     },
     "dependent_plugins": {
-        "cordova-plugin-compat": {
+        "cordova-plugin-add-swift-support": {
             "PACKAGE_NAME": "com.skubbs.mah"
         },
-        "cordova-plugin-add-swift-support": {
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.skubbs.mah"
         }
     }

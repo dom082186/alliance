@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ViewController,MenuController } from 'ionic-angular';
 
 
 import { SubmitclaimsPage } from '../submitclaims/submitclaims';
@@ -26,6 +26,7 @@ export class ClaimdetailsPage {
 	}
 
 	ionViewDidLoad() {
+
 	}
 
 	modalClose() {
@@ -47,12 +48,15 @@ export class ClaimdetailsPage {
 	}
 
 	editClaim(){
-
+		
 		if(this.claimDetails._ClaimStatus != null ){
+
 			if(this.claimDetails._ClaimStatus.toLowerCase() == "paid" || this.claimDetails._ClaimStatus.toLowerCase() == "pending" || this.claimDetails._ClaimStatus == ""){
 			}else{
-				this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'} );
+				this.navCtrl.pop();
+				this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
 			}	
+
 		}else{
 			//this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails} );
 		}

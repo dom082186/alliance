@@ -148,6 +148,7 @@ export class LoginPage {
 	backButtonClick()
 	{
     	this.navCtrl.pop();  // remember to put this to add the back button behavior
+    	this.navCtrl.setRoot(HomePage)
 	}
 
 

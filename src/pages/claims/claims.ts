@@ -1,5 +1,5 @@
 import { Component,Renderer2, ViewChild,ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController, AlertController, ModalController,ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 //import { BenefitsPage } from '../benefits/benefits';
@@ -49,19 +49,26 @@ export class ClaimsPage {
   hideExportButton: boolean = false;
 
   pageFrom: any;
+  successSubmit: any;
+  hideMunaBackButton: boolean = true;
+
+  contactModal: any;
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private rd: Renderer2,
     public storage: Storage,public claimService: ClaimServiceProvider,public loadingCtrl: LoadingController,
-    private alertCtrl: AlertController,public modalCtrl: ModalController,) {
+    private alertCtrl: AlertController,public modalCtrl: ModalController,public viewCtrl: ViewController) {
 
     this.pageFrom = this.navParams.get('pageFrom');
-    
+    this.successSubmit = this.navParams.get('successSubmit');
+    if(this.successSubmit !=undefined){
+        this.deleteSubmitClaimpage();
+    }
     this.getData();
   }
 
 
   ionViewDidLoad(){
-    
     //this.getData();
     //this.memberInfo = this.getFromStorageAsync();
     //this.getNetwork();
@@ -304,16 +311,19 @@ export class ClaimsPage {
                     this.hideExportButton = true;
                   }
                   
-                  this.panelClaimList.sort((a, b) => {
-                    if (a._Treatmentdate < b._Treatmentdate) return -1;
-                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
-                    else return 0;
-                  });
+                  this.claimHistoryList = this.panelClaimList.concat(this.tpaClaimList);
 
-                  this.tpaClaimList.sort((a, b) => {
-                    if (a._Treatmentdate < b._Treatmentdate) return -1;
-                    else if (a._Treatmentdate > b._Treatmentdate) return 1;
-                    else return 0;
+                  this.claimHistoryList.sort((a, b) => {
+                    let date1 = new Date(a._Treatmentdate);
+                    let date2 = new Date(b._Treatmentdate);
+
+                    if (date2 > date1) {
+                        return 1;
+                    } else if (date2 < date1) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
                   });
               }
             
@@ -328,9 +338,11 @@ export class ClaimsPage {
   openClaim(index, mode){
     console.log(index);
     console.log(mode);
-    let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
-    contactModal.present();
+
+    this.contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
     
+    this.contactModal.present();
+
     /*
     if(mode == 'panel'){
       let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.panelClaimList[index],index: index,mode:mode});
@@ -441,15 +453,28 @@ export class ClaimsPage {
   backButtonClick()
 	{
     
-    // if(this.pageFrom != undefined){
-    	this.navCtrl.pop({});  // remember to put this to add the back button behavior
-    // }else{
-      //this.navCtrl.popTo(LoginPage);
-    // }
+    if(this.successSubmit !=undefined){
+    	this.navCtrl.push(LoginPage,{successSubmit: undefined}).then(() => {
+          this.navCtrl.remove(0,3);
+      });
+      this.successSubmit = undefined;
+    }else{
+      this.navCtrl.pop({});
+      
+    }
 	}
 
   gotoSubmitClaims(){
     this.navCtrl.push( SubmitclaimsPage );
+  }
+
+  deleteSubmitClaimpage(){
+    // this.hideMunaBackButton = false;
+    // this.navCtrl.push(ClaimsPage).then(() => {
+    //     const index = this.navCtrl.getActive().index;
+            //this.navCtrl.remove(2,2);
+        //this.navCtrl.pop();
+    // });
   }
 
 }

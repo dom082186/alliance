@@ -60,12 +60,15 @@ export class MyApp {
     constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, 
        private theInAppBrowser: InAppBrowser,public storage: Storage,private alertCtrl: AlertController,
        public toastCtrl:ToastController, private keyboard: Keyboard,public events: Events) {
-        this.initializeApp();
+        
 
         this.platform.ready().then(() => {
             let view = this.nav.getActive();
             console.log(view.component.name)
+
         });
+
+        this.initializeApp();
 
         events.subscribe('claimuser:created', (user, network) => {
               if(user.length > 0){
@@ -204,6 +207,21 @@ export class MyApp {
       this.keyboard.hideKeyboardAccessoryBar(false);
 
 
+      // ******************************| ONE SIGNAL SETUP |**************************
+      /*
+      // OneSignal Code start:
+      // Enable to debug issues:
+      //window["plugins"].OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+
+      var notificationOpenedCallback = function(jsonData) {
+        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      };
+
+      window["plugins"].OneSignal
+        .startInit("401e5025-498a-4aaa-96fa-5f40ed1649ad", "618250019113")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
+
 
       //Registration of push in Android and Windows Phone
         var lastTimeBackPress = 0;
@@ -230,6 +248,7 @@ export class MyApp {
               this.nav.pop();
             } 
         });
+      */
 
     });
 
@@ -248,15 +267,14 @@ export class MyApp {
      
       if(page.title.toLowerCase() == 'appointment (ars)' ){
 
-         //let target = "_system";
         this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration','_system',this.options);
         //if(this.appMemNetwork.toLowerCase() != "aviva"){
-          //console.log('no ars');
-        //}
+      //     //console.log('no ars');
+      //   //}
 
-      //   if(this.appMemInfo[0].MemberNRIC == ""){
-      //     console.log('no claims');
-      //   }
+      // //   if(this.appMemInfo[0].MemberNRIC == ""){
+      // //     console.log('no claims');
+      // //   }
       }else{
           this.nav.push( page.component );  
       }
