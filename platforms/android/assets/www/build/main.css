@@ -32857,6 +32857,12 @@ page-add-sp .modal-area .content-modal .content-details h3 {
   margin: 0 0 15px;
 }
 
+page-appointment .iframe-container {
+  height: 100vh;
+  background: #fff;
+  padding: 0 0 30px;
+}
+
 page-benefits .tabs-menu {
   background: #fff;
   margin: 0 0 15px;
@@ -34307,6 +34313,11 @@ page-submitclaims .add-specialized {
   font: 12px/1.45 "Helvetica-Light";
   margin: 0;
   height: 36px;
+}
+
+page-submitclaims .filename {
+  width: 100% !important;
+  padding: 5px 0px;
 }
 
 page-termsconditions .header-ios .title-ios {

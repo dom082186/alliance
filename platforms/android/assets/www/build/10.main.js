@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 324:
+/***/ 328:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__clinicnearby__ = __webpack_require__(235);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClinicnearbyPageModule", function() { return ClinicnearbyPageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__clinicslocator__ = __webpack_require__(50);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClinicslocatorPageModule", function() { return ClinicslocatorPageModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,26 +18,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ClinicnearbyPageModule = (function () {
-    function ClinicnearbyPageModule() {
+var ClinicslocatorPageModule = (function () {
+    function ClinicslocatorPageModule() {
     }
-    return ClinicnearbyPageModule;
+    return ClinicslocatorPageModule;
 }());
-ClinicnearbyPageModule = __decorate([
+ClinicslocatorPageModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__clinicnearby__["a" /* ClinicnearbyPage */],
+            __WEBPACK_IMPORTED_MODULE_2__clinicslocator__["a" /* ClinicslocatorPage */],
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__clinicnearby__["a" /* ClinicnearbyPage */]),
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__clinicslocator__["a" /* ClinicslocatorPage */]),
         ],
         exports: [
-            __WEBPACK_IMPORTED_MODULE_2__clinicnearby__["a" /* ClinicnearbyPage */]
+            __WEBPACK_IMPORTED_MODULE_2__clinicslocator__["a" /* ClinicslocatorPage */]
         ]
     })
-], ClinicnearbyPageModule);
+], ClinicslocatorPageModule);
 
-//# sourceMappingURL=clinicnearby.module.js.map
+//# sourceMappingURL=clinicslocator.module.js.map
 
 /***/ })
 

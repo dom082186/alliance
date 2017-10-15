@@ -1,5 +1,5 @@
 import { Component,Renderer2,ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Content } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 
@@ -21,6 +21,7 @@ declare var google;
 })
 export class ClinicslocatorPage {
 
+	@ViewChild(Content) content: Content;
 	@ViewChild('map') mapElement: ElementRef;
 	@ViewChild('searchList') searchElement: ElementRef;
 	@ViewChild('sp') spElement: ElementRef;
@@ -211,7 +212,6 @@ export class ClinicslocatorPage {
 		}).then(result => {
 			this.loading.dismiss();
 
-
 			if(result.Status == "Failed"){
 				let alert = this.alertCtrl.create({
 					title: 'Alert',
@@ -376,6 +376,7 @@ export class ClinicslocatorPage {
 	}
 
 	filterNearData(){
+		this.content.scrollToTop();
 		this.allClinics = this.allClinics1;
 
 		//this.rd.removeClass(this.gpElement.nativeElement, 'active');
@@ -423,6 +424,7 @@ export class ClinicslocatorPage {
 	}
 
 	filterAllData() {
+		this.content.scrollToTop();
 		//this.rd.removeClass(this.gpElement.nativeElement, 'active');
 		this.rd.removeClass(this.spElement.nativeElement, 'active');
 		this.rd.removeClass(this.nearbyElement.nativeElement, 'active');

@@ -32,10 +32,12 @@ import { LoginNonmedinetPage } from '../pages/login-nonmedinet/login-nonmedinet'
 import { ClinicnearbyPage } from '../pages/clinicnearby/clinicnearby';
 import { SubmitClaimDetailsPage } from '../pages/submit-claim-details/submit-claim-details';
 import { AddSpPage } from '../pages/add-sp/add-sp';
+import { PreviewPage } from '../pages/preview/preview';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { SelectModule } from 'ng2-select';
+//import { Select2Module } from 'ng2-select2';
 
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { EcardServiceProvider } from '../providers/ecard-service/ecard-service';
@@ -54,6 +56,9 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Base64 } from '@ionic-native/base64';
 import { File } from '@ionic-native/file';
+import { SubmitClaimService1Provider } from '../providers/submit-claim-service1/submit-claim-service1';
+import { AddSpServiceProvider } from '../providers/add-sp-service/add-sp-service';
+
 
 @NgModule({
     declarations: [
@@ -80,10 +85,13 @@ import { File } from '@ionic-native/file';
         ClaimdetailsPage,
         SubmitClaimDetailsPage,
         AddSpPage,
-        KeyPipe
+        KeyPipe,
+        PreviewPage
     ],
     imports: [
         BrowserModule,
+        SelectModule,
+        //Select2Module,
         IonicModule.forRoot(MyApp, {tabsPlacement: 'top'}),
         HttpModule,
         IonicStorageModule.forRoot({ name: '__mydb', driverOrder: ['sqlite', 'websql', 'indexeddb'] })
@@ -112,7 +120,8 @@ import { File } from '@ionic-native/file';
         ClinicnearbyPage,
         ClaimdetailsPage,
         SubmitClaimDetailsPage,
-        AddSpPage
+        AddSpPage,
+        PreviewPage
     ],
   providers: [
     StatusBar,
@@ -134,6 +143,8 @@ import { File } from '@ionic-native/file';
     Camera,
     Base64,
     File,
+    SubmitClaimService1Provider,
+    AddSpServiceProvider,
     
   ]
 })

@@ -41,6 +41,8 @@
     "ios-deploy": "^1.9.1",
     "moment": "^2.18.1",
     "ng2-order-pipe": "^0.1.5",
+    "ng2-select": "^1.2.0",
+    "ng2-select2": "^1.0.0-beta.10",
     "rxjs": "5.1.1",
     "sha512": "0.0.1",
     "sw-toolbox": "3.6.0",

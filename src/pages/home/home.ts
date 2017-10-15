@@ -13,6 +13,7 @@ import { AboutusPage } from '../aboutus/aboutus';
 import { ContactusPage } from '../contactus/contactus';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { LoginPage } from '../login/login';
+import { AppointmentPage } from '../appointment/appointment';
 
 
 declare var window;
@@ -122,7 +123,12 @@ export class HomePage {
 		this.storage.clear().then(() => {
 	      this.navCtrl.push( LoginNonmedinetPage );
 	    });
-		
+	}
+
+	gotoARS(){
+		this.storage.clear().then(() => {
+	      this.navCtrl.push( AppointmentPage );
+	    });
 	}
 
 	public openWithSystemBrowser(url : string){

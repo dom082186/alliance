@@ -1,18 +1,23 @@
-<!--
-  Generated template for the AppointmentPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>appointment</ion-title>
-  </ion-navbar>
-
+    <ion-navbar hideBackButton>
+        <button ion-button icon-only menuToggle >
+            <img src="./assets/img/icons/menu.png" width="25" />
+        </button>
+        <ion-title>
+            <div class="bar-title text-xs-center">Appointment (ARS)</div>
+        </ion-title>
+        <ion-buttons end>
+            <div class="btn-back row middle-xs end-xs" (click)="backButtonClick()">
+            	<img src="./assets/img/icons/back.png" />
+            </div>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+    <div class="iframe-container" >
+        <iframe src="https://ars.alliancehealthcare.com.sg/#/registration" width="100%" height="100%" (load)="dismissLoading()"></iframe>
+    </div>
 </ion-content>
+<ion-footer>
+	<div class="copyright text-xs-center">&copy; Alliance Healthcare 2017, All Rights Reserved.</div>
+</ion-footer>

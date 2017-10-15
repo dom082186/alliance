@@ -91,7 +91,7 @@ export class LoginPage {
 
 			this.showLoader();
 			var sha512 = require('sha512')
-			var hash = sha512(this.login['password'])//sha512('P@ssw0rd');//
+			var hash = sha512('P@ssw0rd');//sha512(this.login['password'])//
 
 			//this.loginCredentials = "usernric=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
 			this.loginCredentials = "usernric=" + this.memberInfo[0].MemberNRIC + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');

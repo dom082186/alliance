@@ -34,9 +34,16 @@ export class TermsconditionsPage {
   }
 
   ionViewDidLoad() {
-    //this.showLoader();
-    this.getMemInfo();
-    this.getNetwork();
+    console.log(this.page)
+    if(this.page != undefined){
+      //this.showLoader();
+      this.getMemInfo();
+      this.getNetwork();
+    }else{
+      this.showLoader();
+      this.getTerms("a");
+    }
+    
   }
 
   getMemInfo(){
@@ -70,33 +77,36 @@ export class TermsconditionsPage {
 
 
   getTerms(params) {
-      
-      this.loginService.loadTerms(params).then((result) => {
-        
 
-        if(result.ValidateMessage != undefined){
-          let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: result.ValidateMessage,
-            buttons: [{
-                  text: 'OK',
-                  role: 'cancel',
-                  handler: () => {
-                    console.log('Cancel clicked');
-                }
-              }]
-          });
-          alert.present();
-        }else{
-          
-          this.termsTitle = result.title;//this.getDataFromAsync(result);
-          this.termsBody = result.content;
+      if(this.page == "claims"){
+        this.loginService.loadTerms(params).then((result) => {  
+
+          if(result.ValidateMessage != undefined){
+            let alert = this.alertCtrl.create({
+              title: 'Alert',
+              message: result.ValidateMessage,
+              buttons: [{
+                    text: 'OK',
+                    role: 'cancel',
+                    handler: () => {
+                      console.log('Cancel clicked');
+                  }
+                }]
+            });
+            alert.present();
+          }else{
             
-        }
+            this.termsTitle = result.title;//this.getDataFromAsync(result);
+            this.termsBody = result.content;
+              
+          }
+          this.loading.dismiss();
+        }, (err) => {
+          this.loading.dismiss();
+        });
+      }else{
         this.loading.dismiss();
-      }, (err) => {
-        this.loading.dismiss();
-      });
+      }
 
   }
 

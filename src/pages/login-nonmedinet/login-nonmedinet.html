@@ -15,7 +15,7 @@
 			</div> -->
 
 			<h3>Welcome,</h3>
-			<p>Enter the following details required or simply place your finger on the Home button to access the system</p>
+			<p>Kindly enter the following details in order to access the system</p>
 			<form (ngSubmit)="doLogin()">
 			<div class="form-container">
 				<div class="loginForm-group">
@@ -37,10 +37,6 @@
 						<option *ngFor="let network of networks;" [value]="network.ID">{{network.Program}}</option>
 					</select>
 				</div>
-				<!-- <ion-item>
-				  <label (click)="openTerms()">Terms and Conditions</label>
-				  <ion-checkbox color="blue" [(ngModel)]="isCheckTM" (click)="addValue($event)" name="isCheckTM"></ion-checkbox>
-				</ion-item> -->
 				<div class="loginForm-group">
 					<div class="row middle-xs">
 						<ion-checkbox color="blue" [(ngModel)]="isCheckTM" (click)="addValue($event)" name="isCheckTM"></ion-checkbox>

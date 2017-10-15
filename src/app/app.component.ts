@@ -130,10 +130,8 @@ export class MyApp {
                 }
         });
 
-        
-
-        console.log(this.pages);
-        
+        var loginInfo = this.storage.get('memInfo');
+        //console.log(this.pages);
 
           events.subscribe('user:created', (user, network) => {
             // user and time are the same arguments passed in `events.publish(user, time)
@@ -265,19 +263,19 @@ export class MyApp {
       // Reset the content nav to have just this page
       // we wouldn't want the back button to show in this scenario
      
-      if(page.title.toLowerCase() == 'appointment (ars)' ){
+      // if(page.title.toLowerCase() == 'appointment (ars)' ){
 
-        this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration','_system',this.options);
-        //if(this.appMemNetwork.toLowerCase() != "aviva"){
-      //     //console.log('no ars');
-      //   //}
+      //   this.theInAppBrowser.create('https://ars.alliancehealthcare.com.sg/#/registration','_system',this.options);
+      //   //if(this.appMemNetwork.toLowerCase() != "aviva"){
+      //   //     //console.log('no ars');
+      //   //   //}
 
-      // //   if(this.appMemInfo[0].MemberNRIC == ""){
-      // //     console.log('no claims');
-      // //   }
-      }else{
+      //   // //   if(this.appMemInfo[0].MemberNRIC == ""){
+      //   // //     console.log('no claims');
+      //   // //   }
+      // }else{
           this.nav.push( page.component );  
-      }
+      // }
       
   }
 

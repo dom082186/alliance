@@ -40,6 +40,7 @@ export class ClaimsPage {
   selectedBenefitID: any;
   benefitsInfo: any;
   tpa_benefits: any;
+  inpanel_benefits: any;
   claimForm = {}
   benefitsForm = {}
   showBenefitsPage: boolean = false;
@@ -113,8 +114,6 @@ export class ClaimsPage {
             //this.getSession();
         });
     });
-
-     
   }
 
   getSession(){
@@ -167,8 +166,8 @@ export class ClaimsPage {
                 
               }else{
                   
-                  this.panelClaimList = result.panelclaims;
-                  this.tpaClaimList = result.tpaclaims;
+                  //this.panelClaimList = result.panelclaims;
+                  //this.tpaClaimList = result.tpaclaims;
 
                   if(result.length == 0){
                     this.noRecordsFound = true;
@@ -177,20 +176,20 @@ export class ClaimsPage {
                     this.hideExportButton = true;
                   }
 
-                  this.claimHistoryList = this.panelClaimList.concat(this.tpaClaimList);
+                  this.claimHistoryList = result;//this.panelClaimList.concat(this.tpaClaimList);
 
-                  this.claimHistoryList.sort((a, b) => {
-                    let date1 = new Date(a._Treatmentdate);
-                    let date2 = new Date(b._Treatmentdate);
+                  // this.claimHistoryList.sort((a, b) => {
+                  //   let date1 = new Date(a._Treatmentdate);
+                  //   let date2 = new Date(b._Treatmentdate);
 
-                    if (date2 > date1) {
-                        return 1;
-                    } else if (date2 < date1) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                  });
+                  //   if (date2 > date1) {
+                  //       return 1;
+                  //   } else if (date2 < date1) {
+                  //       return -1;
+                  //   } else {
+                  //       return 0;
+                  //   }
+                  // });
 
               }
             
@@ -266,7 +265,11 @@ export class ClaimsPage {
       }else{
        
         //===========  LIVE 
-        this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+        if(nameIndex > 0){
+          this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[nameIndex]['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+        }else{
+          this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[0]['Internal_LoggedInUserRegisterID'];
+        }
         //this.params = "network="  + this.memberNetwork + "&membercompanyid=" + "2eec42d7-7a5c-43a2-a1c1-1c21da218ccc" + "&visitdatefrom=" + this.claimForm['fromDate'] + "&visitdateto=" + this.claimForm['toDate'] +"&internal_LoggedInUserRegisterID="+ this.memberInfo[nameIndex]['Internal_LoggedInUserRegisterID'];
 
         //===========  TEST FROM LOGIN NONMEDINET
@@ -334,13 +337,8 @@ export class ClaimsPage {
       }
   }
 
-
   openClaim(index, mode){
-    console.log(index);
-    console.log(mode);
-
     this.contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
-    
     this.contactModal.present();
 
     /*
@@ -353,7 +351,6 @@ export class ClaimsPage {
     }
     */
   }
-
 
   gotoBenefits() {
       this.showBenefitsPage = true;
@@ -400,7 +397,6 @@ export class ClaimsPage {
       }, (err) => {
           this.loading.dismiss();
       }); 
-
   }
 
   onChange(val){
@@ -414,9 +410,17 @@ export class ClaimsPage {
     this.benefitsForm['benefitPlan_startDate'] = periodFrom[1];
     this.benefitsForm['benefitPlan_endDate'] = periodArray[1];
 
+    var memIndex = this.benefitsForm['select_employeeName'];
+    var params = "";
 
-    this.params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
-    this.claimService.getBenefitsAPI(this.params).then((result) => {
+    if(val > 0){
+      params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[memIndex]['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+    }else{
+      params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+    }
+    console.log(params)
+    
+    this.claimService.getBenefitsAPI(params).then((result) => {
             this.loading.dismiss();
 
             if(result.Status == "Failed"){
@@ -439,6 +443,7 @@ export class ClaimsPage {
             }else{
                this.benefitsInfo = this.getBenefitsFromSync(result);
                this.tpa_benefits = result.tpa_benefits;
+               this.inpanel_benefits = result.inpanel_benefits;
                console.log(result);
             }
 
@@ -446,21 +451,23 @@ export class ClaimsPage {
         }, (err) => {
             this.loading.dismiss();
     }); 
-
   }
 
+  onChangeName(val){
+     console.log(val)
+     this.claimForm['claimName'] = val;
+  }
 
   backButtonClick()
 	{
     
     if(this.successSubmit !=undefined){
     	this.navCtrl.push(LoginPage,{successSubmit: undefined}).then(() => {
-          this.navCtrl.remove(0,3);
+          //this.navCtrl.remove(0,3);
       });
       this.successSubmit = undefined;
     }else{
       this.navCtrl.pop({});
-      
     }
 	}
 
@@ -476,5 +483,55 @@ export class ClaimsPage {
         //this.navCtrl.pop();
     // });
   }
+
+
+  onChangeNameBenefits(val){
+     
+      this.showLoader();
+      var memIndex = this.benefitsForm['select_employeeName'];
+      var params = "";
+
+      if(memIndex > 0){
+        params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[memIndex]['MemberCompanyID'] + "&memberid=" + this.memberInfo[memIndex]['MemberID'] + "&companyid=" + this.memberInfo[memIndex]['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+      }else{
+        params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
+      }
+      console.log(params)  
+
+      this.claimService.loadBenefitPeriodAPI(params).then((result) => {
+              this.loading.dismiss();
+              console.log(result);
+
+              if(result.Status == "Failed"){
+                let alert = this.alertCtrl.create({
+                  title: 'Alert',
+                  message: result.ValidateMessage,
+                  enableBackdropDismiss: false,
+                  buttons: [{
+                        text: 'OK',
+                        role: 'Cancel',
+                        handler: () => {
+                          if(result.ValidateMessage.toLowerCase() != "records not found."){
+                            this.navCtrl.setRoot(LoginNonmedinetPage);
+                          }
+                      }
+                    }]
+                });
+                alert.present();
+                
+              }else{
+
+                 this.benefitPeriod = result;
+                 this.benefitsForm['select_benefitPeriod'] = 0
+                 this.onChange(0);
+              }
+        
+      }, (err) => {
+          this.loading.dismiss();
+      }); 
+
+  }
+
+
 
 }

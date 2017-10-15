@@ -4,6 +4,8 @@ import { IonicPage, NavController, NavParams, ViewController, LoadingController,
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
+import { SubmitClaimService1Provider } from '../../providers/submit-claim-service1/submit-claim-service1';
+import { AddSpServiceProvider } from '../../providers/add-sp-service/add-sp-service';
 
 
 import { TermsconditionsPage } from '../termsconditions/termsconditions';
@@ -17,11 +19,12 @@ import { LoginPage } from '../login/login';
 @Component({
   selector: 'page-submit-claim-details',
   templateUrl: 'submit-claim-details.html',
-  providers: [SubmitClaimServiceProvider, ClaimServiceProvider],
+  providers: [SubmitClaimServiceProvider, ClaimServiceProvider, SubmitClaimService1Provider,AddSpServiceProvider],
 })
 export class SubmitClaimDetailsPage {
 
 	submitClaimDetails: any;
+	submitSP: any;
 	submitAttachedFile: any;
 	isEdit: any;
 	loading: any;
@@ -37,22 +40,30 @@ export class SubmitClaimDetailsPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,
 		 	public submitClaimService: SubmitClaimServiceProvider,public loadingCtrl: LoadingController,
-		 	private alertCtrl: AlertController, public claimService: ClaimServiceProvider,public clinicService: ClinicServiceProvider) {
+		 	private alertCtrl: AlertController, public claimService: ClaimServiceProvider,public clinicService: ClinicServiceProvider,
+		 	public submitClaimService1: SubmitClaimService1Provider, public addSPService: AddSpServiceProvider,) {
 		
 			this.submitClaimDetails = this.navParams.get('details');
 			this.submitAttachedFile = this.navParams.get('files');
 			this.isEdit = this.navParams.get('isEdit');
 			this.memberNetwork = this.navParams.get('network');
+			this.submitSP = this.navParams.get('submitSP');
 			this.totalFee = this.submitClaimDetails.totalamount;
 			this.totalGST = this.submitClaimDetails.totalgstamount;
 			
-			//console.log(this.submitAttachedFile)
+			console.log(this.submitAttachedFile)
+			console.log(this.submitClaimDetails)
+			console.log(this.submitSP)
 	}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad SubmitClaimDetailsPage');
+		this.showLoader();
+		if(this.submitSP != undefined){
+			this.addProcedure();
+		}else{
+			this.calculateClaim();
+		}
 		
-		this.calculateClaim();
 	}
 
 	showLoader(){
@@ -61,7 +72,7 @@ export class SubmitClaimDetailsPage {
       });
 
       this.loading.present();
-  }
+  	}
 
 	modalClose() {
 		this.viewCtrl.dismiss();
@@ -106,10 +117,46 @@ export class SubmitClaimDetailsPage {
 	    });
 	}
 
+	addProcedure(){
+		this.addSPService.addProcedureAPI(this.submitSP).then((result1) => {
+			console.log(result1)
+			if(result1.Status == "Failed"){
+				let alert = this.alertCtrl.create({
+                title: 'Alert',
+                message: result1.ValidateMessage,
+                enableBackdropDismiss: false,
+                buttons: [{
+                      text: 'OK',
+                      role: 'Cancel',
+                      handler: () => {
+                        if(result1.ValidateMessage.toLowerCase().includes('active session')){
+                          this.navCtrl.setRoot(LoginNonmedinetPage);
+                        }else{
+				        	return;
+                        }
+                    }
+                  }]
+              });
+              alert.present();
+				
+            }else{
+                console.log('success add procedure')
+                this.calculateClaim();
+            }
+
+	    }, (err) => {
+	    	console.log(err)
+	        this.loading.dismiss();
+	    });
+
+
+	}
+
 	calculateClaim(){
-		this.showLoader();
+		
 		console.log(this.submitClaimDetails)
-		this.clinicService.preCalculateClaimAPI(this.submitClaimDetails).then((result1) => {
+		
+		this.claimService.preCalculateClaimAPI(this.submitClaimDetails).then((result1) => {
 			console.log(result1)
 			if(result1.Status == "Failed"){
 				if(result1.ValidateMessage.toLowerCase().includes('claimamount')){
@@ -142,11 +189,11 @@ export class SubmitClaimDetailsPage {
             }
 
 	        this.loading.dismiss();
-
 	    }, (err) => {
 	    	console.log(err)
 	        this.loading.dismiss();
 	    });
+	   
 	}
 
 	
@@ -169,8 +216,6 @@ export class SubmitClaimDetailsPage {
 		}else{
 			this.submitClaimDetails['ischeckedtermsofservice'] = false;
 		}
-
-		console.log(this.submitClaimDetails)
 		
 		if(this.isCheckTM == true){
 		
@@ -255,9 +300,94 @@ export class SubmitClaimDetailsPage {
 
 
 	submitClaimInfo_cont(){
+		console.log(this.submitClaimDetails)
+		/*
+		this.claimService.addClaimAPI(this.submitClaimDetails).subscribe(
+            data => {
+                console.log(data);
+                if(data.Status == "Failed"){
+	                if(data.ValidateMessage.toLowerCase().includes('claimamount')){
+						this.claimsExceedShow = true;
+						this.claimsExceedSaveBtnDisplay = true;
+					}else{
+						let alert = this.alertCtrl.create({
+		                title: 'Alert',
+		                message: data.ValidateMessage,
+		                enableBackdropDismiss: false,
+		                buttons: [{
+		                      text: 'OK',
+		                      role: 'Cancel',
+		                      handler: () => {
+		                        if(data.ValidateMessage.toLowerCase().includes('active session')){
+		                          this.navCtrl.setRoot(LoginNonmedinetPage);
+		                        }else{
+						        	return;
+		                        }
+		                    }
+		                  }]
+		              });
+		              alert.present();
+					}	
+	            }else{
+	                console.log('success submit claim')
+		        	this.viewCtrl.dismiss();
 
-		this.claimService.addClaimAPI(this.submitClaimDetails).then((result1) => {
-			
+		        	if(data.ClaimID == "00000000-0000-0000-0000-000000000000"){
+		        		let alert = this.alertCtrl.create({
+			                title: 'Alert',
+			                message: 'Sorry claim is not successfully submitted',
+			                enableBackdropDismiss: false,
+			                buttons: [{
+			                      text: 'OK',
+			                      role: 'Cancel',
+			                      handler: () => {
+							        return;
+			                    }
+			                  }]
+			              });
+			              alert.present();
+		        	}else{
+		        		let alert = this.alertCtrl.create({
+							title: 'Success',
+							message: 'Claim successfully submitted',
+							buttons: [{
+						        text: 'OK',
+						        role: 'cancel',
+						        handler: () => {
+						        	console.log(this.isEdit)
+						        	this.loading.dismiss();
+
+		                        	if(this.isEdit != ""){
+						        		this.viewCtrl.dismiss();
+			                        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
+			                            	const startIndex = this.navCtrl.getActive().index - 1;
+			                            	this.navCtrl.remove(startIndex,2);
+			                            	//this.navCtrl.pop();
+			                          	});
+						        	}else{
+							        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
+			      							this.navCtrl.remove(0, 3);
+			                          	});
+						        	}
+						        }
+						    }]
+						});
+						alert.present();
+		        	}
+
+					
+	            }
+
+		        this.loading.dismiss();
+            },
+            err => {
+                console.log(err);
+            },
+            () => console.log('addClaimAPI Complete')
+        );
+		*/
+		
+		this.submitClaimService1.addClaimAPI(this.submitClaimDetails).then((result1) => {
 			console.log(result1)
 
 			if(result1.Status == "Failed"){
@@ -283,12 +413,53 @@ export class SubmitClaimDetailsPage {
 	              });
 	              alert.present();
 				}	
-              
             }else{
-
                 console.log('success submit claim')
 	        	this.viewCtrl.dismiss();
+	        	if(result1.ClaimID == "00000000-0000-0000-0000-000000000000"){
+	        		let alert = this.alertCtrl.create({
+		                title: 'Alert',
+		                message: 'Sorry claim is not successfully submitted',
+		                enableBackdropDismiss: false,
+		                buttons: [{
+		                      text: 'OK',
+		                      role: 'Cancel',
+		                      handler: () => {
+						        return;
+		                    }
+		                  }]
+		              });
+		              alert.present();
+	        	}else{
+	        		let alert = this.alertCtrl.create({
+						title: 'Success',
+						message: 'Claim successfully submitted',
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					        	console.log(this.isEdit)
+					        	this.loading.dismiss();
 
+	                        	if(this.isEdit != ""){
+					        		this.viewCtrl.dismiss();
+		                        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
+		                            	//const startIndex = this.navCtrl.getActive().index - 1;
+		                            	//this.navCtrl.remove(startIndex,3);
+		                            	//this.navCtrl.pop();
+		                          	});
+					        	}else{
+						        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
+		      							//this.navCtrl.remove(0, 3);
+		                          	});
+					        	}
+					        }
+					    }]
+					});
+					alert.present();
+	        	}
+
+	        	/*
 				let alert = this.alertCtrl.create({
 					title: 'Success',
 					message: 'Claim successfully submitted',
@@ -315,15 +486,16 @@ export class SubmitClaimDetailsPage {
 				    }]
 				});
 				alert.present();
+				*/
 
             }
 
 	        this.loading.dismiss();
-
 	    }, (err) => {
 	    	console.log(err)
 	        this.loading.dismiss();
 	    });
+	    
 	}
 
 

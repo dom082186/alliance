@@ -12,7 +12,7 @@
             <div class="claim-details">
                 <div class="title row between-xs">
 					<div class="label">Available Amount:</div>
-                    <div class="details">[SGD]1.00</div>
+                    <div class="details">[SGD] {{(calculatedClaim | async)?.AvailableClaimAmount}}</div>
                 </div>
                 <div class="info row between-xs">
                     <div class="label">Total Fee</div>

@@ -27,7 +27,7 @@
                 <div class="form-group"> 
                     <div class="label">Name</div>
                     <div class="input-field">
-                        <select  name="claimName" [(ngModel)]="claimForm.claimName">
+                        <select  name="claimName" [(ngModel)]="claimForm.claimName" (change)="onChangeName(claimForm.claimName)">
                             <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
                             <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option>   -->
                         </select>
@@ -40,7 +40,7 @@
                             <div class="input-field">
                                 <ion-item no-lines style="padding:0px 0px">
                                 <!-- <input  type="datetime-local" class="has-calendar" /> -->
-                                <ion-datetime  class="has-calendar dateTime" displayFormat="MM/DD/YYYY" pickerFormat="MMM DD YYYY" name="fromDate" [(ngModel)]="claimForm.fromDate"></ion-datetime>
+                                <ion-datetime  class="has-calendar dateTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" name="fromDate" [(ngModel)]="claimForm.fromDate"></ion-datetime>
                                 </ion-item>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <div class="label">To</div>
                             <ion-item no-lines style="padding:0px 0px">
-                                <ion-datetime class="has-calendar dateTime" displayFormat="MM/DD/YYYY" pickerFormat="MMM DD YYYY" name="toDate" [(ngModel)]="claimForm.toDate"></ion-datetime>
+                                <ion-datetime class="has-calendar dateTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" name="toDate" [(ngModel)]="claimForm.toDate"></ion-datetime>
                                 </ion-item>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="row">
                         <div class="label">Visit Date</div>
-                        <div class="text">{{tpa._Treatmentdate | date: 'MM/dd/yyyy'}}</div>
+                        <div class="text">{{tpa._Treatmentdate | date: 'dd/MM/yyyy'}}</div>
                     </div>
                     <div class="row">
                         <div class="label">Clinic Name</div>
@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 has-padR">
+                <div class="col-xs-12">
                     <div class="form-group">
                         <div class="label">Plan Name</div>
                         <div class="input-field">
@@ -142,11 +142,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 has-padL">
+                <div class="col-xs-12">
                     <div class="form-group">
                         <div class="label">Employee Name</div>
                         <div class="input-field">
-                            <select name="select_employeeName" [(ngModel)]="benefitsForm.select_employeeName" disabled="true">
+                            <select name="select_employeeName" [(ngModel)]="benefitsForm.select_employeeName" (change)="onChangeNameBenefits(benefitsForm.select_employeeName)">
                                 <!-- <option value="" selected disabled>Select</option> -->
                                 <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option> -->
                                 <option  *ngFor="let name of memberInfo; let i = index" [value]="i" >{{name.MemberName}}</option>
@@ -160,7 +160,7 @@
                     <div class="form-group">
                         <div class="label">Benefit Plan Start Date</div>
                         <div class="input-field">
-                            <input type="text" name="benefitPlan_startDate" class="has-calendar" [(ngModel)]="benefitsForm.benefitPlan_startDate" disabled="true"/>
+                            <input type="text" name="benefitPlan_startDate" class="" [(ngModel)]="benefitsForm.benefitPlan_startDate" disabled="true"/>
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                     <div class="form-group">
                         <div class="label">Benefit Plan End Date</div>
                         <div class="input-field">
-                            <input type="text" name="benefitPlan_endDate" class="has-calendar" [(ngModel)]="benefitsForm.benefitPlan_endDate" disabled="true"/>
+                            <input type="text" name="benefitPlan_endDate" class="" [(ngModel)]="benefitsForm.benefitPlan_endDate" disabled="true"/>
                         </div>
                     </div>
                 </div>
@@ -194,6 +194,31 @@
                 </div>
             </div>
             <!-- </form> -->
+
+            <h3 class="text-xs-uppercase benfitsLabel">In Panel Details</h3>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Co-Pay</th>
+                        <th>Co-Pay Type</th>
+                        <th>Limit / Visit</th>
+                        <th>Limit / Year</th>
+                        <th>Visit / Year</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let panel of inpanel_benefits">
+                    <tr >
+                        <td>{{panel.Type}}</td>
+                        <td>{{panel.CoPay}}</td>
+                        <td>{{panel.CoPayType}}</td>
+                        <td>{{panel.LimitPerVisiit}}</td>
+                        <td>{{panel.LimitPerYear}}</td>
+                        <td>{{panel.NoOfVisitPerYear}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
             <h3 class="text-xs-uppercase benfitsLabel">Out Panel Details</h3>
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <thead>
@@ -218,6 +243,8 @@
                     
                 </tbody>
             </table>
+
+
             <div class="btn-panel">
                 <div class="row center-xs">
                     <!-- <div class="col-xs-7">

@@ -11,6 +11,11 @@ let apiUrl = 'http://118.201.197.142/api/';
 export class ClaimServiceProvider {
 
 	data: any;
+	data1: any;
+
+	// static get parameters() {
+ //        return [[Http]];
+ //    }
 
 	constructor(public http: Http,private alertCtrl: AlertController) {
 		
@@ -51,6 +56,7 @@ export class ClaimServiceProvider {
 					alert.present();
 			        reject(e);
 			});
+				this.data = "";	
 		})
 	}
 
@@ -89,6 +95,7 @@ export class ClaimServiceProvider {
 					alert.present();
 			        reject(e);
 			});
+				this.data = "";	
 		})
 	}
 
@@ -128,6 +135,7 @@ export class ClaimServiceProvider {
 					alert.present();
 			        reject(e);
 			});
+				this.data = "";	
 		})
 	}
 
@@ -165,6 +173,7 @@ export class ClaimServiceProvider {
 					alert.present();
 			        reject(e);
 			});
+			    this.data = "";	
 		})
 
 	}
@@ -176,7 +185,7 @@ export class ClaimServiceProvider {
 		}
 
 		return new Promise((resolve, reject) => {
-			var header = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+			var header = new Headers({ 'Content-Type': 'application/json' });
 			var opts = new RequestOptions({ headers: header });
 			var link = apiUrl + "tpaclaim/submitclaim";
 
@@ -202,9 +211,60 @@ export class ClaimServiceProvider {
 					alert.present();
 					reject(e);
 				});
+				this.data = "";	
 		});
+
+		// var header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' });
+		// var opts = new RequestOptions({ headers: header });
+  // 		var link = apiUrl + "tpaclaim/submitclaim";
+  //       //var url = link + encodeURI(params);
+  //       var response = this.http.post(link, encodeURI(params), opts).map(res => res.json());
+  //       return response;
 	}
 
+	preCalculateClaimAPI(parameters){
+
+		if(this.data) {
+			return Promise.resolve(this.data);
+		}
+
+		return new Promise((resolve, reject) => {
+			var header = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+			var opts = new RequestOptions({ headers: header });
+			var link = apiUrl + "tpaclaim/PreCalculateClaim";
+
+			this.http
+				.post(link, parameters, opts)
+				.map(response => response.json())
+				.subscribe(data => {
+					this.data = data;
+					resolve(data);
+				}, e => {
+					let alert = this.alertCtrl.create({
+						title: 'Alert',
+						message: "Error loading requests",
+						buttons: [{
+					        text: 'OK',
+					        role: 'cancel',
+					        handler: () => {
+					          //navigator['app'].exitApp();
+					          return;
+					      }
+					    }]
+					});
+					alert.present();
+					reject(e);
+				});
+
+			this.data = "";	
+		})
+		
+
+	
+
+	}
+
+	
 
 	
 

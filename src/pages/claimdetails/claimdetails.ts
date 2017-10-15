@@ -51,11 +51,15 @@ export class ClaimdetailsPage {
 		
 		if(this.claimDetails._ClaimStatus != null ){
 
-			if(this.claimDetails._ClaimStatus.toLowerCase() == "paid" || this.claimDetails._ClaimStatus.toLowerCase() == "pending" || this.claimDetails._ClaimStatus == ""){
+			if(this.claimDetails._ClaimCode.toLowerCase().includes('tpa')){
+				if(this.claimDetails._ClaimStatus.toLowerCase() == "paid" || this.claimDetails._ClaimStatus.toLowerCase() == "pending" || this.claimDetails._ClaimStatus == ""){
+				}else{
+					this.navCtrl.pop();
+					this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
+				}	
 			}else{
-				this.navCtrl.pop();
-				this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
-			}	
+				
+			}
 
 		}else{
 			//this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails} );

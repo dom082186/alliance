@@ -10,6 +10,9 @@ let apiUrl = 'http://118.201.197.142/api/';
 export class LoginServiceProvider {
 
 	data: any;
+	static get parameters() {
+        return [[Http]];
+    }
 
 	constructor(public http: Http,private alertCtrl: AlertController,) {
 
@@ -56,33 +59,39 @@ export class LoginServiceProvider {
 
 
 	loadNetworkAPI(){
-		if (this.data) {
-		    return Promise.resolve(this.data);
-		}
+		// if (this.data) {
+		//     return Promise.resolve(this.data);
+		// }
 		
-		return new Promise((resolve,reject) => {
-		    this.http.get('http://118.201.197.142/api/program/list')
-		      .map(res => res.json())
-		      .subscribe(
-		      	data => {
-		        	resolve(data); 	
-		        }, error => {
-					let alert = this.alertCtrl.create({
-						title: 'Alert',
-						message: "Error loading requests",
-						buttons: [{
-					        text: 'OK',
-					        role: 'cancel',
-					        handler: () => {
-					          //navigator['app'].exitApp();
-					          return;
-					      }
-					    }]
-					});
-					alert.present();
-					reject(error);
-		      });
-		});
+		// return new Promise((resolve,reject) => {
+		//     this.http.get('http://118.201.197.142/api/program/list')
+		//       .map(res => res.json())
+		//       .subscribe(
+		//       	data => {
+		//         	resolve(data); 	
+		//         }, error => {
+		// 			let alert = this.alertCtrl.create({
+		// 				title: 'Alert',
+		// 				message: "Error loading requests",
+		// 				buttons: [{
+		// 			        text: 'OK',
+		// 			        role: 'cancel',
+		// 			        handler: () => {
+		// 			          //navigator['app'].exitApp();
+		// 			          return;
+		// 			      }
+		// 			    }]
+		// 			});
+		// 			alert.present();
+		// 			reject(error);
+		//       });
+		// });
+		//var header = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+		//var opts = new RequestOptions({ headers: header });
+  		var link = "http://118.201.197.142/api/program/list";
+        var url = link;
+        var response = this.http.get(link).map(res => res.json());
+        return response;
 	};
 
 
