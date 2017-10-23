@@ -1,6 +1,6 @@
 webpackJsonp([16],{
 
-/***/ 322:
+/***/ 329:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24,7 +24,7 @@ var CheckbalancePageModule = (function () {
     return CheckbalancePageModule;
 }());
 CheckbalancePageModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         declarations: [
             __WEBPACK_IMPORTED_MODULE_2__checkbalance__["a" /* CheckbalancePage */],
         ],

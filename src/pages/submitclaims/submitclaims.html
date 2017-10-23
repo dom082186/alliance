@@ -14,7 +14,7 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content (click)="onClickContent()">
 	<div class="submitClaims-content has-header has-copyright" style="padding-top: 15px;">
 		<form (ngSubmit)="submitClaim()" [formGroup]="claimFormGroup">
 		<div class="bg-white">
@@ -53,16 +53,15 @@
 						<option [value]="i" *ngFor="let provider of providers; let i = index">{{provider.Name}}</option>
 					</select> -->
 
-
-					<!-- <input type="text" (keyup)="onInputChangeProvider($event)" name="select_providerName" formControlName="select_providerName"/>
+					<input type="text" (keyup)="onInputChangeProvider($event)" name="select_providerName" formControlName="select_providerName"/>
 					<input type="hidden"  name="select_providerName1" formControlName="select_providerName1"/>
 						  <ion-list *ngIf="showProv">
 						    <ion-item #item_prov *ngFor="let provider of providers; let i = index" (click)="selectedProv(i)">
 						      {{ provider.Name }}
 						    </ion-item>
-						  </ion-list> -->
+						  </ion-list>
 						
-					<ng-select [allowClear]="true"
+					<!-- <ng-select [allowClear]="true"
 				              [disabled]="disabled"
 				              [items]="items"
 				              (data)="refreshValue($event)"
@@ -70,9 +69,7 @@
 				              (removed)="removed($event)"
 				              (typed)="typed($event)"
 				              placeholder="No color selected" formControlName="select_providerName">
-				  </ng-select> 
-				  <p></p>
-				  <pre>{{value.text}}</pre>
+				  	</ng-select>  -->
 				</div>
 			</div>
 			<div class="row">
@@ -117,298 +114,298 @@
 					</select>
 				</div>
 			</div>
-
-			<br/>
-			<h3 class="text-xs-uppercase">Diagnosis</h3>
-			<div class="gray-title">Acute Diagnosis</div>
-			<div class="form-group" #diagnosis1 id="diagnosis1" *ngIf="acute1">
-				<div class="label">Diagnosis 1</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeAD1($event)" name="select_acuteDiagnosis1x" formControlName="select_acuteDiagnosis1x"/>
-						<input type="hidden" name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1"/>
-						  <ion-list *ngIf="showAD1">
-						    <ion-item #item_ad1 *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD1(i)">
-						      {{ ad.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding"><i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i></div>
-				</div>
-			</div>
-			<div class="form-group" #diagnosis2 id="diagnosis2" *ngIf="acute2">
-				<div class="label">Diagnosis 2</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeAD2($event)" name="select_acuteDiagnosis2x" formControlName="select_acuteDiagnosis2x"/>
-						<input type="hidden" name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2"/>
-						  <ion-list *ngIf="showAD2">
-						    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD2(i)">
-						      {{ ad.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">
-						<i (click)="addAcute('ad_3')" class="fa fa-plus" aria-hidden="true" style="display: none"></i>
-						<i (click)="removeAcute('ad_2')" class="fa fa-minus remove-icon" aria-hidden="true" ></i>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group" #diagnosis3 id="diagnosis3" *ngIf="acute3">
-				<div class="label">Diagnosis 3</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeAD3($event)" name="select_acuteDiagnosis3x" formControlName="select_acuteDiagnosis3x"/>
-						<input type="hidden" name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3"/>
-						  <ion-list *ngIf="showAD3">
-						    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD3(i)">
-						      {{ ad.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>	
-					<div class="icon row middle-xs end-xs icon-padding">
-						<i (click)="addAcute('ad_4')" class="fa fa-plus" aria-hidden="true"></i>
-						<i (click)="removeAcute('ad_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
-					</div>
-				</div>
-			</div>
-			<div class="form-group" *ngIf="acute4">
-				<div class="label">Diagnosis 4</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeAD4($event)" name="select_acuteDiagnosis4x" formControlName="select_acuteDiagnosis4x"/>
-						<input type="hidden" name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4"/>
-						  <ion-list *ngIf="showAD4">
-						    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD4(i)">
-						      {{ ad.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">
-						<i (click)="removeAcute('ad_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
-					</div>
-				</div>
-			</div><br/>
-
-			<div class="gray-title" >Chronic Diagnosis</div>
-			<!-- style="display: none" -->
-			<div class="form-group" *ngIf="chronic1">
-				<div class="label">Diagnosis 1</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeCD1($event)" name="select_chronicDiagnosis1x" formControlName="select_chronicDiagnosis1x"/>
-						<input type="hidden" name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1"/>
-						  <ion-list *ngIf="showCD1">
-						    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD1(i)">
-						      {{ cd.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">	
-						<i (click)="addChronic('cd_2')" class="fa fa-plus" aria-hidden="true"></i>
-					</div>	
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic2" >
-				<div class="label">Diagnosis 2</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeCD2($event)" name="select_chronicDiagnosis2x" formControlName="select_chronicDiagnosis2x"/>
-						<input type="hidden" name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2"/>
-						  <ion-list *ngIf="showCD2">
-						    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD2(i)">
-						      {{ cd.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">	
-						<i (click)="addChronic('cd_3')" class="fa fa-plus" aria-hidden="true" style="display: none"></i>
-						<i (click)="removeChronic('cd_2')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
-					</div>	
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic3" >
-				<div class="label">Diagnosis 3</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeCD3($event)" name="select_chronicDiagnosis3x" formControlName="select_chronicDiagnosis3x"/>
-						<input type="hidden" name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3"/>
-						  <ion-list *ngIf="showCD3">
-						    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD3(i)">
-						      {{ cd.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">	
-						<i (click)="addChronic('cd_4')" class="fa fa-plus" aria-hidden="true"></i>
-						<i (click)="removeChronic('cd_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
-					</div>	
-				</div>
-			</div>
-			<div class="form-group" *ngIf="chronic4" >
-				<div class="label">Diagnosis 4</div>
-				<div class="input-field row middle-xs">
-					<div class="col-xs-auto select-padding" >
-						<!-- <select name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4">
-							<option value="" disabled>Select</option>
-							<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
-						</select> -->
-						<input type="text" (keyup)="onInputChangeCD4($event)" name="select_chronicDiagnosis4x" formControlName="select_chronicDiagnosis4x"/>
-						<input type="hidden" name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4"/>
-						  <ion-list *ngIf="showCD4">
-						    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD4(i)">
-						      {{ cd.Description }}
-						    </ion-item>
-						  </ion-list>
-					</div>
-					<div class="icon row middle-xs end-xs icon-padding">	
-						<i (click)="removeChronic('cd_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
-					</div>	
-				</div>
-			</div><br/>
-
-
-			<h3 class="text-xs-uppercase" *ngIf="showSP">Specialized Procedure</h3>
-			<!-- <form (ngSubmit)="addSP()" [formGroup]="spFormGroup"> -->
-			<div class="form-group" *ngIf="showSP">
-				<div class="label">Specialized Procedure</div>
-				<div class="input-field">
-					<!-- <select name="specialized_procedure" formControlName="formsp_procedure">
-						<option  *ngFor="let sp of spList; let i = index" value="{{sp.code}}">{{sp.description}}</option>
-					</select> -->
-					<input type="text" (keyup)="onInputSP($event)" name="specialized_procedure" formControlName="formsp_procedure"/>
-					  <ion-list *ngIf="showSPList">
-					    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP(i)">
-					      {{sp.description}}
-					    </ion-item>
-					  </ion-list>
-				</div>
-			</div>
-			<!-- <br/> -->
-			<input type="hidden" formControlName="formsp_procedurePayh"  />
-			<input type="hidden" formControlName="formsp_procedurePayh"  />
-			<div class="form-group" *ngIf="showSP">
-				<div class="row bottom-xs">
-					<div class="col-xs-4">
-						<div class="label">Price</div>
-						<div class="input-field">
-							<input type="number" formControlName="formsp_procedurePrice" (keyup)="onInputChangeSPprice($event)"/>
-						</div>
-					</div>
-					<div class="col-xs-8" style="padding: 0 0 0 10px;" *ngIf="showSPbtn">
-						<div  class="btn btn-yellow add-specialized" (click)="addSPForm('sp_1')">Add Specialized Procedure</div>
-					</div>
-				</div>
-			</div>
 			
-			<!-- *******  SP 1 ******* -->
-			<div class="form-group" *ngIf="showSP1">
-				<div class="label">Specialized Procedure</div>
-				<div class="input-field">
-					<input type="text" (keyup)="onInputSP1($event)" name="specialized_procedure" formControlName="formsp_procedure1"/>
-					  <ion-list *ngIf="showSPList1">
-					    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP1(i)">
-					      {{sp.description}}
-					    </ion-item>
-					  </ion-list>
+			<div *ngIf="diagnosisDiv">
+				<h3 class="text-xs-uppercase">Diagnosis</h3>
+				<div class="gray-title">Acute Diagnosis</div>
+				<div class="form-group" #diagnosis1 id="diagnosis1" *ngIf="acute1">
+					<div class="label">Diagnosis 1</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeAD1($event)" name="select_acuteDiagnosis1x" formControlName="select_acuteDiagnosis1x"/>
+							<input type="hidden" name="select_acuteDiagnosis1" formControlName="select_acuteDiagnosis1"/>
+							  <ion-list *ngIf="showAD1">
+							    <ion-item #item_ad1 *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD1(i)">
+							      {{ ad.Description }}
+							    </ion-item>
+							  </ion-list>
+							 
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding"><i (click)="addAcute('ad_2')" class="fa fa-plus" aria-hidden="true"></i></div>
+					</div>
 				</div>
-			</div>
-			<input type="hidden" formControlName="formsp_procedurePayh1"  />
-			<input type="hidden" formControlName="formsp_procedurePayh1"  />
-			<div class="form-group" *ngIf="showSP1">
-				<div class="row bottom-xs">
-					<div class="col-xs-4">
-						<div class="label" >Price</div>
-						<div class="input-field">
-							<input type="number" formControlName="formsp_procedurePrice1" (keyup)="onInputChangeSPprice1($event)"/>
+				<div class="form-group" #diagnosis2 id="diagnosis2" *ngIf="acute2">
+					<div class="label">Diagnosis 2</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeAD2($event)" name="select_acuteDiagnosis2x" formControlName="select_acuteDiagnosis2x"/>
+							<input type="hidden" name="select_acuteDiagnosis2" formControlName="select_acuteDiagnosis2"/>
+							  <ion-list *ngIf="showAD2">
+							    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD2(i)">
+							      {{ ad.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding">
+							<i (click)="addAcute('ad_3')" class="fa fa-plus" aria-hidden="true" style="display: none"></i>
+							<i (click)="removeAcute('ad_2')" class="fa fa-minus remove-icon" aria-hidden="true" ></i>
 						</div>
 					</div>
-					<div class="col-xs-8" style="padding: 0 0 0 10px;" *ngIf="showSPbtn1">
-						<div  class="btn btn-yellow add-specialized" (click)="addSPForm('sp_2')">Add Specialized Procedure</div>
-					</div>
 				</div>
-			</div>
 
-			
-			<!-- *******  SP 2 ******* -->
-			<div class="form-group" *ngIf="showSP2">
-				<div class="label">Specialized Procedure</div>
-				<div class="input-field">
-					<input type="text" (keyup)="onInputSP2($event)" name="specialized_procedure" formControlName="formsp_procedure2"/>
-					  <ion-list *ngIf="showSPList2">
-					    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP2(i)">
-					      {{sp.description}}
-					    </ion-item>
-					  </ion-list>
-				</div>
-			</div>
-			<input type="hidden" formControlName="formsp_procedurePayh2"  />
-			<input type="hidden" formControlName="formsp_procedurePayh2"  />
-			<div class="form-group" *ngIf="showSP2">
-				<div class="row bottom-xs">
-					<div class="col-xs-4">
-						<div class="label" >Price</div>
-						<div class="input-field">
-							<input type="number" formControlName="formsp_procedurePrice2" (keyup)="onInputChangeSPprice2($event)"/>
+				<div class="form-group" #diagnosis3 id="diagnosis3" *ngIf="acute3">
+					<div class="label">Diagnosis 3</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeAD3($event)" name="select_acuteDiagnosis3x" formControlName="select_acuteDiagnosis3x"/>
+							<input type="hidden" name="select_acuteDiagnosis3" formControlName="select_acuteDiagnosis3"/>
+							  <ion-list *ngIf="showAD3">
+							    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD3(i)">
+							      {{ ad.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>	
+						<div class="icon row middle-xs end-xs icon-padding">
+							<i (click)="addAcute('ad_4')" class="fa fa-plus" aria-hidden="true"></i>
+							<i (click)="removeAcute('ad_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
 						</div>
 					</div>
-					<!-- <div class="col-xs-8" style="padding: 0 0 0 10px;">
-						<div  class="btn btn-yellow add-specialized" (click)="addSPForm()">Add Specialized Procedure</div>
-					</div> -->
 				</div>
-			</div>
-			<br>
-			<div class="totals" *ngIf="showSP">
-				<div class="total-section row">
-					<div class="label col-xs-6 row middle-xs">Total Specialized Procedure to Pay</div>
-					<div class="price col-xs-6 row middle-xs" >
-						<div class="col-xs-auto">
-							<input type="number" formControlName="formsp_procedurePay"  />
+				<div class="form-group" *ngIf="acute4">
+					<div class="label">Diagnosis 4</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let ad of acuteDiagnosisList; let i = index">{{ad.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeAD4($event)" name="select_acuteDiagnosis4x" formControlName="select_acuteDiagnosis4x"/>
+							<input type="hidden" name="select_acuteDiagnosis4" formControlName="select_acuteDiagnosis4"/>
+							  <ion-list *ngIf="showAD4">
+							    <ion-item *ngFor="let ad of acuteDiagnosisList; let i = index" (click)="selectedAD4(i)">
+							      {{ ad.Description }}
+							    </ion-item>
+							  </ion-list>
 						</div>
-						<div class="currency">[SGD]</div>
-					</div>
-				</div>
-				<div class="total-section row">
-					<div class="label col-xs-6 row middle-xs">Total Specialized Procedure Fee</div>
-					<div class="price col-xs-6 row middle-xs">
-						<div class="col-xs-auto">
-							<input type="number" formControlName="formsp_procedureFee" />
+						<div class="icon row middle-xs end-xs icon-padding">
+							<i (click)="removeAcute('ad_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
 						</div>
-						<div class="currency">[SGD]</div>
 					</div>
-				</div>
-			</div>
-			<br>
+				</div><br/>
 
+				<div class="gray-title" >Chronic Diagnosis</div>
+				<!-- style="display: none" -->
+				<div class="form-group" *ngIf="chronic1">
+					<div class="label">Diagnosis 1</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeCD1($event)" name="select_chronicDiagnosis1x" formControlName="select_chronicDiagnosis1x"/>
+							<input type="hidden" name="select_chronicDiagnosis1" formControlName="select_chronicDiagnosis1"/>
+							  <ion-list *ngIf="showCD1">
+							    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD1(i)">
+							      {{ cd.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding">	
+							<i (click)="addChronic('cd_2')" class="fa fa-plus" aria-hidden="true"></i>
+						</div>	
+					</div>
+				</div>
+				<div class="form-group" *ngIf="chronic2" >
+					<div class="label">Diagnosis 2</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeCD2($event)" name="select_chronicDiagnosis2x" formControlName="select_chronicDiagnosis2x"/>
+							<input type="hidden" name="select_chronicDiagnosis2" formControlName="select_chronicDiagnosis2"/>
+							  <ion-list *ngIf="showCD2">
+							    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD2(i)">
+							      {{ cd.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding">	
+							<i (click)="addChronic('cd_3')" class="fa fa-plus" aria-hidden="true" style="display: none"></i>
+							<i (click)="removeChronic('cd_2')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+						</div>	
+					</div>
+				</div>
+				<div class="form-group" *ngIf="chronic3" >
+					<div class="label">Diagnosis 3</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeCD3($event)" name="select_chronicDiagnosis3x" formControlName="select_chronicDiagnosis3x"/>
+							<input type="hidden" name="select_chronicDiagnosis3" formControlName="select_chronicDiagnosis3"/>
+							  <ion-list *ngIf="showCD3">
+							    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD3(i)">
+							      {{ cd.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding">	
+							<i (click)="addChronic('cd_4')" class="fa fa-plus" aria-hidden="true"></i>
+							<i (click)="removeChronic('cd_3')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+						</div>	
+					</div>
+				</div>
+				<div class="form-group" *ngIf="chronic4" >
+					<div class="label">Diagnosis 4</div>
+					<div class="input-field row middle-xs">
+						<div class="col-xs-auto select-padding" >
+							<!-- <select name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4">
+								<option value="" disabled>Select</option>
+								<option [value]="i" *ngFor="let cd of chronicDiagnosisList; let i = index">{{cd.Description}}</option>
+							</select> -->
+							<input type="text" (keyup)="onInputChangeCD4($event)" name="select_chronicDiagnosis4x" formControlName="select_chronicDiagnosis4x"/>
+							<input type="hidden" name="select_chronicDiagnosis4" formControlName="select_chronicDiagnosis4"/>
+							  <ion-list *ngIf="showCD4">
+							    <ion-item *ngFor="let cd of chronicDiagnosisList; let i = index" (click)="selectedCD4(i)">
+							      {{ cd.Description }}
+							    </ion-item>
+							  </ion-list>
+						</div>
+						<div class="icon row middle-xs end-xs icon-padding">	
+							<i (click)="removeChronic('cd_4')" class="fa fa-minus remove-icon" aria-hidden="true"></i>
+						</div>	
+					</div>
+				</div><br/>
+
+				<h3 class="text-xs-uppercase" *ngIf="showSP">Specialized Procedure</h3>
+				<!-- <form (ngSubmit)="addSP()" [formGroup]="spFormGroup"> -->
+				<div class="form-group" *ngIf="showSP">
+					<div class="label">Specialized Procedure</div>
+					<div class="input-field">
+						<!-- <select name="specialized_procedure" formControlName="formsp_procedure">
+							<option  *ngFor="let sp of spList; let i = index" value="{{sp.code}}">{{sp.description}}</option>
+						</select> -->
+						<input type="text" (keyup)="onInputSP($event)" name="specialized_procedure" formControlName="formsp_procedure"/>
+						  <ion-list *ngIf="showSPList">
+						    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP(i)">
+						      {{sp.description}}
+						    </ion-item>
+						  </ion-list>
+					</div>
+				</div>
+				<!-- <br/> -->
+				<input type="hidden" formControlName="formsp_procedurePayh"  />
+				<input type="hidden" formControlName="formsp_procedureFeeh"  />
+				<div class="form-group" *ngIf="showSP">
+					<div class="row bottom-xs">
+						<div class="col-xs-4">
+							<div class="label">Price</div>
+							<div class="input-field">
+								<input type="number" formControlName="formsp_procedurePrice" (keyup)="onInputChangeSPprice($event)"/>
+							</div>
+						</div>
+						<div class="col-xs-8" style="padding: 0 0 0 10px;" *ngIf="showSPbtn">
+							<div  class="btn btn-yellow add-specialized" (click)="addSPForm('sp_1')">Add Specialized Procedure</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- *******  SP 1 ******* -->
+				<div class="form-group" *ngIf="showSP1">
+					<div class="label">Specialized Procedure</div>
+					<div class="input-field">
+						<input type="text" (keyup)="onInputSP1($event)" name="specialized_procedure" formControlName="formsp_procedure1"/>
+						  <ion-list *ngIf="showSPList1">
+						    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP1(i)">
+						      {{sp.description}}
+						    </ion-item>
+						  </ion-list>
+					</div>
+				</div>
+				<input type="hidden" formControlName="formsp_procedurePayh1"  />
+				<input type="hidden" formControlName="formsp_procedureFeeh1"  />
+				<div class="form-group" *ngIf="showSP1">
+					<div class="row bottom-xs">
+						<div class="col-xs-4">
+							<div class="label" >Price</div>
+							<div class="input-field">
+								<input type="number" formControlName="formsp_procedurePrice1" (keyup)="onInputChangeSPprice1($event)"/>
+							</div>
+						</div>
+						<div class="col-xs-8" style="padding: 0 0 0 10px;" *ngIf="showSPbtn1">
+							<div  class="btn btn-yellow add-specialized" (click)="addSPForm('sp_2')">Add Specialized Procedure</div>
+						</div>
+					</div>
+				</div>
+
+				
+				<!-- *******  SP 2 ******* -->
+				<div class="form-group" *ngIf="showSP2">
+					<div class="label">Specialized Procedure</div>
+					<div class="input-field">
+						<input type="text" (keyup)="onInputSP2($event)" name="specialized_procedure" formControlName="formsp_procedure2"/>
+						  <ion-list *ngIf="showSPList2">
+						    <ion-item *ngFor="let sp of spList; let i = index" (click)="selectedSP2(i)">
+						      {{sp.description}}
+						    </ion-item>
+						  </ion-list>
+					</div>
+				</div>
+				<input type="hidden" formControlName="formsp_procedurePayh2"  />
+				<input type="hidden" formControlName="formsp_procedureFeeh2"  />
+				<div class="form-group" *ngIf="showSP2">
+					<div class="row bottom-xs">
+						<div class="col-xs-4">
+							<div class="label" >Price</div>
+							<div class="input-field">
+								<input type="number" formControlName="formsp_procedurePrice2" (keyup)="onInputChangeSPprice2($event)"/>
+							</div>
+						</div>
+						<!-- <div class="col-xs-8" style="padding: 0 0 0 10px;">
+							<div  class="btn btn-yellow add-specialized" (click)="addSPForm()">Add Specialized Procedure</div>
+						</div> -->
+					</div>
+				</div>
+				<br>
+				<div class="totals" *ngIf="showSP">
+					<div class="total-section row">
+						<div class="label col-xs-6 row middle-xs">Total Specialized Procedure to Pay</div>
+						<div class="price col-xs-6 row middle-xs" >
+							<div class="col-xs-auto">
+								<input type="number" formControlName="formsp_procedurePay"  />
+							</div>
+							<div class="currency">[SGD]</div>
+						</div>
+					</div>
+					<div class="total-section row">
+						<div class="label col-xs-6 row middle-xs">Total Specialized Procedure Fee</div>
+						<div class="price col-xs-6 row middle-xs">
+							<div class="col-xs-auto">
+								<input type="number" formControlName="formsp_procedureFee" />
+							</div>
+							<div class="currency">[SGD]</div>
+						</div>
+					</div>
+				</div>
+				<br>
+			</div>
 	
 			<!-- </form> -->
 			<div class="form-group">
@@ -423,7 +420,7 @@
 			<p style="font-size: 12px;">(PNG, JPG, PDF and TIFF images only)</p>
 			<div class="upload-container">
 				<div class="actions row middle-xs">
-					<div class="filename"><input type="text" value="{{imageNameBefore}}" style="background-color: transparent " disabled /></div>
+					<div class="filename"><input type="text" formControlName="fileUpload"  value="{{imageNameBefore}}" style="background-color: transparent;width:100%; " /></div>
 					<div class="btn-actions" style="width:100%">
 						<div class="row" >
 							<div class="col-xs-6 has-padR browse-container">
@@ -440,7 +437,7 @@
 					<div class="img row middle-xs" (click)="previewImage(i)">
 						<img src="./assets/img/pdf-icon.png" *ngIf="img._FileType.toLowerCase() == 'pdf'"/>
 						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(img._FilePathUrl)" *ngIf="img._FileType.toLowerCase() != 'pdf'"/>
-						<div class="file-name">{{img._AcutalFileName}}</div>
+						<div class="file-name" style="width:60%;">{{img._AcutalFileName}}</div>
 					</div>
 					<div class="delete" (click)="removeImage(i)"><i class="fa fa-times" aria-hidden="true" ></i></div>
 				</div>
@@ -482,11 +479,6 @@
 						<!-- <div type="submit" class="btn btn-gray" (click)="backButtonClick()">Back</div> -->
 					</div>	
 				</div>
-			</div>
-			<div class="error-message row middle-xs">
-				<div class="close-message"><i class="fa fa-times" aria-hidden="true"></i></div>
-			    <div class="icon"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></div>
-			    <div class="message"><strong>Error:</strong> You have exceeded your claims.</div>
 			</div>
 		</div>
 		</form>

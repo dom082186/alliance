@@ -53,6 +53,8 @@ export class MyApp {
   public memberNetwork: any;
   appMemInfo: any;
   appMemNetwork: any;
+  arsNRIC: any;
+  arsNetwork: any;
 
 
   pages: Array<{title: string, component: any, icon: string, class: any, close:any}>;
@@ -130,11 +132,13 @@ export class MyApp {
                 }
         });
 
-        var loginInfo = this.storage.get('memInfo');
+        //var loginInfo = this.storage.get('memInfo');
         //console.log(this.pages);
 
           events.subscribe('user:created', (user, network) => {
-            // user and time are the same arguments passed in `events.publish(user, time)
+            this.arsNRIC = user[0].MemberNRIC;
+            this.arsNetwork = network;
+            
             this.pages = [
                 { title: 'Home', component: HomePage, icon: './assets/img/icons/home.png', class: '', close: 'true' },
                 { title: 'Clinics Locator', component: ClinicslocatorPage, icon: './assets/img/icons/clinics-locator.png', class: '', close: 'true' },
@@ -147,6 +151,7 @@ export class MyApp {
                 { title: 'Terms & Conditions', component: TermsconditionsPage, icon: './assets/img/icons/tnc.png', class: '', close: 'true' },
                 { title: 'Logout', component: LoginNonmedinetPage, icon: './assets/img/icons/login.png', class: '', close: 'true' }
             ];
+
             if(user.length > 0){
                 this.appMemInfo = user;
                 this.appMemNetwork = network;

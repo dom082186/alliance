@@ -9,10 +9,8 @@ import { AddSpServiceProvider } from '../../providers/add-sp-service/add-sp-serv
 
 
 import { TermsconditionsPage } from '../termsconditions/termsconditions';
-import { SubmitclaimsPage } from '../submitclaims/submitclaims';
 import { ClaimsPage } from '../claims/claims';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
-import { LoginPage } from '../login/login';
 
 
 @IonicPage()
@@ -58,7 +56,7 @@ export class SubmitClaimDetailsPage {
 
 	ionViewDidLoad() {
 		this.showLoader();
-		if(this.submitSP != undefined){
+		if(this.submitSP.length > 0){
 			this.addProcedure();
 		}else{
 			this.calculateClaim();
@@ -252,19 +250,7 @@ export class SubmitClaimDetailsPage {
 			    });
 			}else{
 				this.loading.dismiss();
-				let alert = this.alertCtrl.create({
-	                title: 'Alert',
-	                message: 'File attachement is required',
-	                enableBackdropDismiss: false,
-	                buttons: [{
-	                      text: 'OK',
-	                      role: 'Cancel',
-	                      handler: () => {
-                        	return;
-	                    }
-	                  }]
-	              });
-	              alert.present();
+				console.log('no file attachment')
 			}
 		
 				

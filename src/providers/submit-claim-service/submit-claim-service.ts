@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http,RequestOptions,Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AlertController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 
 let apiUrl = 'http://118.201.197.142/api/';
 
@@ -304,6 +303,8 @@ export class SubmitClaimServiceProvider {
 			for(let key in params) {
 				str.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
 			}
+			console.log('params-service')
+			console.log(params)
 
 			this.http
 				.post(link, str.join('&'), opts)
@@ -327,6 +328,7 @@ export class SubmitClaimServiceProvider {
 					alert.present();
 					reject(e);
 				});
+			this.data = "";	
 		});
 	}
 

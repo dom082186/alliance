@@ -8,7 +8,7 @@ import { ClaimdetailsPage } from '../claimdetails/claimdetails';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
-import { LoginPage } from '../login/login';
+import { HomePage } from '../home/home';
 
 
 
@@ -145,7 +145,6 @@ export class ClaimsPage {
 
           this.claimService.getClaimsAPI(this.params).then((result) => {
               this.loading.dismiss();
-              console.log(result);
 
               if(result.Status == "Failed"){
                 let alert = this.alertCtrl.create({
@@ -461,18 +460,19 @@ export class ClaimsPage {
   backButtonClick()
 	{
     
-    if(this.successSubmit !=undefined){
-    	this.navCtrl.push(LoginPage,{successSubmit: undefined}).then(() => {
-          //this.navCtrl.remove(0,3);
-      });
-      this.successSubmit = undefined;
-    }else{
-      this.navCtrl.pop({});
-    }
+    // if(this.successSubmit !=undefined){
+    // 	this.navCtrl.push(Homepa,{successSubmit: undefined}).then(() => {
+    //       //this.navCtrl.remove(0,3);
+    //   });
+    //   this.successSubmit = undefined;
+    // }else{
+    //   this.navCtrl.pop({});
+    // }
+    this.navCtrl.setRoot(HomePage)
 	}
 
   gotoSubmitClaims(){
-    this.navCtrl.push( SubmitclaimsPage );
+    this.navCtrl.push( SubmitclaimsPage,{claimName: this.claimForm['claimName']} );
   }
 
   deleteSubmitClaimpage(){

@@ -89,7 +89,6 @@ export class LoginServiceProvider {
 		//var header = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
 		//var opts = new RequestOptions({ headers: header });
   		var link = "http://118.201.197.142/api/program/list";
-        var url = link;
         var response = this.http.get(link).map(res => res.json());
         return response;
 	};

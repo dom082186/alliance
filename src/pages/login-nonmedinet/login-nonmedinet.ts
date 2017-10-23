@@ -16,7 +16,6 @@ import { AlertController } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
-import {SelectModule} from 'ng2-select';
 
 declare var require: any
 declare var google;
@@ -236,7 +235,6 @@ export class LoginNonmedinetPage {
 
 							//====== TEST
 							this.storage.set('loginInfo', {usernric: 'S7724356C', network: 'AHC', membertype: 'member'})
-
 
 					    }
 

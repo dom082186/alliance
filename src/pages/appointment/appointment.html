@@ -15,7 +15,10 @@
 </ion-header>
 <ion-content>
     <div class="iframe-container" >
-        <iframe src="https://ars.alliancehealthcare.com.sg/#/registration" width="100%" height="100%" (load)="dismissLoading()"></iframe>
+        <!-- <iframe src="https://ars.alliancehealthcare.com.sg/#/registration" width="100%" height="100%" (load)="dismissLoading()"></iframe> -->
+        <iframe [src]="arsURL" width="100%" height="100%" ></iframe>
+        <!-- {{arsURL}} -->
+        
     </div>
 </ion-content>
 <ion-footer>

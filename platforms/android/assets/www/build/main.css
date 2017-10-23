@@ -32408,6 +32408,11 @@ h3 {
   color: #fff;
 }
 
+.btn-violet {
+  background: #3f47cc;
+  color: #fff;
+}
+
 .btn-back {
   margin: 0 0 15px;
 }
@@ -34318,6 +34323,34 @@ page-submitclaims .add-specialized {
 page-submitclaims .filename {
   width: 100% !important;
   padding: 5px 0px;
+}
+
+page-submitclaims .error-message {
+  border: 1px solid #c93a26;
+  background: #fadcdb;
+  padding: 10px;
+  border-radius: 3px;
+  position: relative;
+}
+
+page-submitclaims .error-message .icon {
+  margin: 0 10px 0 0;
+  color: #c93a26;
+}
+
+page-submitclaims .error-message .close-message {
+  color: #d89793;
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+page-submitclaims .error-message .message {
+  font: 0.857em/1.45 "Helvetica-Light";
+}
+
+page-submitclaims .error-message .message strong {
+  font: 1em/1.45 "Helvetica-Bold";
 }
 
 page-termsconditions .header-ios .title-ios {

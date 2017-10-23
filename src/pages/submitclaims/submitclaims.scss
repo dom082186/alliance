@@ -61,7 +61,8 @@ page-submitclaims {
 	}
 
 	.filename {
-		width:100% !important; padding:5px 0px
+		width:100% !important; padding:5px 0px;
+	}
 
 	.error-message {
 		border: 1px solid #c93a26;
@@ -89,5 +90,6 @@ page-submitclaims {
 				font: 1em/1.45 $bold;
 			}
 		}
+	}
 
 }

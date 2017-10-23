@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 
-import { OnboardPage } from '../onboard/onboard';
-import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 import { ClaimsPage } from '../claims/claims';
 
@@ -60,6 +58,7 @@ export class LoginPage {
 		    this.getNetwork();
 
 		});
+
 	}
 
 	getNetwork(){
@@ -91,7 +90,7 @@ export class LoginPage {
 
 			this.showLoader();
 			var sha512 = require('sha512')
-			var hash = sha512('P@ssw0rd');//sha512(this.login['password'])//
+			var hash = sha512('P@ssw0rd');// sha512(this.login['password'])//
 
 			//this.loginCredentials = "usernric=S8124356A&network=ntuc"+ "&password=" + hash.toString('hex');	
 			this.loginCredentials = "usernric=" + this.memberInfo[0].MemberNRIC + "&network=" + this.memberNetwork + "&password=" + hash.toString('hex');

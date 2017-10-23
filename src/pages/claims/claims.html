@@ -32,6 +32,11 @@
                             <!-- <option value="{{(memberInfo | async)?.MemberNRIC}}" >{{(memberInfo | async)?.MemberName}}</option>   -->
                         </select>
                     </div>
+                    <div class="btn-panel row middle-xs" style="display: inline-block;width: 100%;" align="center">
+                        <div class="col-xs-12 ">
+                            <a href="#" class="btn btn-violet" (click)="gotoSubmitClaims()">Add Claims</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 has-padR">
@@ -54,14 +59,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="btn-panel row middle-xs" style="display: inline-block;width: 100%;" align="center">
+                <div class="btn-panel row middle-xs" style="display: inline-block;width: 100%;margin:10px 0px" align="center">
                     <div class="col-xs-6 ">
                         <!-- <a href="#" class="btn btn-yellow">Search</a> -->
                         <button class="btn btn-yellow" type="submit">Search</button>
-                    </div>
-                    <div class="col-xs-6 ">
-                        <a href="#" class="btn btn-gray" (click)="gotoSubmitClaims()">Add Claims</a>
-                        
                     </div>
                 </div>
             </div>

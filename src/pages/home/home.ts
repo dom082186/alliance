@@ -7,13 +7,13 @@ import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser'
 
 import { ClinicslocatorPage } from '../clinicslocator/clinicslocator';
 import { CheckbalancePage } from '../checkbalance/checkbalance';
-import { ClaimsPage } from '../claims/claims';
 import { EcardPage } from '../ecard/ecard';
 import { AboutusPage } from '../aboutus/aboutus';
 import { ContactusPage } from '../contactus/contactus';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { LoginPage } from '../login/login';
 import { AppointmentPage } from '../appointment/appointment';
+import { ClaimsPage } from '../claims/claims';
 
 
 declare var window;
@@ -51,6 +51,7 @@ export class HomePage {
 	isAccountHasClaims: boolean = false;
 	isAccountAviva: boolean = false;
 	isDependent: boolean = false;
+	isLoggedMedinet:boolean = false;
 
 	
 	constructor ( public navCtrl: NavController, public loginService: LoginServiceProvider,public storage: Storage, 
@@ -60,13 +61,12 @@ export class HomePage {
 
 		this.getData();
 		this.menu.swipeEnable(false);
-
 	}
-
 
 
 	ionViewDidEnter() {
     	this.menu.swipeEnable(false);
+    	
   	}
 
 	getData(){
@@ -108,7 +108,18 @@ export class HomePage {
 
 	gotoClaims() {
 		//this.navCtrl.push( ClaimsPage );	
-		this.navCtrl.push(LoginPage);
+		// if(this.isLoggedMedinet){
+		// 	this.navCtrl.push(ClaimsPage);
+		// }else{
+		// 	this.navCtrl.push(LoginPage);
+		// }
+		this.storage.get('claimMemInfo').then((val1) => {
+		    if(val1){
+		    	this.navCtrl.push(ClaimsPage);
+		    }else{
+		    	this.navCtrl.push(LoginPage);
+		    }
+		});	
 	}
 
 	gotoAboutUs() {
@@ -126,9 +137,9 @@ export class HomePage {
 	}
 
 	gotoARS(){
-		this.storage.clear().then(() => {
+		//this.storage.clear().then(() => {
 	      this.navCtrl.push( AppointmentPage );
-	    });
+	    //});
 	}
 
 	public openWithSystemBrowser(url : string){
