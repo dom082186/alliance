@@ -15,56 +15,36 @@
 </ion-header>
 <ion-content>
     <div class="checkBalance-content has-header has-copyright">
-        
         <div class="checkBalance-details">
-        <div class="col-xs-auto select-container" *ngIf="hasDependents">
-            <select [(ngModel)]="balance.name" name="name" (change)="onChange(balance.name)"> 
-                <option  *ngFor="let name of memberInfo1; let i = index" [value]="i" >{{name.MemberName}}</option>
-                    <!-- <option *ngFor="let name of memberInfo">{{name.MemberName}}</option> -->
-            </select>
+            <div class="total-balance">
+                <div class="text-xs-uppercase">Total Annual Limit Balance</div>
+                <h1>S$ <span>157.50</span></h1>
+            </div> <!-- end of .total-balance -->
+            <div class="section-container">
+                <div class="section-details">
+                    <div class="title">Your Plan Details</div>
+                    <div class="section-row row middle-xs between-xs">
+                        <div class="keyLabel">NRIC/FIN</div>
+                        <div class="info">S123456789</div>
+                    </div>
+                    <div class="section-row row middle-xs between-xs">
+                        <div class="keyLabel">Member Name</div>
+                        <div class="info">testprorate</div>
+                    </div>
+                    <div class="section-row row middle-xs between-xs">
+                        <div class="keyLabel">Company Name</div>
+                        <div class="info">Alliance Test Company 2</div>
+                    </div>
+                    <div class="section-row row middle-xs between-xs">
+                        <div class="keyLabel">Last Modified Date</div>
+                        <div class="info">23/05/2017</div>
+                    </div>
+                </div> <!-- end of .section-details -->
+                <div class="section-details">
+                    <div class="title">Remarks</div>
+                </div>
+            </div>
         </div>
-            <div class="section-details">
-                <div class="title">Your Plan Details</div>
-                <div class="info row between-xs">
-                    <div class="label col-xs-6">NRIC/FIN</div>
-                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.MemberNRIC}}</div>
-                </div>
-                <div class="info row between-xs">
-                    <div class="label col-xs-6">Member Name</div>
-                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.MemberName}}</div>
-                </div>
-                <div class="info row between-xs">
-                    <div class="label col-xs-6">Company Name</div>
-                    <div class="details col-xs-6 text-xs-right">{{(memberInfo | async)?.CompanyName}}</div>
-                </div>
-                <div class="info row between-xs">
-                    <div class="label col-xs-6">Last Modified Date</div>
-                    <!-- <div class="details col-xs-6 text-xs-right">{{dateModified | date: 'MM/dd/yyyy'}}</div> -->
-                    <div class="details col-xs-6 text-xs-right">{{(balanceRemarks | async)?.BenefitModifiedDate}} </div>
-                </div>
-            </div> <!-- end of .section-details -->
-            <div class="section-details">
-                <div class="title">Annual Limit Details</div>
-                <!--  *ngFor="let thisKey of annualLimitDetails | key" {{thisKey.key}}-->
-                <div class="info row between-xs" *ngFor="let annual of annualLimitValue">
-                    <div class="label col-xs-6 keyLabel" >{{annual.key}}</div>
-                    <div class="details col-xs-6 text-xs-right" >{{annual.value}}</div>
-                </div>
-            </div>
-
-            <div class="section-details">
-                <div class="title">Independent Annual Limit Details</div>
-                <!--  *ngFor="let thisKey of annualLimitDetails | key" {{thisKey.key}}-->
-                <div class="info row between-xs" *ngFor="let independent of independentAnnualValue">
-                    <div class="label col-xs-6 keyLabel" >{{independent.key}}</div>
-                    <div class="details col-xs-6 text-xs-right" >{{independent.value}}</div>
-                </div>
-            </div>
-            <div class="section-details">
-                <div class="title">Remarks</div>
-                <div>{{(balanceRemarks | async)?.Remarks}}</div>
-            </div>
-        </div> <!-- end of .checkBalance-details -->
     </div> <!-- end of .checkBalance-content -->
 </ion-content>
 <ion-footer>

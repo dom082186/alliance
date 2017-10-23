@@ -7,27 +7,49 @@ page-checkbalance {
 		&-details {
 			background: #fff;
 
-			.section-details {
-				margin: 0;
-				padding: 20px 10px;
+			.total-balance {
+				background: $gold;
+				padding: 20px 15px;
+				color: #fff;
+				margin: 0 0 20px;
 
-				.title {
-					font: 14px/1.45 $bold;
-					text-transform: uppercase;
-					text-decoration: underline;
-					margin: 0 0 20px;
+				> div {
+					color: #fff;
 				}
+			}
 
-				.info {
-					margin: 0 0 5px;
+			.section-container {
+				padding: 0 10px;
 
-					.details {
-						font: 12px/1.45 $bold;
+				.section-details {
+					margin: 0;
+					border: 1px solid #ddd;
+
+					.title {
+						font: 14px/1.45 $light;
+						text-transform: uppercase;
+						background: #ddd;
+						padding: 5px 10px;
 					}
-				}
 
-				.keyLabel {
-					font-size: 12px !important; 
+					.section-row {
+						padding: 5px 10px;
+						
+						&:not( :first-child ) {
+							border-top: 1px solid #ddd;
+						}
+
+						.keyLabel {
+							font: 12px/1.45 $light;
+							width: 50%;
+						}
+
+						.info {
+							font: 12px/1.45 $bold;
+							width: 50%;
+							text-align: right;
+						}
+					}
 				}
 			}
 
