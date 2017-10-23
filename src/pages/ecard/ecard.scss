@@ -143,16 +143,6 @@ page-ecard {
 					     .content {
 					      font: 10px/1.45 $medium;
 					     }
-
-					     @media screen and ( max-width: 375px ) {
-					      .label {
-					       font: 8px/1.45 $medium;
-					      }
-
-					      .content {
-					       font: 8px/1.45 $medium;
-					      }
-					     }
 					}
 				}
 			}
