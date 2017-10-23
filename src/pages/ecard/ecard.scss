@@ -33,124 +33,133 @@ page-ecard {
 			}
 		}
 
-		.flip-container {
-			margin: 0 0 15px;
-			-webkit-perspective: 1000;
-			        perspective: 1000;
+		.card-container {
+			transform: rotate(90deg);
+			transform-origin: center;
+			width: 384px;
+		    height: 275px;
+		    padding-top: 5%;
+		    top: 50px;
+		    position: relative;
 
-			&.flip {
+			.flip-container {
+				-webkit-perspective: 1000;
+				        perspective: 1000;
+
+				&.flip {
+					.flipper {
+						-webkit-transform: rotateY(-180deg);
+						-moz-transform: rotateY(-180deg);
+						-o-transform: rotateY(-180deg);
+						-ms-transform: rotateY(-180deg);
+						transform: rotateY(-180deg)
+					}
+				}
+
 				.flipper {
-					-webkit-transform: rotateY(-180deg);
-					-moz-transform: rotateY(-180deg);
-					-o-transform: rotateY(-180deg);
-					-ms-transform: rotateY(-180deg);
-					transform: rotateY(-180deg)
-				}
-			}
-
-			.flipper {
-				width: 100%;
-				margin: 0 auto;
-				transition: 0.6s;
-				-webkit-transition: 0.6s;
-				-moz-transition: 0.6s;
-				-o-transition: 0.6s;
-				-ms-transition: 0.6s;
-				transform-style: preserve-3d;
-				-webkit-transform-style: preserve-3d;
-				-moz-transform-style: preserve-3d;
-				-o-transform-style: preserve-3d;
-				-ms-transform-style: preserve-3d;
-				position: relative;
-
-				.front {
 					width: 100%;
-					-webkit-backface-visibility: hidden;
-					-moz-backface-visibility: hidden;
-					-o-backface-visibility: hidden;
-					backface-visibility: hidden;
-					position: absolute;
-					top: 0;
-					left: 0;
-					z-index: 2;
-					-webkit-transform: rotateY(0deg);
-					-moz-transform: rotateY(0deg);
-					-o-transform: rotateY(0deg);
-					-ms-transform: rotateY(0deg);
-					transform: rotateY(0deg);
-				}
+					margin: 0 auto;
+					transition: 0.6s;
+					-webkit-transition: 0.6s;
+					-moz-transition: 0.6s;
+					-o-transition: 0.6s;
+					-ms-transition: 0.6s;
+					transform-style: preserve-3d;
+					-webkit-transform-style: preserve-3d;
+					-moz-transform-style: preserve-3d;
+					-o-transform-style: preserve-3d;
+					-ms-transform-style: preserve-3d;
+					position: relative;
 
-				.back {
-					width: 100%;
-					-webkit-backface-visibility: hidden;
-					-moz-backface-visibility: hidden;
-					-o-backface-visibility: hidden;
-					backface-visibility: hidden;
-					position: absolute;
-					top: 0;
-					left: 0;
-					-webkit-transform: rotateY(180deg);
-					-moz-transform: rotateY(180deg);
-					-o-transform: rotateY(180deg);
-					transform: rotateY(180deg);
-				}
-
-				.card {
-					width: 100%;
-
-					img {
+					.front {
+						width: 100%;
+						-webkit-backface-visibility: hidden;
+						-moz-backface-visibility: hidden;
+						-o-backface-visibility: hidden;
+						backface-visibility: hidden;
 						position: absolute;
-						z-index: 1;
 						top: 0;
 						left: 0;
-						width: 100%;
+						z-index: 2;
+						-webkit-transform: rotateY(0deg);
+						-moz-transform: rotateY(0deg);
+						-o-transform: rotateY(0deg);
+						-ms-transform: rotateY(0deg);
+						transform: rotateY(0deg);
 					}
 
-					.card-details {
-				      position: absolute;
-				      z-index: 2;
-				      top: 0;
-				      left: 0;
-				      width: 100%;
-				      height: 100%;
-				      padding: 20% 15px 10px 7%;
+					.back {
+						width: 100%;
+						-webkit-backface-visibility: hidden;
+						-moz-backface-visibility: hidden;
+						-o-backface-visibility: hidden;
+						backface-visibility: hidden;
+						position: absolute;
+						top: 0;
+						left: 0;
+						-webkit-transform: rotateY(180deg);
+						-moz-transform: rotateY(180deg);
+						-o-transform: rotateY(180deg);
+						transform: rotateY(180deg);
+					}
 
-				      &.card-axa {
-				      	padding-top: 27%;
-				      }
+					.card {
+						width: 100%;
 
-				      &.card-p3 {
-				      	padding-top: 13%;
-				      }
-				      &.card-ntuc {
-						padding-top: 16%;
-				      }
-				     }
+						img {
+							position: absolute;
+							z-index: 1;
+							top: 0;
+							left: 0;
+							width: 100%;
+						}
 
-				     .label {
-				      font: 10px/1.45 $medium;
-				      margin: 0 2px 0 0;
-				     }
+						.card-details {
+					      position: absolute;
+					      z-index: 2;
+					      top: 0;
+					      left: 0;
+					      width: 100%;
+					      height: 100%;
+					      padding: 20% 15px 10px 7%;
 
-				     .content {
-				      font: 10px/1.45 $medium;
-				     }
+					      &.card-axa {
+					      	padding-top: 27%;
+					      }
 
-				     @media screen and ( max-width: 375px ) {
-				      .label {
-				       font: 8px/1.45 $medium;
-				      }
+					      &.card-p3 {
+					      	padding-top: 13%;
+					      }
+					      &.card-ntuc {
+							padding-top: 16%;
+					      }
+					     }
 
-				      .content {
-				       font: 8px/1.45 $medium;
-				      }
-				     }
+					     .label {
+					      font: 10px/1.45 $medium;
+					      margin: 0 2px 0 0;
+					     }
+
+					     .content {
+					      font: 10px/1.45 $medium;
+					     }
+
+					     @media screen and ( max-width: 375px ) {
+					      .label {
+					       font: 8px/1.45 $medium;
+					      }
+
+					      .content {
+					       font: 8px/1.45 $medium;
+					      }
+					     }
+					}
 				}
 			}
 		}
 
 		.card-bottom-text {
-			margin-top: 250px;
+			margin-top: 120px;
 
 			h3 {
 				font: 16px/1.45 $light;
