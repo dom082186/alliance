@@ -200,6 +200,7 @@ export class SubmitClaimServiceProvider {
 					alert.present();
 			        reject(e);
 			});
+			    this.data = "";
 		})
 
 	}
@@ -422,6 +423,7 @@ export class SubmitClaimServiceProvider {
 					alert.present();
 					reject(e);
 				});
+			this.data = "";	
 		});
 	}		
 

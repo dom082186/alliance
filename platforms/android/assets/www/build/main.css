@@ -32901,28 +32901,50 @@ page-checkbalance .checkBalance-details {
   background: #fff;
 }
 
-page-checkbalance .checkBalance-details .section-details {
-  margin: 0;
-  padding: 20px 10px;
-}
-
-page-checkbalance .checkBalance-details .section-details .title {
-  font: 14px/1.45 "Helvetica-Bold";
-  text-transform: uppercase;
-  text-decoration: underline;
+page-checkbalance .checkBalance-details .total-balance {
+  background: #eea52e;
+  padding: 20px 15px;
+  color: #fff;
   margin: 0 0 20px;
 }
 
-page-checkbalance .checkBalance-details .section-details .info {
-  margin: 0 0 5px;
+page-checkbalance .checkBalance-details .total-balance > div {
+  color: #fff;
 }
 
-page-checkbalance .checkBalance-details .section-details .info .details {
+page-checkbalance .checkBalance-details .section-container {
+  padding: 0 10px;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details {
+  margin: 0;
+  border: 1px solid #ddd;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details .title {
+  font: 14px/1.45 "Helvetica-Light";
+  text-transform: uppercase;
+  background: #ddd;
+  padding: 5px 10px;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details .section-row {
+  padding: 5px 10px;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details .section-row:not(:first-child) {
+  border-top: 1px solid #ddd;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details .section-row .keyLabel {
+  font: 12px/1.45 "Helvetica-Light";
+  width: 50%;
+}
+
+page-checkbalance .checkBalance-details .section-container .section-details .section-row .info {
   font: 12px/1.45 "Helvetica-Bold";
-}
-
-page-checkbalance .checkBalance-details .section-details .keyLabel {
-  font-size: 12px !important;
+  width: 50%;
+  text-align: right;
 }
 
 page-checkbalance .checkBalance-details .select-container {
@@ -33772,18 +33794,29 @@ page-ecard .ecard-content .ecard-title .select-container select {
   border-radius: 5px;
 }
 
-page-ecard .ecard-content .flip-container {
-  margin: 0 0 15px;
+page-ecard .ecard-content .card-container {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -webkit-transform-origin: center;
+  transform-origin: center;
+  width: 384px;
+  height: 275px;
+  padding-top: 5%;
+  top: 50px;
+  position: relative;
+}
+
+page-ecard .ecard-content .card-container .flip-container {
   -webkit-perspective: 1000;
   perspective: 1000;
 }
 
-page-ecard .ecard-content .flip-container.flip .flipper {
+page-ecard .ecard-content .card-container .flip-container.flip .flipper {
   -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
 }
 
-page-ecard .ecard-content .flip-container .flipper {
+page-ecard .ecard-content .card-container .flip-container .flipper {
   width: 100%;
   margin: 0 auto;
   transition: 0.6s;
@@ -33799,7 +33832,7 @@ page-ecard .ecard-content .flip-container .flipper {
   position: relative;
 }
 
-page-ecard .ecard-content .flip-container .flipper .front {
+page-ecard .ecard-content .card-container .flip-container .flipper .front {
   width: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -33811,7 +33844,7 @@ page-ecard .ecard-content .flip-container .flipper .front {
   transform: rotateY(0deg);
 }
 
-page-ecard .ecard-content .flip-container .flipper .back {
+page-ecard .ecard-content .card-container .flip-container .flipper .back {
   width: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -33822,11 +33855,11 @@ page-ecard .ecard-content .flip-container .flipper .back {
   transform: rotateY(180deg);
 }
 
-page-ecard .ecard-content .flip-container .flipper .card {
+page-ecard .ecard-content .card-container .flip-container .flipper .card {
   width: 100%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card img {
+page-ecard .ecard-content .card-container .flip-container .flipper .card img {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -33834,7 +33867,7 @@ page-ecard .ecard-content .flip-container .flipper .card img {
   width: 100%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .card-details {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .card-details {
   position: absolute;
   z-index: 2;
   top: 0;
@@ -33844,38 +33877,29 @@ page-ecard .ecard-content .flip-container .flipper .card .card-details {
   padding: 20% 15px 10px 7%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .card-details.card-axa {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .card-details.card-axa {
   padding-top: 27%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .card-details.card-p3 {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .card-details.card-p3 {
   padding-top: 13%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .card-details.card-ntuc {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .card-details.card-ntuc {
   padding-top: 16%;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .label {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .label {
   font: 10px/1.45 "Helvetica-Medium";
   margin: 0 2px 0 0;
 }
 
-page-ecard .ecard-content .flip-container .flipper .card .content {
+page-ecard .ecard-content .card-container .flip-container .flipper .card .content {
   font: 10px/1.45 "Helvetica-Medium";
 }
 
-@media screen and (max-width: 375px) {
-  page-ecard .ecard-content .flip-container .flipper .card .label {
-    font: 8px/1.45 "Helvetica-Medium";
-  }
-  page-ecard .ecard-content .flip-container .flipper .card .content {
-    font: 8px/1.45 "Helvetica-Medium";
-  }
-}
-
 page-ecard .ecard-content .card-bottom-text {
-  margin-top: 250px;
+  margin-top: 120px;
 }
 
 page-ecard .ecard-content .card-bottom-text h3 {
@@ -33885,6 +33909,12 @@ page-ecard .ecard-content .card-bottom-text h3 {
 
 page-ecard .ecard-content .card-bottom-text .validation {
   font: 18px/1.45 "Helvetica-Bold";
+}
+
+@media screen and (max-width: 320px) {
+  page-ecard .content-ios .ecard-content .card-container {
+    padding-top: 30%;
+  }
 }
 
 page-home .home-content .home-menu {

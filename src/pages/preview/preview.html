@@ -10,8 +10,8 @@
     <div class="claimDetails-content">
         <div class="bg-white" style="width:80%">
             <div class="claim-details">
-                <img [src]="_DomSanitizer.bypassSecurityTrustUrl((attachmentDetails | async)?._FilePathUrl)" style="width:100%;height:80%" *ngIf="(attachmentDetails | async)?._ImageContent != undefined"/>
-                <img src="{{(attachmentDetails | async)?._FilePathUrl}}" style="width:100%;height:100%" *ngIf="(attachmentDetails | async)?._ImageContent == undefined"/>
+                <img [src]="_DomSanitizer.bypassSecurityTrustUrl((attachmentDetails | async)?._FileContent)" style="width:100%;height:80%" *ngIf="(attachmentDetails | async)?._ImageContent != undefined"/>
+                <img src="{{(attachmentDetails | async)?._FileContent}}" style="width:100%;height:100%" *ngIf="(attachmentDetails | async)?._ImageContent == undefined"/>
                 <!-- <img  [src]="_DomSanitizer.bypassSecurityTrustUrl(attachmentURL)" *ngIf="attachmentFileType.toLowerCase() != 'pdf'"/>
                 <img src="./assets/img/pdf-icon.png" *ngIf="attachmentFileType == '.pdf'"/> -->
                 <p>{{(attachmentDetails | async)?._AcutalFileName}}</p>

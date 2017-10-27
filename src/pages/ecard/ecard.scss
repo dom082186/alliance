@@ -160,8 +160,15 @@ page-ecard {
 				font: 18px/1.45 $bold;
 			}
 		}
+	}
 
-		
-		
+	@media screen and ( max-width: 320px ) {
+		.content-ios {
+			.ecard-content {
+				.card-container {
+					padding-top: 30%;
+				}
+			}
+		}
 	}
 }

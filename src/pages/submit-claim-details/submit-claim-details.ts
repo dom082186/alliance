@@ -147,7 +147,6 @@ export class SubmitClaimDetailsPage {
 	        this.loading.dismiss();
 	    });
 
-
 	}
 
 	calculateClaim(){
@@ -405,7 +404,7 @@ export class SubmitClaimDetailsPage {
 	        	if(result1.ClaimID == "00000000-0000-0000-0000-000000000000"){
 	        		let alert = this.alertCtrl.create({
 		                title: 'Alert',
-		                message: 'Sorry claim is not successfully submitted',
+		                message: 'Sorry claim was not successfully submitted',
 		                enableBackdropDismiss: false,
 		                buttons: [{
 		                      text: 'OK',

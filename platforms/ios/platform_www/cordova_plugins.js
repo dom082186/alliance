@@ -325,7 +325,6 @@ module.exports.metadata =
 {
     "com-badrit-base64": "0.2.0",
     "cordova-plugin-add-swift-support": "1.7.0",
-    "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-camera": "2.4.1",
     "cordova-plugin-console": "1.0.5",
     "cordova-plugin-device": "1.1.4",
@@ -337,7 +336,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-whitelist": "1.3.1",
     "ionic-plugin-keyboard": "2.2.1",
-    "onesignal-cordova-plugin": "2.2.0"
+    "onesignal-cordova-plugin": "2.2.0",
+    "cordova-plugin-compat": "1.2.0"
 };
 // BOTTOM OF METADATA
 });

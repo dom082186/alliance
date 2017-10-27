@@ -16,7 +16,13 @@
 <ion-content>
     <div class="checkBalance-content has-header has-copyright">
         <div class="checkBalance-details">
-            <div class="total-balance">
+            <div class="col-xs-auto select-container" *ngIf="hasDependents">
+                <select [(ngModel)]="balance.name" name="name" (change)="onChange(balance.name)"> 
+                    <option  *ngFor="let name of memberInfo1; let i = index" [value]="i" >{{name.MemberName}}</option>
+                        <!-- <option *ngFor="let name of memberInfo">{{name.MemberName}}</option> -->
+                </select>
+            </div>
+            <div class="total-balance" *ngIf="false">
                 <div class="text-xs-uppercase">Total Annual Limit Balance</div>
                 <h1>S$ <span>157.50</span></h1>
             </div> <!-- end of .total-balance -->
@@ -25,24 +31,44 @@
                     <div class="title">Your Plan Details</div>
                     <div class="section-row row middle-xs between-xs">
                         <div class="keyLabel">NRIC/FIN</div>
-                        <div class="info">S123456789</div>
+                        <div class="info">{{(memberInfo | async)?.MemberNRIC}}</div>
                     </div>
                     <div class="section-row row middle-xs between-xs">
                         <div class="keyLabel">Member Name</div>
-                        <div class="info">testprorate</div>
+                        <div class="info">{{(memberInfo | async)?.MemberName}}</div>
                     </div>
                     <div class="section-row row middle-xs between-xs">
                         <div class="keyLabel">Company Name</div>
-                        <div class="info">Alliance Test Company 2</div>
+                        <div class="info">{{(memberInfo | async)?.CompanyName}}</div>
                     </div>
                     <div class="section-row row middle-xs between-xs">
                         <div class="keyLabel">Last Modified Date</div>
-                        <div class="info">23/05/2017</div>
+                        <div class="info">{{toDate | date: 'MM/dd/yyyy'}}</div>
                     </div>
                 </div> <!-- end of .section-details -->
+                
+                <div class="section-details">
+                    <div class="title">Annual Limit Details</div>
+                    <div class="section-row row middle-xs between-xs" *ngFor="let thisKey of annualLimitDetails | key">
+                        <div class="keyLabel">{{thisKey.key}}</div>
+                        <div class="info" >{{thisKey.value}}</div>
+                    </div>
+                </div>
+
+
+                <div class="section-details">
+                    <div class="title">Independent Annual Limit Details</div>
+                    <div class="section-row row middle-xs between-xs" *ngFor="let independent of independentAnnualValue">
+                        <div class="keyLabel" >{{independent.key}}</div>
+                        <div class="info" >{{independent.value}}</div>
+                    </div>
+                </div>
+                
                 <div class="section-details">
                     <div class="title">Remarks</div>
+                    <div>{{(balanceRemarks | async)?.Remarks}}</div>
                 </div>
+
             </div>
         </div>
     </div> <!-- end of .checkBalance-content -->

@@ -15,7 +15,7 @@ import { ClaimsPage } from '../claims/claims';
 import { AddSpPage } from '../add-sp/add-sp';
 import { PreviewPage } from '../preview/preview';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
-//import { Select2Component } from 'ng2-select2/ng2-select2';
+import { SubmitClaimService1Provider } from '../../providers/submit-claim-service1/submit-claim-service1';
 //import { SelectComponent } from 'ng2-select';
 //import {Select2OptionData} from 'ng2-select2/ng2-select2';
 
@@ -32,7 +32,7 @@ const COLORS = [
 @Component({
   selector: 'page-submitclaims',
   templateUrl: 'submitclaims.html',
-  providers: [SubmitClaimServiceProvider],
+  providers: [SubmitClaimServiceProvider,SubmitClaimService1Provider],
 })
 
 export class SubmitclaimsPage {
@@ -103,9 +103,12 @@ export class SubmitclaimsPage {
 
   showSP: boolean = false;
   showSPList: boolean = false;
+  showNoSPList: boolean =false;
   showSP1: boolean = false;
+  showNoSPList1: boolean = false;
   showSPList1: boolean = false;  
   showSP2: boolean = false;
+  showNoSPList2: boolean = false;
   showSPList2: boolean = false;
 
   showSPbtn: boolean = true;
@@ -130,13 +133,15 @@ export class SubmitclaimsPage {
   private items:Array<any> = [];
   providerFromAsync: any;
 
+  newImageContent = [];
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage,
     public submitClaimService: SubmitClaimServiceProvider,private alertCtrl: AlertController,
     public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,
     private camera: Camera, private base64: Base64, public platform: Platform,public _DomSanitizer: DomSanitizer,
     private file: File, public http: Http, public viewCtrl: ViewController,public menuCtrl: MenuController, 
-    ) {
+    public submitClaimService1: SubmitClaimService1Provider) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimMode = this.navParams.get('mode');
@@ -456,7 +461,7 @@ export class SubmitclaimsPage {
 
     console.log(parameters)
 
-    this.submitClaimService.loadSpecializedProcedureAPI(parameters).then((result) => {
+    this.submitClaimService1.loadSpecializedProcedureAPI(parameters).then((result) => {
       if(result.ValidateMessage != undefined){
         let alert = this.alertCtrl.create({
           title: 'Alert',
@@ -513,6 +518,8 @@ export class SubmitclaimsPage {
             if(this.claimEditDetails._providername.toLowerCase() == this.providers[i].Name.toLowerCase()){
               varClaimForm.controls['select_providerName'].setValue(this.providers[i].Name);
               varClaimForm.controls['select_providerName1'].setValue(i);
+            }else{
+              varClaimForm.controls['select_providerName'].setValue(this.claimEditDetails._providername);
             }
           }
 
@@ -656,6 +663,21 @@ export class SubmitclaimsPage {
       }else{
         console.log(result);
         this.imgArray = result;
+
+        for(var i=0; i < this.imgArray.length ; i++ ){
+            var filetype = this.imgArray[i]['_FileType'];
+            var toConcat = "data:image/";
+            
+            if(filetype == ".jpg" || filetype == ".jpeg"){
+               toConcat += "jpg;";
+            }else if( filetype == ".png" ){
+               toConcat += "png;";
+            }
+            toConcat += "base64,";
+
+            this.imgArray[i]['_FileContent'] = toConcat + this.imgArray[i]['_FileContent'];
+        }
+
         this.displayEditClaims();
       }
     }, (err) => {
@@ -803,7 +825,9 @@ export class SubmitclaimsPage {
           alert.present();
     }else{
     */
+        var varClaimForm = this.claimFormGroup;
         var errorMessage = "Please complete all the needed fields:<br>";
+        var isNonClinical = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].NonClinical;
        
         if(!this.claimFormGroup.controls.select_providerName.valid) {
           errorMessage += "<br>-Provider Name"; ///errorMessage.concat('<br>Provider Name')
@@ -811,18 +835,23 @@ export class SubmitclaimsPage {
         if (!this.claimFormGroup.controls.select_claimType.valid) {
           errorMessage += "<br>-Claim Type";
         }
-        if(this.claimFormGroup.controls.select_acuteDiagnosis1.value =="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == "") {
-          errorMessage += "<br>-Diagnosis";
-        } 
+
+        if(!isNonClinical){
+          if(this.claimFormGroup.controls.select_acuteDiagnosis1.value =="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == "") {
+            errorMessage += "<br>-Diagnosis";
+          } 
+        }
         if (!this.claimFormGroup.controls.total_amount.valid) {
           errorMessage += "<br>-Total Amount (SGD)";
         }
         if(!this.claimFormGroup.controls.total_amount_gst.valid) {
           errorMessage += "<br>-Total GST Amount (SGD)";
         }
+        
         if(this.imgArray.length == 0){
           errorMessage += "<br>-File attachment";
         }
+
 
         if(errorMessage != "Please complete all the needed fields:<br>"){
           this.loading.dismiss();
@@ -842,7 +871,6 @@ export class SubmitclaimsPage {
         }else{
 
             console.log('success');
-            var varClaimForm = this.claimFormGroup;
             var now = new Date();
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -863,8 +891,8 @@ export class SubmitclaimsPage {
                     membercompanyid: this.memberClaimInfo.MemberCompanyID,
                     internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID'],
                     memberid: memberID,
-                    clinicid: this.providers[varClaimForm.controls['select_providerName1'].value].Code,
-                    clinicname: this.providers[varClaimForm.controls['select_providerName1'].value].Name,
+                    clinicid: "",
+                    clinicname: "",
                     claimtype: this.claimTypes[varClaimForm.controls['select_claimType'].value].RefColumnName,
                     claimtypedesc: this.claimTypes[varClaimForm.controls['select_claimType'].value].ClaimTypeDescription,
                     receiptno: "",
@@ -872,10 +900,10 @@ export class SubmitclaimsPage {
                     isreferralletter: varClaimForm.controls['referral'].value,
                     referralclinictype: "",
                     mcreason: "",
-                    primarydiagnosisid: varClaimForm.controls['select_acuteDiagnosis1'].value,
-                    primarydiagnosisdesc: varClaimForm.controls['select_acuteDiagnosis1x'].value,
-                    primarychronicdiagnosisid: varClaimForm.controls['select_chronicDiagnosis1'].value,
-                    primarychronicdiagnosisdesc: varClaimForm.controls['select_chronicDiagnosis1x'].value,
+                    primarydiagnosisid: "",
+                    primarydiagnosisdesc: "",
+                    primarychronicdiagnosisid: "",
+                    primarychronicdiagnosisdesc: "",
                     isspecialclaim: "",
                     remarks: varClaimForm.controls['remarks'].value,
                     allowexceedclaimlimit: "",
@@ -886,36 +914,44 @@ export class SubmitclaimsPage {
                     submissionDate: today
             }
 
+            if(varClaimForm.controls['select_providerName1'].value != ""){
+              submitclaimsDetails['clinicid'] = this.providers[varClaimForm.controls['select_providerName1'].value].Code;
+              submitclaimsDetails['clinicname'] = this.providers[varClaimForm.controls['select_providerName1'].value].Name;
+            }else{
+              submitclaimsDetails['clinicname'] = varClaimForm.controls['select_providerName'].value;
+            }
+
             if(varClaimForm.controls['ref_clinic'].value != ""){
                 submitclaimsDetails['referralclinicname'] = varClaimForm.controls['ref_clinic'].value;
                 submitclaimsDetails['referralclinictype'] = varClaimForm.controls['select_ref_clinicType'].value;
             }
 
-            if(varClaimForm.controls['select_acuteDiagnosis1'].value != "" || varClaimForm.controls['select_acuteDiagnosis1'].value !=undefined){
+            //if(varClaimForm.controls['select_acuteDiagnosis1'].value != "" || varClaimForm.controls['select_acuteDiagnosis1'].value !=undefined){
+            if(varClaimForm.controls['select_acuteDiagnosis1'].value != ""){
                 submitclaimsDetails['primarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis1'].value;
                 submitclaimsDetails['primarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis1x'].value;
             }else{
                 submitclaimsDetails['primarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
                 submitclaimsDetails['primarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
             }
-
-            if(varClaimForm.controls['select_chronicDiagnosis1'].value != "" || varClaimForm.controls['select_chronicDiagnosis1'].value !=undefined){
+            //|| varClaimForm.controls['select_chronicDiagnosis1'].value !=undefined
+            if(varClaimForm.controls['select_chronicDiagnosis1'].value != ""){
                submitclaimsDetails['primarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis1'].value;
                submitclaimsDetails['primarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis1x'].value;
             }else{
                 submitclaimsDetails['primarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
                 submitclaimsDetails['primarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
             }
-              
-            if(varClaimForm.controls['select_acuteDiagnosis2'].value != "" || varClaimForm.controls['select_acuteDiagnosis2'].value !=undefined){
+            //|| varClaimForm.controls['select_acuteDiagnosis2'].value !=undefined  
+            if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
                 submitclaimsDetails['secondarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis2'].value;
                 submitclaimsDetails['secondarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis2x'].value;
             }else{
                 submitclaimsDetails['secondarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
                 submitclaimsDetails['secondarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
             }
-
-            if(varClaimForm.controls['select_chronicDiagnosis2'].value != "" || varClaimForm.controls['select_chronicDiagnosis2'].value !=undefined){
+            //|| varClaimForm.controls['select_chronicDiagnosis2'].value !=undefined
+            if(varClaimForm.controls['select_chronicDiagnosis2'].value != "" ){
                 submitclaimsDetails['secondarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis2'].value;
                 submitclaimsDetails['secondarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis2x'].value;
             }else{
@@ -936,225 +972,222 @@ export class SubmitclaimsPage {
 
             if(this.spList != undefined){              
 
-              if(this.submitSPArray.length == 0){
-                  var new_array = {};
-                  for(var i=0; i<this.spList.length; i++){ 
-                    if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                      new_array = {
-                          network: this.memberNetwork,
-                          id: this.submitSPid,
-                          claimid: this.tpaClaimID,
-                          specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                          procedureid: this.spList[i].id,
-                          description: this.spList[i].description,
-                          price: varClaimForm.controls['formsp_procedurePrice'].value,
-                          copay: this.spList[i].CoPay,
-                          copaytype: this.spList[i].CoPayType,
-                          copayvalue: "",
-                          internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                      }
-                      this.submitSPArray.push(new_array);
-                    }
-                  }
-              }
-
-              if(this.submitSPArray.length == 1){
-                  if(varClaimForm.controls['formsp_procedure1'].value != ""){
-                      var new_array = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                        if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                          new_array = {
-                              network: this.memberNetwork,
-                              id: this.submitSPid1,
-                              claimid: this.tpaClaimID,
-                              specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                              procedureid: this.spList[i].id,
-                              description: this.spList[i].description,
-                              price: varClaimForm.controls['formsp_procedurePrice1'].value,
-                              copay: this.spList[i].CoPay,
-                              copaytype: this.spList[i].CoPayType,
-                              copayvalue: "",
-                              internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                if(this.submitSPArray.length == 0){
+                    if(varClaimForm.controls['formsp_procedure'].value != ""){
+                        var new_array = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                          if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                            new_array = {
+                                network: this.memberNetwork,
+                                id: this.submitSPid,
+                                claimid: this.tpaClaimID,
+                                specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                procedureid: this.spList[i].id,
+                                description: this.spList[i].description,
+                                price: varClaimForm.controls['formsp_procedurePrice'].value,
+                                copay: this.spList[i].CoPay,
+                                copaytype: this.spList[i].CoPayType,
+                                copayvalue: "",
+                                internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                            }
+                            this.submitSPArray.push(new_array);
                           }
-                          this.submitSPArray.push(new_array);
                         }
-                      }
-                  }
+                    }
+                }
 
-                  if(this.submitSPArray[0].id != undefined){
+                if(this.submitSPArray.length == 1){
+                    if(varClaimForm.controls['formsp_procedure1'].value != ""){
+                        var new_array = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                          if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                            new_array = {
+                                network: this.memberNetwork,
+                                id: this.submitSPid1,
+                                claimid: this.tpaClaimID,
+                                specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                procedureid: this.spList[i].id,
+                                description: this.spList[i].description,
+                                price: varClaimForm.controls['formsp_procedurePrice1'].value,
+                                copay: this.spList[i].CoPay,
+                                copaytype: this.spList[i].CoPayType,
+                                copayvalue: "",
+                                internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                            }
+                            this.submitSPArray.push(new_array);
+                          }
+                        }
+                    }
+
+                    if(this.submitSPArray[0].id != undefined){
+                          var new_array1 = {};
+                          for(var i=0; i<this.spList.length; i++){ 
+                              if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[0] =  new_array1;
+                              }
+                          }
+                    }   
+                }
+
+                if(this.submitSPArray.length == 2){
+                    if(varClaimForm.controls['formsp_procedure2'].value != ""){
+                        var new_array = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                            if(varClaimForm.controls['formsp_procedure2'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid2,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice2'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                              this.submitSPArray.push(new_array);    
+                            }
+                        }
+                    }
+
+                    if(this.submitSPArray[0].id != undefined){
                         var new_array1 = {};
                         for(var i=0; i<this.spList.length; i++){ 
                             if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[0] =  new_array1;
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[0] =  new_array1;
                             }
                         }
-                  }   
+                    }
+
+                    if(this.submitSPArray[1].id != undefined){
+                        var new_array1 = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                            if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid1,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice1'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[1] =  new_array1;
+                            }
+                        }
+                    }
+                }
+
+                if(this.submitSPArray.length == 3){
+                    if(this.submitSPArray[0].id != undefined){
+                        var new_array1 = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                            if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[0] =  new_array1;
+                            }
+                        }
+                    }
+
+                    if(this.submitSPArray[1].id != undefined){
+                        var new_array1 = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                            if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid1,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice1'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[1] =  new_array1;
+                            }
+                        }
+                    }
+
+                    if(this.submitSPArray[2].id != undefined){
+                        var new_array1 = {};
+                        for(var i=0; i<this.spList.length; i++){ 
+                            if(varClaimForm.controls['formsp_procedure2'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
+                                new_array1 = {
+                                    network: this.memberNetwork,
+                                    id: this.submitSPid2,
+                                    claimid: this.tpaClaimID,
+                                    specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
+                                    procedureid: this.spList[i].id,
+                                    description: this.spList[i].description,
+                                    price: varClaimForm.controls['formsp_procedurePrice2'].value,
+                                    copay: this.spList[i].CoPay,
+                                    copaytype: this.spList[i].CoPayType,
+                                    copayvalue: "",
+                                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                                }
+                                this.submitSPArray[2] =  new_array1;
+                            }
+                        }
+                    }
+                }
+
+                submitclaimsDetails['isspecialclaim'] = 'true';
+                if(this.submitSPArray.length>0){
+                  submitclaimsDetails['isspecializedprocedure'] = 'true';
+                }  
               }
-
-              if(this.submitSPArray.length == 2){
-                  if(varClaimForm.controls['formsp_procedure2'].value != ""){
-                      var new_array = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure2'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid2,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice2'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                            this.submitSPArray.push(new_array);    
-                          }
-                      }
-                  }
-
-                  if(this.submitSPArray[0].id != undefined){
-                      var new_array1 = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[0] =  new_array1;
-                          }
-                      }
-                  }
-
-                  if(this.submitSPArray[1].id != undefined){
-                      var new_array1 = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid1,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice1'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[1] =  new_array1;
-                          }
-                      }
-                  }
-              }
-
-              if(this.submitSPArray.length == 3){
-                  if(this.submitSPArray[0].id != undefined){
-                      var new_array1 = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[0] =  new_array1;
-                          }
-                      }
-                  }
-
-                  if(this.submitSPArray[1].id != undefined){
-                      var new_array1 = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid1,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice1'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[1] =  new_array1;
-                          }
-                      }
-                  }
-
-                  if(this.submitSPArray[2].id != undefined){
-                      var new_array1 = {};
-                      for(var i=0; i<this.spList.length; i++){ 
-                          if(varClaimForm.controls['formsp_procedure2'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
-                              new_array1 = {
-                                  network: this.memberNetwork,
-                                  id: this.submitSPid2,
-                                  claimid: this.tpaClaimID,
-                                  specializedprocedureandbenefitplanmapid: this.spList[i].specializedprocedureandbenefitplanmappingid,
-                                  procedureid: this.spList[i].id,
-                                  description: this.spList[i].description,
-                                  price: varClaimForm.controls['formsp_procedurePrice2'].value,
-                                  copay: this.spList[i].CoPay,
-                                  copaytype: this.spList[i].CoPayType,
-                                  copayvalue: "",
-                                  internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
-                              }
-                              this.submitSPArray[2] =  new_array1;
-                          }
-                      }
-                  }
-              }
-
-              submitclaimsDetails['isspecialclaim'] = 'true';
-              if(this.submitSPArray.length>0){
-                submitclaimsDetails['isspecializedprocedure'] = 'true';
-              }  
-
-            }
             console.log(submitclaimsDetails);
 
             let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.saveFilesArr, isEdit: isEdit, network: this.memberNetwork, submitSP: this.submitSPArray});
             claimModal.present();
-
-          // }, (err) => {
-          //     this.loading.dismiss();
-          // });
-        //}
+          
     }
    
   }
@@ -1459,9 +1492,11 @@ export class SubmitclaimsPage {
       //*********** IMAGE CONVERSION TO BASE64 *********
       this.base64.encodeFile(filePath).then((base64File: string) => {
       //console.log(filetype)    
-          var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
-          
+          //console.log(this.imgType)
+          //console.log(base64File)
+          console.log(this.platform)
           if (this.platform.is('android')) {
+            var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
             if(this.imgType.toLowerCase() == 'jpg'){
               this.base64ImageBefore = "data:image/jpeg;base64," + content;
               this.imgContent = content  
@@ -1472,11 +1507,16 @@ export class SubmitclaimsPage {
               this.base64ImageBefore = "./assets/img/pdf-icon.png";
             }
           }else{
+            var content = base64File.split("data:image/png;base64,").pop()
+            
             if(this.imgType.toLowerCase() == 'jpg'){
-              this.base64ImageBefore =  content;  
+              this.base64ImageBefore =  "data:image/png;base64," + content;  
               this.imgContent = content
             }else if(this.imgType.toLowerCase() == 'png'){
-              this.base64ImageBefore =  content;  
+              this.base64ImageBefore = "data:image/png;base64," + content;  
+              this.imgContent = content
+            }else if(this.imgType.toLowerCase() == 'jpeg'){
+              this.base64ImageBefore =  "data:image/png;base64," + content;  
               this.imgContent = content
             }else{
               this.base64ImageBefore = "./assets/img/pdf-icon.png";
@@ -1491,8 +1531,8 @@ export class SubmitclaimsPage {
              filename: this.imageNameBefore,
              filecontent: content
           }
-
-          console.log(this.addFilesArr)
+          console.log('convertImage')  
+          console.log(content)
           this.claimFormGroup.controls['fileUpload'].setValue(this.imageNameBefore);
       }, (err) => {
           console.log(err);
@@ -1502,6 +1542,7 @@ export class SubmitclaimsPage {
   addImage() {
     var new_item = {};
     this.showLoader()
+    console.log('addImage')
     console.log(this.addFilesArr)
 
     if(this.claimFormGroup.controls['fileUpload'].value == ""){
@@ -1542,7 +1583,8 @@ export class SubmitclaimsPage {
                   
                   this.imageName = this.imageNameBefore
                   new_item['_AcutalFileName'] = this.imageNameBefore;
-                  new_item['_FilePathUrl'] = this.base64ImageBefore;
+                  //new_item['_FilePathUrl'] = this.base64ImageBefore;
+                  new_item['_FileContent'] = this.base64ImageBefore;
                   new_item['_FileType'] = this.imgType;
                   new_item['_ImageContent'] = this.imgContent;
 
@@ -1692,10 +1734,14 @@ export class SubmitclaimsPage {
       this.providers = this.providers.filter((item) => {
         return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-      this.showProv = true;
+      
       if(this.providers.length == 0){
         this.showNoProv = true;
+        this.claimFormGroup.controls['select_providerName1'].setValue("");
+      }else{
+        this.showProv = true;  
       }
+
     } else {
       this.showProv = false;
     }
@@ -1730,9 +1776,10 @@ export class SubmitclaimsPage {
 
       if(this.acuteDiagnosisList.length == 0){
         this.showNoAD1 = true;
+      }else{
+        // Show the results
+        this.showAD1 = true;
       }
-      // Show the results
-      this.showAD1 = true;
       
     } else {
       // hide the results when the query is empty
@@ -1905,21 +1952,54 @@ export class SubmitclaimsPage {
     //   this.claimFormGroup.controls['select_providerName'].setValue('');
     //   this.claimFormGroup.controls['select_providerName1'].setValue('');
     // }
+    var varClaimForm = this.claimFormGroup;
+
+    this.showProv = false;
     if(this.showNoAD1){
-      this.claimFormGroup.controls['select_acuteDiagnosis1'].setValue('');
-      this.claimFormGroup.controls['select_acuteDiagnosis1x'].setValue('');
+      varClaimForm.controls['select_acuteDiagnosis1'].setValue('');
+      varClaimForm.controls['select_acuteDiagnosis1x'].setValue('');
     }
     if(this.showNoAD2){
-      this.claimFormGroup.controls['select_acuteDiagnosis2'].setValue('');
-      this.claimFormGroup.controls['select_acuteDiagnosis2x'].setValue('');
+      varClaimForm.controls['select_acuteDiagnosis2'].setValue('');
+      varClaimForm.controls['select_acuteDiagnosis2x'].setValue('');
     }
     if(this.showNoCD1){
-      this.claimFormGroup.controls['select_chronicDiagnosis1'].setValue('');
-      this.claimFormGroup.controls['select_chronicDiagnosis1x'].setValue('');
+      varClaimForm.controls['select_chronicDiagnosis1'].setValue('');
+      varClaimForm.controls['select_chronicDiagnosis1x'].setValue('');
     }
     if(this.showNoCD2){
-      this.claimFormGroup.controls['select_chronicDiagnosis2'].setValue('');
-      this.claimFormGroup.controls['select_chronicDiagnosis2x'].setValue('');
+      varClaimForm.controls['select_chronicDiagnosis2'].setValue('');
+      varClaimForm.controls['select_chronicDiagnosis2x'].setValue('');
+    }
+
+    if(this.showNoSPList){
+      varClaimForm.controls['formsp_procedure'].setValue('');
+      varClaimForm.controls['formsp_procedurePrice'].setValue('');
+      varClaimForm.controls['formsp_procedurePayh'].setValue('');
+      varClaimForm.controls['formsp_procedureFeeh'].setValue('');
+    }
+
+    if(this.showNoSPList1){
+      varClaimForm.controls['formsp_procedure1'].setValue('');
+      varClaimForm.controls['formsp_procedurePrice1'].setValue('');
+      varClaimForm.controls['formsp_procedurePayh1'].setValue('');
+      varClaimForm.controls['formsp_procedureFeeh1'].setValue('');
+
+      varClaimForm.controls['formsp_procedurePay'].setValue(varClaimForm.controls['formsp_procedurePayh'].value);
+      varClaimForm.controls['formsp_procedureFee'].setValue(varClaimForm.controls['formsp_procedureFeeh'].value);
+    }
+
+    if(this.showNoSPList2){
+      varClaimForm.controls['formsp_procedure2'].setValue('');
+      varClaimForm.controls['formsp_procedurePrice2'].setValue('');
+      varClaimForm.controls['formsp_procedurePayh2'].setValue('');
+      varClaimForm.controls['formsp_procedureFeeh2'].setValue('');
+
+      var totalCopay = parseFloat(varClaimForm.controls['formsp_procedurePayh'].value) + parseFloat(varClaimForm.controls['formsp_procedurePayh1'].value) 
+      var totalFee = parseFloat(varClaimForm.controls['formsp_procedureFeeh'].value) + parseFloat(varClaimForm.controls['formsp_procedureFeeh1'].value)
+      this.claimFormGroup.controls['formsp_procedurePay'].setValue(totalCopay);
+      this.claimFormGroup.controls['formsp_procedureFee'].setValue(totalFee);
+
     }
 
   }
@@ -1950,12 +2030,18 @@ export class SubmitclaimsPage {
 
   onInputSP(ev: any) {
     // Reset items back to all of the items
+    console.log(this.spList)
     this.initializeItems();
     let val = ev.target.value;
     if (val && val.trim() != '') {
       this.spList = this.spList.filter((item) => {
         return (item.description.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
+
+      if(this.spList.length == 0){
+          this.showNoSPList = true
+      }
+
       this.showSPList = true;
     } else {
       this.showSPList = false;
@@ -1964,6 +2050,7 @@ export class SubmitclaimsPage {
 
   selectedSP(item){
     this.showSPList = false;
+    this.showNoSPList = false;
     this.claimFormGroup.controls['formsp_procedure'].setValue(this.spList[item].description);
     this.claimFormGroup.controls['formsp_procedurePrice'].setValue(this.spList[item].price);
     this.claimFormGroup.controls['formsp_procedurePay'].setValue(this.spList[item].CoPay);
@@ -1980,6 +2067,11 @@ export class SubmitclaimsPage {
       this.spList = this.spList.filter((item) => {
         return (item.description.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
+
+      if(this.spList.length == 0){
+          this.showNoSPList1 = true
+      }
+
       this.showSPList1 = true;
     } else {
       this.showSPList1 = false;
@@ -1988,6 +2080,7 @@ export class SubmitclaimsPage {
 
   selectedSP1(item){
     this.showSPList1 = false;
+    this.showNoSPList1 = false;
     this.claimFormGroup.controls['formsp_procedure1'].setValue(this.spList[item].description);
     this.claimFormGroup.controls['formsp_procedurePrice1'].setValue(this.spList[item].price);
     this.claimFormGroup.controls['formsp_procedurePayh1'].setValue(this.spList[item].CoPay);
@@ -2008,6 +2101,11 @@ export class SubmitclaimsPage {
         return (item.description.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
       this.showSPList2 = true;
+
+      if(this.spList.length == 0){
+          this.showNoSPList2 = true
+      }
+
     } else {
       this.showSPList2 = false;
     }
@@ -2015,6 +2113,7 @@ export class SubmitclaimsPage {
 
   selectedSP2(item){
     this.showSPList2 = false;
+    this.showNoSPList2 = false;
     this.claimFormGroup.controls['formsp_procedure2'].setValue(this.spList[item].description);
     this.claimFormGroup.controls['formsp_procedurePrice2'].setValue(this.spList[item].price);
     this.claimFormGroup.controls['formsp_procedurePayh2'].setValue(this.spList[item].CoPay);
@@ -2211,12 +2310,8 @@ export class SubmitclaimsPage {
 
     var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
     console.log(params)  
-    
-    //   this.claimFormGroup.controls['claimName']
     console.log(this.claimFormGroup.controls['claimName'].value)
     
-
-    //this.navCtrl.push( ClaimsPage, {details: "", } );
   }
 
   

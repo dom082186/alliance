@@ -435,8 +435,9 @@
 				</div> 
 				<div class="img-container row middle-xs between-xs" *ngFor="let img of imgArray; let i = index"  >
 					<div class="img row middle-xs" (click)="previewImage(i)">
+						
 						<img src="./assets/img/pdf-icon.png" *ngIf="img._FileType.toLowerCase() == 'pdf'"/>
-						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(img._FilePathUrl)" *ngIf="img._FileType.toLowerCase() != 'pdf'"/>
+						<img  [src]="_DomSanitizer.bypassSecurityTrustUrl(img._FileContent)" *ngIf="img._FileType.toLowerCase() != 'pdf'"/>
 						<div class="file-name" style="width:60%;">{{img._AcutalFileName}}</div>
 					</div>
 					<div class="delete" (click)="removeImage(i)"><i class="fa fa-times" aria-hidden="true" ></i></div>

@@ -61,7 +61,7 @@ export class ClaimServiceProvider {
 	}
 
 
-	getBenefitsAPI(parameters){
+	getBenefitsAPI(parameters) {
 		if (this.data) {
 			// already loaded data
 			return Promise.resolve(this.data);
@@ -89,7 +89,7 @@ export class ClaimServiceProvider {
 					        role: 'cancel',
 					        handler: () => {
 					          //navigator['app'].exitApp();
-					      }
+					      	}
 					    }]
 					});
 					alert.present();

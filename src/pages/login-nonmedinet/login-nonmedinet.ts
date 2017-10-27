@@ -134,62 +134,62 @@ export class LoginNonmedinetPage {
 
 	doLogin() {
 
-		// if( this.login['nric'] == "" || this.login['nric'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'NRIC is required',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
-		// }
+		if( this.login['nric'] == "" || this.login['nric'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'NRIC is required',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
+		}
 
-		// if(this.login['membertype'] == "" || this.login['membertype'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'Please select a Member Type',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
-		// }
+		if(this.login['membertype'] == "" || this.login['membertype'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Please select a Member Type',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
+		}
 
-		// if(this.login['network']=="" || this.login['network'] == undefined){
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Alert',
-		// 		message: 'Kindly select a network',
-		// 		buttons: [{
-		// 	        text: 'OK',
-		// 	        role: 'cancel',
-		// 	        handler: () => {
-		// 	          console.log('Cancel clicked');
-		// 	      }
-		// 	    }]
-		// 	});
-		// 	alert.present();
-		// 	return;
+		if(this.login['network']=="" || this.login['network'] == undefined){
+			let alert = this.alertCtrl.create({
+				title: 'Alert',
+				message: 'Kindly select a network',
+				buttons: [{
+			        text: 'OK',
+			        role: 'cancel',
+			        handler: () => {
+			          console.log('Cancel clicked');
+			      }
+			    }]
+			});
+			alert.present();
+			return;
 
-		// }else{
+		}else{
 
 			if(this.isCheckTM == true){
 				
 				//****************** TEST
-				this.loginCredentials = "usernric=S7724356C&network=AHC&membertype=member";
+				//this.loginCredentials = "usernric=S7724356C&network=AHC&membertype=member";
 				
 				//****************** LIVE	
-				//this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
+				this.loginCredentials = "usernric=" + this.login['nric'] + "&network=" + this.login['network'].toLowerCase() + "&membertype=" + this.login['membertype'].toLowerCase() ;
 				
 
 				this.showLoader();
@@ -219,22 +219,22 @@ export class LoginNonmedinetPage {
 					    	this.navCtrl.setRoot( HomePage );	
 
 							//====== LIVE
-		  					//this.events.publish('user:created', result, this.login['network']);  
+		  					this.events.publish('user:created', result, this.login['network']);  
 
 		  					//====== TEST
-		  					this.events.publish('user:created', result, 'AHC'); 
+		  					//this.events.publish('user:created', result, 'AHC'); 
 
 		  					//====== LIVE
-							//this.storage.set('memNetwork', this.login['network']); //set localstorage for network
+							this.storage.set('memNetwork', this.login['network']); //set localstorage for network
 							
 							//====== TEST
-							this.storage.set('memNetwork', 'AHC');
+							//this.storage.set('memNetwork', 'AHC');
 
 							//====== LIVE
-							//this.storage.set('loginInfo', {usernric:  this.login['nric'], network: this.login['network'], membertype: this.login['membertype']})
+							this.storage.set('loginInfo', {usernric:  this.login['nric'], network: this.login['network'], membertype: this.login['membertype']})
 
 							//====== TEST
-							this.storage.set('loginInfo', {usernric: 'S7724356C', network: 'AHC', membertype: 'member'})
+							//this.storage.set('loginInfo', {usernric: 'S7724356C', network: 'AHC', membertype: 'member'})
 
 					    }
 
@@ -275,7 +275,7 @@ export class LoginNonmedinetPage {
 				return;
 			}
 			
-		//}
+		}
 
 	}
 

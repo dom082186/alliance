@@ -111,7 +111,6 @@
     <plugin name="cordova-plugin-geolocation" spec="~2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <engine name="android" spec="~6.0.0" />
     <allow-navigation href="http://192.168.8.125:8100" />
     <plugin name="cordova-plugin-nativegeocoder" spec="~2.0.2" />
     <allow-navigation href="http://192.168.8.103:8100" />
@@ -128,4 +127,5 @@
     <plugin name="onesignal-cordova-plugin" spec="~2.2.0" />
     <engine name="ios" spec="~4.3.1" />
     <allow-navigation href="http://192.168.8.104:8100" />
+    <engine name="android" spec="~6.0.0" />
 </widget>

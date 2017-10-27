@@ -48,13 +48,13 @@
         },
         "onesignal-cordova-plugin": {
             "PACKAGE_NAME": "com.skubbs.mah"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.skubbs.mah"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-add-swift-support": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.skubbs.mah"
         }
     }

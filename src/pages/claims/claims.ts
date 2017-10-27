@@ -313,20 +313,20 @@ export class ClaimsPage {
                     this.hideExportButton = true;
                   }
                   
-                  this.claimHistoryList = this.panelClaimList.concat(this.tpaClaimList);
+                  this.claimHistoryList = result;//this.panelClaimList.concat(this.tpaClaimList);
 
-                  this.claimHistoryList.sort((a, b) => {
-                    let date1 = new Date(a._Treatmentdate);
-                    let date2 = new Date(b._Treatmentdate);
+                  // this.claimHistoryList.sort((a, b) => {
+                  //   let date1 = new Date(a._Treatmentdate);
+                  //   let date2 = new Date(b._Treatmentdate);
 
-                    if (date2 > date1) {
-                        return 1;
-                    } else if (date2 < date1) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                  });
+                  //   if (date2 > date1) {
+                  //       return 1;
+                  //   } else if (date2 < date1) {
+                  //       return -1;
+                  //   } else {
+                  //       return 0;
+                  //   }
+                  // });
               }
             
           }, (err) => {
@@ -412,11 +412,12 @@ export class ClaimsPage {
     var memIndex = this.benefitsForm['select_employeeName'];
     var params = "";
 
-    if(val > 0){
+    if(memIndex > 0){
       params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberInfo[memIndex]['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
     }else{
       params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberbenefitplanid=" + this.selectedBenefitID  +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
     }
+    console.log(memIndex)
     console.log(params)
     
     this.claimService.getBenefitsAPI(params).then((result) => {
