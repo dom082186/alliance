@@ -16,6 +16,7 @@ import { AddSpPage } from '../add-sp/add-sp';
 import { PreviewPage } from '../preview/preview';
 import { LoginNonmedinetPage } from '../login-nonmedinet/login-nonmedinet';
 import { SubmitClaimService1Provider } from '../../providers/submit-claim-service1/submit-claim-service1';
+import { EcardServiceProvider } from '../../providers/ecard-service/ecard-service';
 //import { SelectComponent } from 'ng2-select';
 //import {Select2OptionData} from 'ng2-select2/ng2-select2';
 
@@ -32,7 +33,7 @@ const COLORS = [
 @Component({
   selector: 'page-submitclaims',
   templateUrl: 'submitclaims.html',
-  providers: [SubmitClaimServiceProvider,SubmitClaimService1Provider],
+  providers: [SubmitClaimServiceProvider,SubmitClaimService1Provider,EcardServiceProvider],
 })
 
 export class SubmitclaimsPage {
@@ -134,6 +135,7 @@ export class SubmitclaimsPage {
   providerFromAsync: any;
 
   newImageContent = [];
+  isNonClinical: boolean = false;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage,
@@ -141,7 +143,7 @@ export class SubmitclaimsPage {
     public loadingCtrl: LoadingController,public formBuilder: FormBuilder,public modalCtrl: ModalController,
     private camera: Camera, private base64: Base64, public platform: Platform,public _DomSanitizer: DomSanitizer,
     private file: File, public http: Http, public viewCtrl: ViewController,public menuCtrl: MenuController, 
-    public submitClaimService1: SubmitClaimService1Provider) {
+    public submitClaimService1: SubmitClaimService1Provider, public ecardServiceProvider: EcardServiceProvider) {
 
       this.claimEditDetails = this.navParams.get('details');
       this.claimMode = this.navParams.get('mode');
@@ -357,7 +359,7 @@ export class SubmitclaimsPage {
   onChangeClaimType(){
 
     var claimType = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].RefColumnName;
-    var isNonClinical = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].NonClinical;
+    var isNonClinicalnew = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].NonClinical;
 
     if( claimType.toLowerCase() == "xray_p" || claimType.toLowerCase() == "lab_p"){
       this.showReferral = true     
@@ -365,7 +367,7 @@ export class SubmitclaimsPage {
       this.showReferral = false
     }
 
-    if(isNonClinical){
+    if(isNonClinicalnew){
       this.diagnosisDiv = false; 
     }else{
       this.diagnosisDiv = true;
@@ -375,6 +377,8 @@ export class SubmitclaimsPage {
         this.generateSPid1();
         this.generateSPid2();
       }else{
+        this.submitSPArray = [];
+        this.submitSPArray.length = 0
         this.showSP = false;
       }
       
@@ -492,7 +496,7 @@ export class SubmitclaimsPage {
   }
 
   displayEditClaims(){
-      this.loading.dismiss();
+      
      
       var varClaimForm = this.claimFormGroup;
       this.tpaClaimID = this.claimEditDetails._ID
@@ -508,10 +512,25 @@ export class SubmitclaimsPage {
             }
           }
 
+
           for(var i=0; i<this.claimTypes.length; i++){ 
-            if(this.claimEditDetails._ClaimType == this.claimTypes[i].ClaimTypeDescription){
+            
+            if(this.claimEditDetails._ClaimTypeDescription.toLowerCase() == this.claimTypes[i].RefColumnName.toLowerCase()){
                varClaimForm.controls['select_claimType'].setValue(i);
+
+               if(this.claimTypes[i].NonClinical){
+                 this.diagnosisDiv = false; 
+               }else{
+                 this.diagnosisDiv = true;
+                 var claimType = this.claimEditDetails._ClaimTypeDescription
+                 if(claimType.toLowerCase() == "sp" || claimType.toLowerCase() == "xray_p" || claimType.toLowerCase() == "lab_p"){
+                    this.showSP = true;
+                  }else{
+                    this.showSP = false;
+                  }
+               }
             }
+
           }
 
           for(var i=0; i<this.providers.length; i++){ 
@@ -582,52 +601,104 @@ export class SubmitclaimsPage {
           varClaimForm.controls['total_amount'].setValue(this.claimEditDetails._TotalDeductAmount);
           varClaimForm.controls['total_amount_gst'].setValue(this.claimEditDetails._TotalFeeGST);
 
-          if(this.claimEditDetails._SpecializedProcedureDetails.length > 0){
-              var spEditDetails = this.claimEditDetails._SpecializedProcedureDetails;
-              this.showSP = true
-              this.submitSPid = spEditDetails[0]._ID
-              varClaimForm.controls['formsp_procedure'].setValue(spEditDetails[0]._Description);
-              varClaimForm.controls['formsp_procedurePrice'].setValue(spEditDetails[0]._Price);
-              
-              varClaimForm.controls['formsp_procedurePayh'].setValue(spEditDetails[0]._CoPay);
-              varClaimForm.controls['formsp_procedureFeeh'].setValue(spEditDetails[0]._Price);
 
-              varClaimForm.controls['formsp_procedurePay'].setValue(spEditDetails[0]._CoPay);
-              varClaimForm.controls['formsp_procedureFee'].setValue(spEditDetails[0]._Price);
+          if(this.showSP){
 
+            this.getSpecializedProcedure();
+            if(this.claimEditDetails._SpecializedProcedureDetails.length > 0){
 
-              if(this.claimEditDetails._SpecializedProcedureDetails.length == 2){
-                this.showSP1 = true;
-                this.submitSPid1 = spEditDetails[1]._ID
-                varClaimForm.controls['formsp_procedurePayh1'].setValue(spEditDetails[1]._CoPay);
-                varClaimForm.controls['formsp_procedureFeeh1'].setValue(spEditDetails[1]._Price);
-
-                var totalCopay = parseFloat(varClaimForm.controls['formsp_procedurePayh'].value) + parseFloat(varClaimForm.controls['formsp_procedurePayh1'].value)
-                var totalFee = parseFloat(varClaimForm.controls['formsp_procedureFeeh'].value) + parseFloat(varClaimForm.controls['formsp_procedureFeeh1'].value)
+                var spEditDetails = this.claimEditDetails._SpecializedProcedureDetails;
+                this.showSP = true
+                this.submitSPid = spEditDetails[0]._ID
+                varClaimForm.controls['formsp_procedure'].setValue(spEditDetails[0]._Description);
+                varClaimForm.controls['formsp_procedurePrice'].setValue(spEditDetails[0]._Price);
                 
-                varClaimForm.controls['formsp_procedurePay'].setValue(totalCopay);
-                varClaimForm.controls['formsp_procedureFee'].setValue(totalFee);
-                varClaimForm.controls['formsp_procedure1'].setValue(spEditDetails[1]._Description);
-                varClaimForm.controls['formsp_procedurePrice1'].setValue(spEditDetails[1]._Price);
-              
-              }
+                varClaimForm.controls['formsp_procedurePayh'].setValue(spEditDetails[0]._CoPay);
+                varClaimForm.controls['formsp_procedureFeeh'].setValue(spEditDetails[0]._Price);
 
-              if(this.claimEditDetails._SpecializedProcedureDetails.length == 3){
-                this.showSP2 = true; 
-                this.submitSPid2 = spEditDetails[2]._ID
-                varClaimForm.controls['formsp_procedure2'].setValue(spEditDetails[2]._Description);
-                varClaimForm.controls['formsp_procedurePrice2'].setValue(spEditDetails[2]._Price);
-                varClaimForm.controls['formsp_procedurePayh2'].setValue(spEditDetails[2]._CoPay);
-                varClaimForm.controls['formsp_procedureFeeh2'].setValue(spEditDetails[2]._Price);
+                varClaimForm.controls['formsp_procedurePay'].setValue(spEditDetails[0]._CoPay);
+                varClaimForm.controls['formsp_procedureFee'].setValue(spEditDetails[0]._Price);
 
-                var totalCopay = parseFloat(this.claimFormGroup.controls['formsp_procedurePayh'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedurePayh1'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedurePayh2'].value)
-                var totalFee = parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh1'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh2'].value)
-                varClaimForm.controls['formsp_procedurePay'].setValue(totalCopay);
-                varClaimForm.controls['formsp_procedureFee'].setValue(totalFee);
-              }
+                var new_array = {
+                    network: this.memberNetwork,
+                    id: spEditDetails[0]._ID,
+                    claimid: this.tpaClaimID,
+                    specializedprocedureandbenefitplanmapid: spEditDetails[0]._ParentSpecializedProcedureAndBenefitPlanMappingID,
+                    procedureid: spEditDetails[0]._ParentProcedureID,
+                    description: spEditDetails[0]._Description,
+                    price: varClaimForm.controls['formsp_procedurePrice'].value,
+                    copay: spEditDetails[0]._Copay,
+                    copaytype: spEditDetails[0]._CopayType,
+                    copayvalue: "",
+                    internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                }
+                this.submitSPArray[0] =  new_array;
 
+                if(this.claimEditDetails._SpecializedProcedureDetails.length == 2){
+                  this.showSP1 = true;
+                  this.submitSPid1 = spEditDetails[1]._ID
+                  varClaimForm.controls['formsp_procedurePayh1'].setValue(spEditDetails[1]._CoPay);
+                  varClaimForm.controls['formsp_procedureFeeh1'].setValue(spEditDetails[1]._Price);
+
+                  var totalCopay = parseFloat(varClaimForm.controls['formsp_procedurePayh'].value) + parseFloat(varClaimForm.controls['formsp_procedurePayh1'].value)
+                  var totalFee = parseFloat(varClaimForm.controls['formsp_procedureFeeh'].value) + parseFloat(varClaimForm.controls['formsp_procedureFeeh1'].value)
+                  
+                  varClaimForm.controls['formsp_procedurePay'].setValue(totalCopay);
+                  varClaimForm.controls['formsp_procedureFee'].setValue(totalFee);
+                  varClaimForm.controls['formsp_procedure1'].setValue(spEditDetails[1]._Description);
+                  varClaimForm.controls['formsp_procedurePrice1'].setValue(spEditDetails[1]._Price);
+
+                  var new_array = {
+                      network: this.memberNetwork,
+                      id: spEditDetails[1]._ID,
+                      claimid: this.tpaClaimID,
+                      specializedprocedureandbenefitplanmapid: spEditDetails[1]._ParentSpecializedProcedureAndBenefitPlanMappingID,
+                      procedureid: spEditDetails[1]._ParentProcedureID,
+                      description: spEditDetails[1]._Description,
+                      price: varClaimForm.controls['formsp_procedurePrice'].value,
+                      copay: spEditDetails[1]._Copay,
+                      copaytype: spEditDetails[1]._CopayType,
+                      copayvalue: "",
+                      internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                  }
+                  this.submitSPArray[1] =  new_array;
+                
+                }
+
+                if(this.claimEditDetails._SpecializedProcedureDetails.length == 3){
+                  this.showSP2 = true; 
+                  this.submitSPid2 = spEditDetails[2]._ID
+                  varClaimForm.controls['formsp_procedure2'].setValue(spEditDetails[2]._Description);
+                  varClaimForm.controls['formsp_procedurePrice2'].setValue(spEditDetails[2]._Price);
+                  varClaimForm.controls['formsp_procedurePayh2'].setValue(spEditDetails[2]._CoPay);
+                  varClaimForm.controls['formsp_procedureFeeh2'].setValue(spEditDetails[2]._Price);
+
+                  var totalCopay = parseFloat(this.claimFormGroup.controls['formsp_procedurePayh'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedurePayh1'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedurePayh2'].value)
+                  var totalFee = parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh1'].value) + parseFloat(this.claimFormGroup.controls['formsp_procedureFeeh2'].value)
+                  varClaimForm.controls['formsp_procedurePay'].setValue(totalCopay);
+                  varClaimForm.controls['formsp_procedureFee'].setValue(totalFee);
+
+                  var new_array = {
+                      network: this.memberNetwork,
+                      id: spEditDetails[2]._ID,
+                      claimid: this.tpaClaimID,
+                      specializedprocedureandbenefitplanmapid: spEditDetails[2]._ParentSpecializedProcedureAndBenefitPlanMappingID,
+                      procedureid: spEditDetails[2]._ParentProcedureID,
+                      description: spEditDetails[2]._Description,
+                      price: varClaimForm.controls['formsp_procedurePrice'].value,
+                      copay: spEditDetails[2]._Copay,
+                      copaytype: spEditDetails[2]._CopayType,
+                      copayvalue: "",
+                      internal_LoggedInUserRegisterID: this.memberInfo[0]['Internal_LoggedInUserRegisterID']
+                  }
+                  this.submitSPArray[2] =  new_array;
+                }
+
+                //this.submitSPArray = this.claimEditDetails._SpecializedProcedureDetails;
+            }
+          }else{
+            this.loading.dismiss();
           }
-
 
         }
 
@@ -661,7 +732,7 @@ export class SubmitclaimsPage {
         });
         alert.present();
       }else{
-        console.log(result);
+        
         this.imgArray = result;
 
         for(var i=0; i < this.imgArray.length ; i++ ){
@@ -687,7 +758,7 @@ export class SubmitclaimsPage {
   }
 
   generateClaimID(params){
-    this.submitClaimService.generateClaimID(params).then((response) => {
+    this.ecardServiceProvider.generateClaimID(params).then((response) => {
         this.tpaClaimID = response.id;
         this.loading.dismiss();
     }, (err) => {
@@ -697,8 +768,8 @@ export class SubmitclaimsPage {
 
   generateSPid(){
     this.showLoader();
-    var params
-    this.submitClaimService.generateClaimID(params).then((response) => {
+    var params = "";
+    this.ecardServiceProvider.generateClaimID(params).then((response) => {
         this.submitSPid = response.id;
         
     }, (err) => {
@@ -707,8 +778,8 @@ export class SubmitclaimsPage {
   }
 
   generateSPid1(){
-    var params
-    this.submitClaimService.generateClaimID(params).then((response) => {
+    var params = "";
+    this.ecardServiceProvider.generateClaimID(params).then((response) => {
         this.submitSPid1 = response.id;
     }, (err) => {
           this.loading.dismiss();
@@ -716,8 +787,8 @@ export class SubmitclaimsPage {
   }
 
   generateSPid2(){
-    var params
-    this.submitClaimService.generateClaimID(params).then((response) => {
+    var params = "";
+    this.ecardServiceProvider.generateClaimID(params).then((response) => {
         this.submitSPid2 = response.id;
         this.getSpecializedProcedure();
     }, (err) => {
@@ -732,111 +803,23 @@ export class SubmitclaimsPage {
 
     
     this.showLoader();
-    /*
-    if(!this.claimFormGroup.controls.select_providerName.valid){
-      this.loading.dismiss();
-      let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: 'Please enter a provider name',
-          buttons: [{
-                text: 'OK',
-                role: 'cancel',
-                handler: () => {
-                  
-                  return;
-              }
-            }]
-        });
-        alert.present()
-    }else if(!this.claimFormGroup.controls.select_claimType.valid){
-      this.loading.dismiss();
-      let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: 'Please enter a claim type',
-          buttons: [{
-                text: 'OK',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                  return;
-              }
-            }]
-        });
-        alert.present()
-    }else if(!this.claimFormGroup.controls.total_amount.valid){
-      this.loading.dismiss();
-      let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: 'Please enter a total amount',
-          buttons: [{
-                text: 'OK',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                  return;
-              }
-            }]
-        });
-        alert.present()
-    }else if(!this.claimFormGroup.controls.total_amount_gst.valid){
-      this.loading.dismiss();
-      let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: 'Please enter a total gst amount',
-          buttons: [{
-                text: 'OK',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                  return;
-              }
-            }]
-        });
-        alert.present()
-    }else if(this.claimFormGroup.controls.select_acuteDiagnosis1.value=="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == ""){
-      this.loading.dismiss();
-      let alert = this.alertCtrl.create({
-          title: 'Alert',
-          message: 'Please enter Diagnosis',
-          buttons: [{
-                text: 'OK',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                  return;
-              }
-            }]
-        });
-        alert.present()
-    }else if(this.imgArray.length == 0){
-        this.loading.dismiss();
-        let alert = this.alertCtrl.create({
-            title: 'Alert',
-            message: 'File attachement is required',
-            enableBackdropDismiss: false,
-            buttons: [{
-                  text: 'OK',
-                  role: 'Cancel',
-                  handler: () => {
-                    return;
-                }
-              }]
-          });
-          alert.present();
-    }else{
-    */
+ 
         var varClaimForm = this.claimFormGroup;
         var errorMessage = "Please complete all the needed fields:<br>";
-        var isNonClinical = this.claimTypes[this.claimFormGroup.controls['select_claimType'].value].NonClinical;
+        var isNonClinicalLocal = ""
+
+        if(varClaimForm.controls['select_claimType'].value != ""){
+          isNonClinicalLocal = this.claimTypes[varClaimForm.controls['select_claimType'].value].NonClinical;
+        }
        
         if(!this.claimFormGroup.controls.select_providerName.valid) {
-          errorMessage += "<br>-Provider Name"; ///errorMessage.concat('<br>Provider Name')
+          errorMessage += "<br>-Provider Name"; 
         }
         if (!this.claimFormGroup.controls.select_claimType.valid) {
           errorMessage += "<br>-Claim Type";
         }
 
-        if(!isNonClinical){
+        if(!isNonClinicalLocal){
           if(this.claimFormGroup.controls.select_acuteDiagnosis1.value =="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == "") {
             errorMessage += "<br>-Diagnosis";
           } 
@@ -926,37 +909,49 @@ export class SubmitclaimsPage {
                 submitclaimsDetails['referralclinictype'] = varClaimForm.controls['select_ref_clinicType'].value;
             }
 
-            //if(varClaimForm.controls['select_acuteDiagnosis1'].value != "" || varClaimForm.controls['select_acuteDiagnosis1'].value !=undefined){
-            if(varClaimForm.controls['select_acuteDiagnosis1'].value != ""){
-                submitclaimsDetails['primarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis1'].value;
-                submitclaimsDetails['primarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis1x'].value;
+
+            if(!isNonClinicalLocal){
+              if(varClaimForm.controls['select_acuteDiagnosis1'].value != ""){
+                  submitclaimsDetails['primarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis1'].value;
+                  submitclaimsDetails['primarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis1x'].value;
+              }else{
+                  submitclaimsDetails['primarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+                  submitclaimsDetails['primarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              }
+
+              if(varClaimForm.controls['select_chronicDiagnosis1'].value != ""){
+                 submitclaimsDetails['primarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis1'].value;
+                 submitclaimsDetails['primarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis1x'].value;
+              }else{
+                  submitclaimsDetails['primarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+                  submitclaimsDetails['primarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              }
+
+              if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
+                  submitclaimsDetails['secondarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis2'].value;
+                  submitclaimsDetails['secondarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis2x'].value;
+              }else{
+                  submitclaimsDetails['secondarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+                  submitclaimsDetails['secondarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              }
+
+              if(varClaimForm.controls['select_chronicDiagnosis2'].value != "" ){
+                  submitclaimsDetails['secondarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis2'].value;
+                  submitclaimsDetails['secondarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis2x'].value;
+              }else{
+                  submitclaimsDetails['secondarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+                  submitclaimsDetails['secondarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000"; 
+              }
             }else{
-                submitclaimsDetails['primarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
-                submitclaimsDetails['primarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
-            }
-            //|| varClaimForm.controls['select_chronicDiagnosis1'].value !=undefined
-            if(varClaimForm.controls['select_chronicDiagnosis1'].value != ""){
-               submitclaimsDetails['primarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis1'].value;
-               submitclaimsDetails['primarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis1x'].value;
-            }else{
-                submitclaimsDetails['primarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
-                submitclaimsDetails['primarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
-            }
-            //|| varClaimForm.controls['select_acuteDiagnosis2'].value !=undefined  
-            if(varClaimForm.controls['select_acuteDiagnosis2'].value != ""){
-                submitclaimsDetails['secondarydiagnosisid'] = varClaimForm.controls['select_acuteDiagnosis2'].value;
-                submitclaimsDetails['secondarydiagnosisdesc'] = varClaimForm.controls['select_acuteDiagnosis2x'].value;
-            }else{
-                submitclaimsDetails['secondarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
-                submitclaimsDetails['secondarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
-            }
-            //|| varClaimForm.controls['select_chronicDiagnosis2'].value !=undefined
-            if(varClaimForm.controls['select_chronicDiagnosis2'].value != "" ){
-                submitclaimsDetails['secondarychronicdiagnosisid'] = varClaimForm.controls['select_chronicDiagnosis2'].value;
-                submitclaimsDetails['secondarychronicdiagnosisdesc'] = varClaimForm.controls['select_chronicDiagnosis2x'].value;
-            }else{
-                submitclaimsDetails['secondarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
-                submitclaimsDetails['secondarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000"; 
+              submitclaimsDetails['primarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['primarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['primarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['primarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['secondarydiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['secondarydiagnosisdesc'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['secondarychronicdiagnosisid'] = "00000000-0000-0000-0000-000000000000";
+              submitclaimsDetails['secondarychronicdiagnosisdesc'] = "00000000-0000-0000-0000-000000000000"; 
+
             }
 
             var isEdit = "";
@@ -970,7 +965,7 @@ export class SubmitclaimsPage {
               }
             }
 
-            if(this.spList != undefined){              
+            if(this.showSP){              
 
                 if(this.submitSPArray.length == 0){
                     if(varClaimForm.controls['formsp_procedure'].value != ""){
@@ -994,7 +989,7 @@ export class SubmitclaimsPage {
                           }
                         }
                     }
-                }
+                 }
 
                 if(this.submitSPArray.length == 1){
                     if(varClaimForm.controls['formsp_procedure1'].value != ""){
@@ -1043,6 +1038,7 @@ export class SubmitclaimsPage {
                 }
 
                 if(this.submitSPArray.length == 2){
+                  
                     if(varClaimForm.controls['formsp_procedure2'].value != ""){
                         var new_array = {};
                         for(var i=0; i<this.spList.length; i++){ 
@@ -1087,9 +1083,11 @@ export class SubmitclaimsPage {
                         }
                     }
 
+                    
                     if(this.submitSPArray[1].id != undefined){
                         var new_array1 = {};
                         for(var i=0; i<this.spList.length; i++){ 
+
                             if(varClaimForm.controls['formsp_procedure1'].value.toLowerCase() == this.spList[i].description.toLowerCase()){
                                 new_array1 = {
                                     network: this.memberNetwork,
@@ -1177,13 +1175,24 @@ export class SubmitclaimsPage {
                         }
                     }
                 }
-
-                submitclaimsDetails['isspecialclaim'] = 'true';
-                if(this.submitSPArray.length>0){
-                  submitclaimsDetails['isspecializedprocedure'] = 'true';
+                 
+                if(this.showSP){
+                  submitclaimsDetails['isspecialclaim'] = 'true';
+                  if(this.submitSPArray.length>0){
+                    submitclaimsDetails['isspecializedprocedure'] = 'true';
+                  }
+                }else{
+                  this.submitSPArray = [];
+                  this.submitSPArray.length = 0;
+                  submitclaimsDetails['isspecialclaim'] = 'false';
+                  if(this.submitSPArray.length==0){
+                    submitclaimsDetails['isspecializedprocedure'] = 'false';
+                  }
                 }  
-              }
+                
+            }
             console.log(submitclaimsDetails);
+            console.log(this.submitSPArray);
 
             let claimModal = this.modalCtrl.create(SubmitClaimDetailsPage, {details: submitclaimsDetails, files: this.saveFilesArr, isEdit: isEdit, network: this.memberNetwork, submitSP: this.submitSPArray});
             claimModal.present();
@@ -1239,8 +1248,6 @@ export class SubmitclaimsPage {
         }else{
           filePath = imageData
         }
-
-        console.log(filePath);
         
         // this.base64.encodeFile(filePath).then((base64File: string) => {
             
@@ -1380,14 +1387,14 @@ export class SubmitclaimsPage {
         }else{
           filePath = imageData
         }
-        console.log(filePath);
+        
 
         
         //*********** GET FILE NAME AND FILE SIZE *********
 
         (<any>window).resolveLocalFileSystemURL(filePath, (res) => {
             res.file((resFile) => {
-                console.log(resFile)
+                
                 var res = resFile.name.split(".");
                 var filetype = "";
 
@@ -1491,10 +1498,7 @@ export class SubmitclaimsPage {
   convertImage(filePath){
       //*********** IMAGE CONVERSION TO BASE64 *********
       this.base64.encodeFile(filePath).then((base64File: string) => {
-      //console.log(filetype)    
-          //console.log(this.imgType)
-          //console.log(base64File)
-          console.log(this.platform)
+      
           if (this.platform.is('android')) {
             var content = base64File.split("data:image/*;charset=utf-8;base64,").pop()
             if(this.imgType.toLowerCase() == 'jpg'){
@@ -1531,8 +1535,6 @@ export class SubmitclaimsPage {
              filename: this.imageNameBefore,
              filecontent: content
           }
-          console.log('convertImage')  
-          console.log(content)
           this.claimFormGroup.controls['fileUpload'].setValue(this.imageNameBefore);
       }, (err) => {
           console.log(err);
@@ -1590,9 +1592,6 @@ export class SubmitclaimsPage {
 
                   this.imgArray.push(new_item);
 
-                  //console.log('success file attachment')
-                  //console.log(result)
-
                   //======= SAVE FILES ARR
                   this.saveFilesArr = {
                     network: this.memberNetwork,
@@ -1619,12 +1618,10 @@ export class SubmitclaimsPage {
   }
 
   removeImage(i) {
-    console.log(i)
     this.imgArray.splice(i,1); 
   }
 
   previewImage(index){
-    console.log(this.imgArray[index])
     let previewModal = this.modalCtrl.create(PreviewPage,{imageArray:this.imgArray[index]});
     previewModal.present();
   }
@@ -1708,7 +1705,7 @@ export class SubmitclaimsPage {
   }
 
   removeChronic(selectID){
-    console.log(selectID);
+    
     var varClaimForm = this.claimFormGroup;
     if(selectID == 'cd_2'){this.chronic2 = false;varClaimForm.controls['select_chronicDiagnosis2x'].setValue("");}
     if(selectID == 'cd_3'){this.chronic3 = false;varClaimForm.controls['select_chronicDiagnosis3x'].setValue("");}
@@ -1952,6 +1949,7 @@ export class SubmitclaimsPage {
     //   this.claimFormGroup.controls['select_providerName'].setValue('');
     //   this.claimFormGroup.controls['select_providerName1'].setValue('');
     // }
+
     var varClaimForm = this.claimFormGroup;
 
     this.showProv = false;
@@ -1972,11 +1970,19 @@ export class SubmitclaimsPage {
       varClaimForm.controls['select_chronicDiagnosis2x'].setValue('');
     }
 
+    
     if(this.showNoSPList){
       varClaimForm.controls['formsp_procedure'].setValue('');
       varClaimForm.controls['formsp_procedurePrice'].setValue('');
       varClaimForm.controls['formsp_procedurePayh'].setValue('');
       varClaimForm.controls['formsp_procedureFeeh'].setValue('');
+    }else{
+      if(varClaimForm.controls['formsp_procedure'].value == ""){
+        varClaimForm.controls['formsp_procedurePrice'].setValue(0);
+        varClaimForm.controls['formsp_procedureFee'].setValue(0);
+        varClaimForm.controls['formsp_procedurePayh'].setValue(0);
+        varClaimForm.controls['formsp_procedureFeeh'].setValue(0);
+      }
     }
 
     if(this.showNoSPList1){
@@ -1987,6 +1993,16 @@ export class SubmitclaimsPage {
 
       varClaimForm.controls['formsp_procedurePay'].setValue(varClaimForm.controls['formsp_procedurePayh'].value);
       varClaimForm.controls['formsp_procedureFee'].setValue(varClaimForm.controls['formsp_procedureFeeh'].value);
+    }
+    if(!this.showNoSPList1){
+      if(varClaimForm.controls['formsp_procedure1'].value == ""){
+        varClaimForm.controls['formsp_procedurePrice1'].setValue(0);
+        varClaimForm.controls['formsp_procedurePayh1'].setValue(0);
+        varClaimForm.controls['formsp_procedureFeeh1'].setValue(0);
+        varClaimForm.controls['formsp_procedureFee'].setValue(varClaimForm.controls['formsp_procedureFeeh'].value);
+        varClaimForm.controls['formsp_procedurePay'].setValue(varClaimForm.controls['formsp_procedurePayh'].value);
+        
+      }
     }
 
     if(this.showNoSPList2){
@@ -1999,7 +2015,20 @@ export class SubmitclaimsPage {
       var totalFee = parseFloat(varClaimForm.controls['formsp_procedureFeeh'].value) + parseFloat(varClaimForm.controls['formsp_procedureFeeh1'].value)
       this.claimFormGroup.controls['formsp_procedurePay'].setValue(totalCopay);
       this.claimFormGroup.controls['formsp_procedureFee'].setValue(totalFee);
+    }
+    if(!this.showNoSPList2){
+      if(varClaimForm.controls['formsp_procedure2'].value == ""){
+        varClaimForm.controls['formsp_procedurePrice2'].setValue(0);
+        varClaimForm.controls['formsp_procedurePayh2'].setValue(0);
+        varClaimForm.controls['formsp_procedureFeeh2'].setValue(0);
 
+        var totalCopay = parseFloat(varClaimForm.controls['formsp_procedurePayh'].value) + parseFloat(varClaimForm.controls['formsp_procedurePayh1'].value) 
+        var totalFee = parseFloat(varClaimForm.controls['formsp_procedureFeeh'].value) + parseFloat(varClaimForm.controls['formsp_procedureFeeh1'].value)
+
+        varClaimForm.controls['formsp_procedureFee'].setValue(totalFee);
+        varClaimForm.controls['formsp_procedurePay'].setValue(totalCopay);
+        
+      }
     }
 
   }
@@ -2018,26 +2047,17 @@ export class SubmitclaimsPage {
   }
 
   submitSP(){
-    console.log(this.addSPid)
-    console.log(this.spFormGroup)
-    // var params = {};
-    // this.addSPService.addProcedureAPI(params).then((response) => {
-    //     console.log(response)
-    // }, (err) => {
-    //       this.loading.dismiss();
-    // });
   }  
 
   onInputSP(ev: any) {
     // Reset items back to all of the items
-    console.log(this.spList)
     this.initializeItems();
     let val = ev.target.value;
     if (val && val.trim() != '') {
       this.spList = this.spList.filter((item) => {
         return (item.description.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
-
+      
       if(this.spList.length == 0){
           this.showNoSPList = true
       }
@@ -2070,6 +2090,7 @@ export class SubmitclaimsPage {
 
       if(this.spList.length == 0){
           this.showNoSPList1 = true
+          
       }
 
       this.showSPList1 = true;
@@ -2247,7 +2268,7 @@ export class SubmitclaimsPage {
     this.showLoader();
 
     this.http.get(url).map(res => res.json()).subscribe(data => {
-        console.log(data)
+        
         this.loading.dismiss();
         if(data.Status == "Failed"){
               let alert = this.alertCtrl.create({
@@ -2304,13 +2325,8 @@ export class SubmitclaimsPage {
 
 //-----------  BENEFITS  -----------
   showBenefits(){
-    // this.benefitsForm['employee_nric'] =  this.memberClaimInfo['MemberNRIC']; 
-    //   this.benefitsForm['select_employeeName'] =  this.memberClaimInfo['MemberNRIC']; 
-    //   this.benefitsForm['select_employeeName'] = 0;
 
     var params = "network="  + this.memberNetwork + "&membercompanyid=" + this.memberClaimInfo['MemberCompanyID'] + "&memberid=" + this.memberClaimInfo['MemberID'] + "&companyid=" + this.memberClaimInfo['CompanyID'] +"&internal_LoggedInUserRegisterID="+ this.memberClaimInfo['Internal_LoggedInUserRegisterID'];
-    console.log(params)  
-    console.log(this.claimFormGroup.controls['claimName'].value)
     
   }
 

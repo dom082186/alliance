@@ -1,58 +1,55 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com-badrit-base64": {
+      "PACKAGE_NAME": "com.skubbs.mah"
     },
-    "config_munge": {
-        "files": {}
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.skubbs.mah"
     },
-    "installed_plugins": {
-        "com-badrit-base64": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-nativegeocoder": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        },
-        "onesignal-cordova-plugin": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        }
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "com.skubbs.mah"
     },
-    "dependent_plugins": {
-        "cordova-plugin-add-swift-support": {
-            "PACKAGE_NAME": "com.skubbs.mah"
-        }
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-nativegeocoder": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    },
+    "onesignal-cordova-plugin": {
+      "PACKAGE_NAME": "com.skubbs.mah"
     }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.skubbs.mah"
+    }
+  }
 }

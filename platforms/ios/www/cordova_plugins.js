@@ -336,8 +336,7 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-whitelist": "1.3.1",
     "ionic-plugin-keyboard": "2.2.1",
-    "onesignal-cordova-plugin": "2.2.0",
-    "cordova-plugin-compat": "1.2.0"
+    "onesignal-cordova-plugin": "2.2.0"
 };
 // BOTTOM OF METADATA
 });
