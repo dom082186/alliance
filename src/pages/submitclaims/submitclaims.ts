@@ -820,9 +820,11 @@ export class SubmitclaimsPage {
         }
 
         if(!isNonClinicalLocal){
-          if(this.claimFormGroup.controls.select_acuteDiagnosis1.value =="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == "") {
-            errorMessage += "<br>-Diagnosis";
-          } 
+          if(this.diagnosisDiv){
+            if(this.claimFormGroup.controls.select_acuteDiagnosis1.value =="" && this.claimFormGroup.controls.select_chronicDiagnosis1.value == "") {
+              errorMessage += "<br>-Diagnosis";
+            } 
+          }
         }
         if (!this.claimFormGroup.controls.total_amount.valid) {
           errorMessage += "<br>-Total Amount (SGD)";

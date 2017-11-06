@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ViewController, App } from 'ionic-angular';
 
 
 import { SubmitclaimsPage } from '../submitclaims/submitclaims';
@@ -17,7 +17,8 @@ export class ClaimdetailsPage {
 	mode: any;
 	isCheckTM : boolean = true
 
-	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,  
+				public appCtrl: App) {
 			this.claimDetails = this.navParams.get('details');
 			this.claimIndex = this.navParams.get('index');
 			this.mode = this.navParams.get('mode');
@@ -54,8 +55,9 @@ export class ClaimdetailsPage {
 			if(this.claimDetails._ClaimCode.toLowerCase().includes('tpa')){
 				if(this.claimDetails._ClaimStatus.toLowerCase() == "paid" || this.claimDetails._ClaimStatus.toLowerCase() == "pending" || this.claimDetails._ClaimStatus == ""){
 				}else{
-					this.navCtrl.pop();
-					this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
+					this.viewCtrl.dismiss();
+					//this.navCtrl.push( SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
+					this.appCtrl.getRootNav().push(SubmitclaimsPage, {details: this.claimDetails, mode: 'edit'});
 				}	
 			}else{
 				

@@ -337,18 +337,10 @@ export class ClaimsPage {
   }
 
   openClaim(index, mode){
-    this.contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
-    this.contactModal.present();
-
-    /*
-    if(mode == 'panel'){
-      let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.panelClaimList[index],index: index,mode:mode});
-      contactModal.present();
-    }else{
-      let contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.tpaClaimList[index],index: index, mode:mode});
-      contactModal.present();
-    }
-    */
+     this.contactModal = this.modalCtrl.create(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
+     this.contactModal.present();
+    //this.navCtrl.push(ClaimdetailsPage, {details: this.claimHistoryList[index], index:index, mode:mode});
+    
   }
 
   gotoBenefits() {

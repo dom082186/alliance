@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController,AlertController, } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController,AlertController, App} from 'ionic-angular';
 
 import { SubmitClaimServiceProvider } from '../../providers/submit-claim-service/submit-claim-service';
 import { ClaimServiceProvider } from '../../providers/claim-service/claim-service';
@@ -39,7 +39,8 @@ export class SubmitClaimDetailsPage {
 	constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,
 		 	public submitClaimService: SubmitClaimServiceProvider,public loadingCtrl: LoadingController,
 		 	private alertCtrl: AlertController, public claimService: ClaimServiceProvider,public clinicService: ClinicServiceProvider,
-		 	public submitClaimService1: SubmitClaimService1Provider, public addSPService: AddSpServiceProvider,) {
+		 	public submitClaimService1: SubmitClaimService1Provider, public addSPService: AddSpServiceProvider,
+		 	public appCtrl: App,) {
 		
 			this.submitClaimDetails = this.navParams.get('details');
 			this.submitAttachedFile = this.navParams.get('files');
@@ -150,9 +151,9 @@ export class SubmitClaimDetailsPage {
 	}
 
 	calculateClaim(){
-		
+		this.loading.dismiss();
 		console.log(this.submitClaimDetails)
-		
+		/*
 		this.claimService.preCalculateClaimAPI(this.submitClaimDetails).then((result1) => {
 			console.log(result1)
 			if(result1.Status == "Failed"){
@@ -190,7 +191,7 @@ export class SubmitClaimDetailsPage {
 	    	console.log(err)
 	        this.loading.dismiss();
 	    });
-	   
+	   */
 	}
 
 	
@@ -206,7 +207,7 @@ export class SubmitClaimDetailsPage {
 	}
 
 	submitClaimInfo(){
-
+		
 		this.showLoader();
 		if(this.isCheckTM){
 			this.submitClaimDetails['ischeckedtermsofservice'] = true;	
@@ -269,7 +270,8 @@ export class SubmitClaimDetailsPage {
 			alert.present();
 
 			return;
-		}    
+		} 
+		
 	}
 
 	gotoTermsCons(page)
@@ -286,91 +288,7 @@ export class SubmitClaimDetailsPage {
 
 	submitClaimInfo_cont(){
 		console.log(this.submitClaimDetails)
-		/*
-		this.claimService.addClaimAPI(this.submitClaimDetails).subscribe(
-            data => {
-                console.log(data);
-                if(data.Status == "Failed"){
-	                if(data.ValidateMessage.toLowerCase().includes('claimamount')){
-						this.claimsExceedShow = true;
-						this.claimsExceedSaveBtnDisplay = true;
-					}else{
-						let alert = this.alertCtrl.create({
-		                title: 'Alert',
-		                message: data.ValidateMessage,
-		                enableBackdropDismiss: false,
-		                buttons: [{
-		                      text: 'OK',
-		                      role: 'Cancel',
-		                      handler: () => {
-		                        if(data.ValidateMessage.toLowerCase().includes('active session')){
-		                          this.navCtrl.setRoot(LoginNonmedinetPage);
-		                        }else{
-						        	return;
-		                        }
-		                    }
-		                  }]
-		              });
-		              alert.present();
-					}	
-	            }else{
-	                console.log('success submit claim')
-		        	this.viewCtrl.dismiss();
-
-		        	if(data.ClaimID == "00000000-0000-0000-0000-000000000000"){
-		        		let alert = this.alertCtrl.create({
-			                title: 'Alert',
-			                message: 'Sorry claim is not successfully submitted',
-			                enableBackdropDismiss: false,
-			                buttons: [{
-			                      text: 'OK',
-			                      role: 'Cancel',
-			                      handler: () => {
-							        return;
-			                    }
-			                  }]
-			              });
-			              alert.present();
-		        	}else{
-		        		let alert = this.alertCtrl.create({
-							title: 'Success',
-							message: 'Claim successfully submitted',
-							buttons: [{
-						        text: 'OK',
-						        role: 'cancel',
-						        handler: () => {
-						        	console.log(this.isEdit)
-						        	this.loading.dismiss();
-
-		                        	if(this.isEdit != ""){
-						        		this.viewCtrl.dismiss();
-			                        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
-			                            	const startIndex = this.navCtrl.getActive().index - 1;
-			                            	this.navCtrl.remove(startIndex,2);
-			                            	//this.navCtrl.pop();
-			                          	});
-						        	}else{
-							        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
-			      							this.navCtrl.remove(0, 3);
-			                          	});
-						        	}
-						        }
-						    }]
-						});
-						alert.present();
-		        	}
-
-					
-	            }
-
-		        this.loading.dismiss();
-            },
-            err => {
-                console.log(err);
-            },
-            () => console.log('addClaimAPI Complete')
-        );
-		*/
+		
 		
 		this.submitClaimService1.addClaimAPI(this.submitClaimDetails).then((result1) => {
 			console.log(result1)
@@ -428,15 +346,10 @@ export class SubmitClaimDetailsPage {
 
 	                        	if(this.isEdit != ""){
 					        		this.viewCtrl.dismiss();
-		                        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
-		                            	//const startIndex = this.navCtrl.getActive().index - 1;
-		                            	//this.navCtrl.remove(startIndex,3);
-		                            	//this.navCtrl.pop();
-		                          	});
+									this.appCtrl.getRootNav().push(ClaimsPage,{successSubmit: 'success'});
 					        	}else{
-						        	this.navCtrl.push(ClaimsPage,{successSubmit: 'success'}).then(() => {
-		      							//this.navCtrl.remove(0, 3);
-		                          	});
+						        	this.viewCtrl.dismiss();
+									this.appCtrl.getRootNav().push(ClaimsPage,{successSubmit: 'success'});
 					        	}
 					        }
 					    }]
